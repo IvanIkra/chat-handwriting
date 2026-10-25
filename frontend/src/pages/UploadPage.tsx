@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type DragEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { api, ApiError } from '../api'
 import ErrorNotice from '../components/ErrorNotice'
+import { useApiData } from '../hooks/useApiData'
 import { MAX_UPLOAD_BYTES, tooLargeMessage } from '../utils/errors'
 import { loadRecentChats } from '../utils/recentChats'
 
@@ -11,6 +12,8 @@ export default function UploadPage() {
   const [error, setError] = useState<unknown>(null)
   const [dragOver, setDragOver] = useState(false)
   const [recent] = useState(loadRecentChats)
+  const health = useApiData('health', () => api.getHealth())
+  const llm = health.kind === 'ok' && health.data.llm
   // Пока файл разбирается, пользователь может уйти — тогда не уводим его обратно на чат
   const mounted = useRef(false)
   useEffect(() => {
@@ -53,6 +56,13 @@ export default function UploadPage() {
         «Машиночитаемый JSON». Подойдёт личный чат (проверка автора) или групповой (поиск
         двойников).
       </p>
+      {llm && (
+        <p className="muted">
+          Объяснения и контрольный вопрос пишет Claude API (Anthropic): туда уходят проверяемый текст и
+          короткие фрагменты переписки — до 30 сообщений по 200 символов, включая сообщения других
+          участников.
+        </p>
+      )}
 
       <label
         className={`dropzone${dragOver ? ' dropzone--over' : ''}`}
@@ -89,6 +99,11 @@ export default function UploadPage() {
 
       {error !== null && <ErrorNotice error={error} showReuploadLink={false} />}
 
+      <p>
+        <Link to="/compare">Сравнить два чата →</Link>{' '}
+        <span className="muted">— найти одного человека в двух переписках</span>
+      </p>
+
       {recent.length > 0 && (
         <div className="recent">
           <h3>Недавние чаты</h3>
@@ -100,7 +115,6 @@ export default function UploadPage() {
               </li>
             ))}
           </ul>
-          {recent.length >= 2 && <Link to="/compare">Сравнить два чата →</Link>}
         </div>
       )}
     </section>

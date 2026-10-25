@@ -58,6 +58,19 @@ test('ссылка с a и b сразу показывает результат,
   expect(screen.getByLabelText('Первый чат')).toHaveValue('c_51d0e2')
 })
 
+test('чаты из ссылки после сравнения запоминаются и подписываются названием', async () => {
+  renderCompare('?a=c_51d0e2&b=c_7f3a9b')
+  await screen.findByRole('heading', { name: '«Alex» и «Саша»' })
+
+  const first = screen.getByLabelText('Первый чат')
+  expect(within(first).getByRole('option', { name: 'Alex (личный)' })).toBeInTheDocument()
+  expect(within(first).getByRole('option', { name: 'Саша (личный)' })).toBeInTheDocument()
+  expect(JSON.parse(localStorage.getItem('recentChats') ?? '[]').map((c: { id: string }) => c.id)).toEqual([
+    'c_51d0e2',
+    'c_7f3a9b',
+  ])
+})
+
 test('один и тот же чат — подсказка, запрос не уходит', async () => {
   const spy = vi.spyOn(api, 'compare')
   await remember('c_7f3a9b')

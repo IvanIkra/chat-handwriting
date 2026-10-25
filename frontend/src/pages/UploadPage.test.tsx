@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { Link, MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, expect, test, vi } from 'vitest'
 import { api } from '../api'
@@ -81,9 +81,24 @@ test('файл больше 50 МБ не отправляется', async () => 
   expect(spy).not.toHaveBeenCalled()
 })
 
-test('без истории блока «Недавние чаты» нет', () => {
+test('без истории блока «Недавние чаты» нет, а ссылка на сравнение есть', () => {
   renderUpload()
   expect(screen.queryByRole('heading', { name: 'Недавние чаты' })).not.toBeInTheDocument()
+  expect(screen.getByRole('link', { name: 'Сравнить два чата →' })).toHaveAttribute('href', '/compare')
+})
+
+test('LLM доступна — предупреждение, что фрагменты уходят в Claude API', async () => {
+  renderUpload()
+  expect(await screen.findByText(/уходят проверяемый текст и\s+короткие фрагменты переписки/)).toHaveTextContent(
+    'Claude API',
+  )
+})
+
+test('LLM недоступна — предупреждения нет', async () => {
+  const health = vi.spyOn(api, 'getHealth').mockResolvedValue({ status: 'ok', llm: false })
+  renderUpload()
+  await waitFor(() => expect(health).toHaveBeenCalled())
+  expect(screen.queryByText(/Claude API/)).not.toBeInTheDocument()
 })
 
 test('недавние чаты: ссылки на чаты и на сравнение', async () => {
