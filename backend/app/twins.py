@@ -95,13 +95,28 @@ class Baselines:
     rare_words: float | None
 
 
+@dataclass
+class TwinsAnalysis:
+    """Ответ `/twins` и то, из чего он посчитан, — для подробностей пары."""
+
+    result: TwinsResult
+    profiles: dict[str, Profile]
+    stats: dict[tuple[str, str], PairStats]
+    vectorizer: TfidfVectorizer | None
+    everyone_rates: dict[str, tuple[float, int]]
+
+
 def find_twins(stored: StoredChat) -> TwinsResult:
+    return analyze(stored).result
+
+
+def analyze(stored: StoredChat) -> TwinsAnalysis:
     if "twins" not in stored.cache:
-        stored.cache["twins"] = _find_twins(stored)
+        stored.cache["twins"] = _analyze(stored)
     return stored.cache["twins"]
 
 
-def _find_twins(stored: StoredChat) -> TwinsResult:
+def _analyze(stored: StoredChat) -> TwinsAnalysis:
     chat = stored.chat
     ready = [a for a in chat.authors if a.enough_data]
     sides = sides_from_messages(stored.messages, {a.id for a in ready})
@@ -137,7 +152,8 @@ def _find_twins(stored: StoredChat) -> TwinsResult:
         validation = Validation(
             self_match_rate=round(self_match_rate(profiles, same), 2), authors_tested=len(ready)
         )
-    return TwinsResult(chat_id=chat.id, authors=chat.authors, pairs=pairs, validation=validation)
+    result = TwinsResult(chat_id=chat.id, authors=chat.authors, pairs=pairs, validation=validation)
+    return TwinsAnalysis(result, profiles, stats, vectorizer, everyone_rates)
 
 
 def sides_from_messages(messages: list[Message], author_ids: set[str]) -> list[Side]:
@@ -310,8 +326,11 @@ def _rare_words_signal(stats: PairStats, baselines: Baselines) -> list[Signal]:
     return [_signal("rare_words", "Общие редкие слова", observed, RARE_WORDS_WEIGHT)]
 
 
-def _habits_signal(a: Profile, b: Profile, everyone: dict[str, tuple[float, int]]) -> list[Signal]:
-    labels = []
+def shared_habits(
+    a: Profile, b: Profile, everyone: dict[str, tuple[float, int]]
+) -> list[tuple[features.TraitSpec, bool]]:
+    """Привычки, которые есть у обоих и выделяют их среди остальных: (черта, есть ли признак)."""
+    result = []
     for spec in features.TRAIT_SPECS:
         (ra, na), (rb, nb) = a.rates[spec.key], b.rates[spec.key]
         if min(na, nb) < features.MIN_ELIGIBLE or abs(ra - rb) > HABIT_MAX_GAP:
@@ -324,9 +343,15 @@ def _habits_signal(a: Profile, b: Profile, everyone: dict[str, tuple[float, int]
         sigma = math.sqrt(spec.prior * (1 - spec.prior))
         da, db = (ra - ref) / sigma, (rb - ref) / sigma
         if min(da, db) >= HABIT_MIN_DEVIATION:
-            labels.append(spec.label)
+            result.append((spec, True))
         elif max(da, db) <= -HABIT_MIN_DEVIATION and spec.inverse_label:
-            labels.append(spec.inverse_label)
+            result.append((spec, False))
+    return result
+
+
+def _habits_signal(a: Profile, b: Profile, everyone: dict[str, tuple[float, int]]) -> list[Signal]:
+    habits = shared_habits(a, b, everyone)
+    labels = [spec.label if present else spec.inverse_label for spec, present in habits]
     if not labels:
         return []
     observed = ", ".join(_lower_first(label) for label in labels[:3]) + " — у обоих"
