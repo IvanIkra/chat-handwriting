@@ -32,6 +32,11 @@ STRENGTH_SCALE = 0.4  # сколько логитов оценки снимае�
 BASE_LOGIT_SCALE = 0.6
 MAX_BASE_LOGIT = 4.0
 MIN_BASE_LOGIT = -0.5
+# Серию классификатор угадывает лучше — подбирается по калибровке
+SERIES_MIN_BASE_LOGIT = -0.5
+# В серии улики по привычкам и длине суммируются по всем сообщениям, где совпадение с
+# привычкой тянет итог обратно; одно сообщение не может снять больше этого
+MIN_MESSAGE_LLR = -1.0
 MAX_RARE_WORDS = 3
 MAX_TRAIN_PER_CLASS = 10_000
 STEM_LEN = 5  # слова сравниваем по началу: «займи» и «займу» — одно слово
@@ -101,34 +106,57 @@ class _Evidence:
     expected: str | None
     observed: str
     span: tuple[int, int] | None
+    message: int | None = None  # номер сообщения серии
 
 
 def check_message(
     stored: StoredChat, author: Author, text: str, sent_at: datetime | None = None
 ) -> CheckResult:
+    return check_series(stored, author, [(text, sent_at)])
+
+
+def check_series(
+    stored: StoredChat, author: Author, items: list[tuple[str, datetime | None]]
+) -> CheckResult:
+    """Один текст или серия сообщений подряд: `items` — (текст, когда отправлен)."""
     if not author.enough_data:
         return CheckResult(author_id=author.id, score=None, verdict="not_enough_data", signals=[])
     chat = chat_model(stored)
     model = author_model(stored, author.id)
-    clean = features.clean_text(text)
+    series = len(items) > 1
+    cleans = [features.clean_text(text) for text, _ in items]
+    texts = [c for c in cleans if c]
 
-    base = 0.5
-    if clean and model.classifier is not None:
-        base = float(model.classifier.predict_proba(chat.vectorizer.transform([clean]))[0, 1])
+    # классификатор учили на отдельных сообщениях — так и спрашиваем; по серии логиты
+    # складываются, но сообщения подряд зависимы, поэтому средний логит × √n, а не сумма
+    base_logit = 0.0
+    if texts and model.classifier is not None:
+        probs = model.classifier.predict_proba(chat.vectorizer.transform(texts))[:, 1]
+        logits = np.log(probs / (1 - probs))
+        base_logit = float(logits.mean() * math.sqrt(len(texts)))
 
     evidence: list[_Evidence] = []
-    if clean:
-        noise = [m.span() for m in features.NOISE_RE.finditer(text)]
-        evidence += _trait_evidence(model, text, clean, noise)
-        evidence += _greeting_evidence(model, text, noise)
-        evidence += _rare_word_evidence(chat, model, text, noise)
-        evidence += _length_evidence(model, clean)
-    if sent_at is not None:
-        evidence += _hours_evidence(model, sent_at)
-    evidence = [e for e in evidence if e.llr >= MIN_LLR]
+    seen_stems: set[str] = set()  # нетипичное слово считаем один раз на всю серию
+    for i, ((text, sent_at), clean) in enumerate(zip(items, cleans, strict=True)):
+        found: list[_Evidence] = []
+        if clean:
+            noise = [m.span() for m in features.NOISE_RE.finditer(text)]
+            found += _trait_evidence(model, text, clean, noise)
+            found += _greeting_evidence(model, text, noise)
+            found += _rare_word_evidence(chat, model, text, noise, seen_stems)
+            found += _length_evidence(model, clean)
+        if sent_at is not None:
+            found += _hours_evidence(model, sent_at)
+        for e in found:
+            e.message = i if series else None
+        evidence += found
+    if series:
+        evidence = _top_rare_words(_sum_habits(evidence), len(items))
+    evidence = _one_hours_evidence([e for e in evidence if e.llr >= MIN_LLR])
 
-    logit = BASE_LOGIT_SCALE * math.log(base / (1 - base))
-    logit = max(MIN_BASE_LOGIT, min(MAX_BASE_LOGIT, logit))
+    # по серии классификатор ошибается реже — ему можно доверять сильнее
+    floor = SERIES_MIN_BASE_LOGIT if series else MIN_BASE_LOGIT
+    logit = max(floor, min(MAX_BASE_LOGIT, BASE_LOGIT_SCALE * base_logit))
     strengths = [STRENGTH_SCALE * min(e.llr, MAX_LLR) for e in evidence]
     score = 1 / (1 + math.exp(-(logit - sum(strengths))))
 
@@ -139,6 +167,7 @@ def check_message(
             expected=e.expected,
             observed=e.observed,
             span=list(e.span) if e.span else None,
+            message=e.message,
             weight=round(1 - math.exp(-s), 2),
         )
         for e, s in zip(evidence, strengths, strict=True)
@@ -147,6 +176,40 @@ def check_message(
     return CheckResult(
         author_id=author.id, score=round(score, 2), verdict=_verdict(score), signals=signals
     )
+
+
+def _sum_habits(evidence: list[_Evidence]) -> list[_Evidence]:
+    """Привычки и длина — одна улика на серию: сумма по сообщениям, место — самое явное."""
+    summed = {spec.key for spec in features.TRAIT_SPECS} | {"capitalization", "length"}
+    groups: dict[str, list[_Evidence]] = {}
+    rest = []
+    for e in evidence:
+        (groups.setdefault(e.feature, []) if e.feature in summed else rest).append(e)
+    for group in groups.values():
+        strongest = max(group, key=lambda e: e.llr)
+        strongest.llr = sum(max(e.llr, MIN_MESSAGE_LLR) for e in group)
+        rest.append(strongest)
+    return rest
+
+
+def _top_rare_words(evidence: list[_Evidence], n_messages: int) -> list[_Evidence]:
+    """Нетипичных слов — не больше MAX_RARE_WORDS на всю серию, и планка выше: в длинной
+    серии новые слова найдутся и у самого автора."""
+    rare = sorted((e for e in evidence if e.feature == "rare_words"), key=lambda e: -e.llr)
+    for e in rare:
+        e.llr -= math.log(n_messages)
+    keep = {id(e) for e in rare[:MAX_RARE_WORDS]}
+    return [e for e in evidence if e.feature != "rare_words" or id(e) in keep]
+
+
+def _one_hours_evidence(evidence: list[_Evidence]) -> list[_Evidence]:
+    """Сообщения серии отправлены почти одновременно — улика про время одна, самая сильная."""
+    hours = [e for e in evidence if e.feature == "active_hours"]
+    if len(hours) <= 1:
+        return evidence
+    strongest = max(hours, key=lambda e: e.llr)
+    strongest.message = None
+    return [e for e in evidence if e.feature != "active_hours" or e is strongest]
 
 
 def _verdict(score: float) -> str:
@@ -297,14 +360,19 @@ def _greeting_evidence(
 
 
 def _rare_word_evidence(
-    chat: ChatModel, model: AuthorModel, text: str, noise: list[tuple[int, int]]
+    chat: ChatModel,
+    model: AuthorModel,
+    text: str,
+    noise: list[tuple[int, int]],
+    seen: set[str],
 ) -> list[_Evidence]:
+    """`seen` — основы, уже найденные в предыдущих сообщениях серии; пополняется."""
     other_words = chat.n_words - model.n_words
     found: dict[str, _Evidence] = {}
     for m in features.WORD_RE.finditer(text):
         word = features._normalize_word(m.group().lower())
         stem = word[:STEM_LEN]
-        if len(word) < 3 or word in features.STOPWORDS or stem in found:
+        if len(word) < 3 or word in features.STOPWORDS or stem in found or stem in seen:
             continue
         if model.stems[stem] or not _outside(m.span(), noise):
             continue
@@ -319,6 +387,7 @@ def _rare_word_evidence(
             f"«{m.group()}»",
             m.span(),
         )
+    seen.update(found)
     return sorted(found.values(), key=lambda e: e.llr, reverse=True)[:MAX_RARE_WORDS]
 
 
