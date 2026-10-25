@@ -63,6 +63,11 @@ def _vocab(texts: Iterable[str]) -> Counter:
 
 def bracket_smiles(text: str) -> list[str]:
     """Скобки-смайлы: непарные «)» и «(»; серия «)))» считается за один смайл «)»."""
+    return [text[start] for start, _ in bracket_smile_spans(text)]
+
+
+def bracket_smile_spans(text: str) -> list[tuple[int, int]]:
+    """Где в тексте скобки-смайлы: `(начало, конец)` каждой серии одинаковых скобок."""
     unmatched: list[int] = []
     open_stack: list[int] = []
     for i, ch in enumerate(text):
@@ -76,13 +81,15 @@ def bracket_smiles(text: str) -> list[str]:
     unmatched.extend(open_stack)
     unmatched.sort()
 
-    smiles = []
+    spans: list[tuple[int, int]] = []
     prev = -2
     for i in unmatched:
-        if not (i == prev + 1 and text[i] == text[prev]):
-            smiles.append(text[i])
+        if i == prev + 1 and text[i] == text[prev]:
+            spans[-1] = (spans[-1][0], i + 1)
+        else:
+            spans.append((i, i + 1))
         prev = i
-    return smiles
+    return spans
 
 
 def emojis(text: str) -> list[str]:
@@ -243,7 +250,7 @@ def trait_rates(texts: Iterable[str]) -> dict[str, tuple[float, int]]:
     return rates
 
 
-def _percent(share: float) -> str:
+def percent(share: float) -> str:
     """«94», а для долей меньше процента — «0,4», чтобы не писать «только в 0%»."""
     pct = share * 100
     if 0 < pct < 0.95:
@@ -271,7 +278,7 @@ def author_traits(texts: Iterable[str], others: Iterable[str] = ()) -> list[Trai
         other_rate, other_eligible = other_rates[spec.key]
         if other_eligible >= MIN_ELIGIBLE:
             distinct += abs(rate - other_rate) / sigma
-        p, q = _percent(rate), _percent(1 - rate)
+        p, q = percent(rate), percent(1 - rate)
         if rate >= spec.prior:
             result.append(
                 TraitValue(spec.key, spec.label, rate, spec.description.format(p=p, q=q), distinct)

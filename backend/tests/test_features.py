@@ -61,7 +61,7 @@ def test_small_shares_are_not_rounded_to_zero():
     texts = ["ок"] * 199 + ["ок 🔥"]
     trait = next(t for t in features.author_traits(texts) if t.key == "no_emoji")
     assert trait.description == "Эмодзи только в 0,5% сообщений"
-    assert features._percent(0.996) == "99"
+    assert features.percent(0.996) == "99"
 
 
 def test_clean_text():

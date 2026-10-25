@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 
+from app.check import check_message
 from app.errors import ApiError
-from app.models import Author, StyleProfile
+from app.models import Author, CheckRequest, CheckResult, StyleProfile
 from app.profile import build_profile
 from app.routers.chats import get_stored_chat
 from app.store import StoredChat
@@ -13,6 +14,12 @@ router = APIRouter(prefix="/chats/{chat_id}/authors")
 def get_profile(chat_id: str, author_id: str) -> StyleProfile:
     stored = get_stored_chat(chat_id)
     return build_profile(stored, get_author(stored, author_id))
+
+
+@router.post("/{author_id}/check", response_model=CheckResult)
+def check(chat_id: str, author_id: str, body: CheckRequest) -> CheckResult:
+    stored = get_stored_chat(chat_id)
+    return check_message(stored, get_author(stored, author_id), body.text, body.sent_at)
 
 
 def get_author(stored: StoredChat, author_id: str) -> Author:
