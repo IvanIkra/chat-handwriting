@@ -1,4 +1,4 @@
-import { useState, type DragEvent } from 'react'
+import { useEffect, useRef, useState, type DragEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { api, ApiError } from '../api'
 import ErrorNotice from '../components/ErrorNotice'
@@ -11,6 +11,14 @@ export default function UploadPage() {
   const [error, setError] = useState<unknown>(null)
   const [dragOver, setDragOver] = useState(false)
   const [recent] = useState(loadRecentChats)
+  // Пока файл разбирается, пользователь может уйти — тогда не уводим его обратно на чат
+  const mounted = useRef(false)
+  useEffect(() => {
+    mounted.current = true
+    return () => {
+      mounted.current = false
+    }
+  }, [])
 
   async function upload(file: File) {
     setError(null)
@@ -22,8 +30,9 @@ export default function UploadPage() {
     setUploading(true)
     try {
       const chat = await api.uploadChat(file)
-      navigate(`/chats/${encodeURIComponent(chat.id)}`)
+      if (mounted.current) navigate(`/chats/${encodeURIComponent(chat.id)}`)
     } catch (err) {
+      if (!mounted.current) return
       setError(err)
       setUploading(false)
     }

@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import { Link, MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, expect, test, vi } from 'vitest'
 import { api } from '../api'
 import { rememberChat } from '../utils/recentChats'
@@ -13,6 +13,7 @@ vi.mock('../api', async (importOriginal) => {
 
 afterEach(() => {
   localStorage.clear()
+  vi.restoreAllMocks()
 })
 
 function renderUpload() {
@@ -35,6 +36,32 @@ test('после загрузки открывается страница чат
   choose(renderUpload(), new File(['{}'], 'result.json'))
 
   expect(await screen.findByText('страница чата')).toBeInTheDocument()
+})
+
+test('ушли со страницы, пока файл разбирается, — обратно на чат не уводит', async () => {
+  const chat = await api.getChat('c_7f3a9b')
+  let finish!: () => void
+  vi.spyOn(api, 'uploadChat').mockImplementation(async () => {
+    await new Promise<void>((resolve) => (finish = resolve))
+    return chat
+  })
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <Link to="/compare">уйти</Link>
+      <Routes>
+        <Route path="/" element={<UploadPage />} />
+        <Route path="/compare" element={<p>другая страница</p>} />
+        <Route path="/chats/:chatId" element={<p>страница чата</p>} />
+      </Routes>
+    </MemoryRouter>,
+  )
+
+  choose(screen.getByLabelText('Файл экспорта result.json'), new File(['{}'], 'result.json'))
+  fireEvent.click(screen.getByRole('link', { name: 'уйти' }))
+  await act(async () => finish())
+
+  expect(screen.getByText('другая страница')).toBeInTheDocument()
+  expect(screen.queryByText('страница чата')).not.toBeInTheDocument()
 })
 
 test('не экспорт Telegram — понятное сообщение', async () => {
