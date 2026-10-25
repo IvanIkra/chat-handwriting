@@ -1,0 +1,4057 @@
+{
+ "name": "Alex",
+ "type": "personal_chat",
+ "id": 7007,
+ "messages": [
+  {
+   "id": 1,
+   "type": "message",
+   "date": "2026-09-05T12:35:55",
+   "date_unixtime": "1788600955",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Привет! Ты смотрел вопрос по эндпоинту загрузки экспорта?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Привет! Ты смотрел вопрос по эндпоинту загрузки экспорта?"
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "type": "message",
+   "date": "2026-09-05T12:36:39",
+   "date_unixtime": "1788600999",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "прив. не, ещё нет",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "прив. не, ещё нет"
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "type": "message",
+   "date": "2026-09-05T12:36:46",
+   "date_unixtime": "1788601006",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ща гляну",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ща гляну"
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "type": "message",
+   "date": "2026-09-05T12:39:21",
+   "date_unixtime": "1788601161",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, спасибо. Вечером созвонимся, нужно разобрать парсер.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, спасибо. Вечером созвонимся, нужно разобрать парсер."
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "type": "message",
+   "date": "2026-09-05T12:40:55",
+   "date_unixtime": "1788601255",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го, часов в восемь норм",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го, часов в восемь норм"
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "type": "message",
+   "date": "2026-09-05T14:40:53",
+   "date_unixtime": "1788608453",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста бублик опять на клаве уснул пока я писал",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста бублик опять на клаве уснул пока я писал"
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "type": "message",
+   "date": "2026-09-05T14:41:32",
+   "date_unixtime": "1788608492",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Ха, передай ему привет. Буду в восемь.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ха, передай ему привет. Буду в восемь."
+    }
+   ]
+  },
+  {
+   "id": 8,
+   "type": "message",
+   "date": "2026-09-05T14:43:22",
+   "date_unixtime": "1788608602",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок))",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок))"
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "type": "message",
+   "date": "2026-09-05T14:46:15",
+   "date_unixtime": "1788608775",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Кстати, ты уже видел структуру репозитория? Я немного запутался в папках.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Кстати, ты уже видел структуру репозитория? Я немного запутался в папках."
+    }
+   ]
+  },
+  {
+   "id": 10,
+   "type": "message",
+   "date": "2026-09-05T14:47:52",
+   "date_unixtime": "1788608872",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "в readme есть, глянь",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "в readme есть, глянь"
+    }
+   ]
+  },
+  {
+   "id": 11,
+   "type": "message",
+   "date": "2026-09-05T14:47:59",
+   "date_unixtime": "1788608879",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "там backend и frontend, всё по зонам",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "там backend и frontend, всё по зонам"
+    }
+   ]
+  },
+  {
+   "id": 12,
+   "type": "message",
+   "date": "2026-09-05T14:50:08",
+   "date_unixtime": "1788609008",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Понял, спасибо. Уже разобрался.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Понял, спасибо. Уже разобрался."
+    }
+   ]
+  },
+  {
+   "id": 13,
+   "type": "message",
+   "date": "2026-09-05T14:50:44",
+   "date_unixtime": "1788609044",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "изи)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "изи)"
+    }
+   ]
+  },
+  {
+   "id": 14,
+   "type": "message",
+   "date": "2026-09-05T14:54:22",
+   "date_unixtime": "1788609262",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Увидимся вечером.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Увидимся вечером."
+    }
+   ]
+  },
+  {
+   "id": 15,
+   "type": "message",
+   "date": "2026-09-07T20:45:41",
+   "date_unixtime": "1788803141",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Доброе утро. Ты говорил, что парсер падает на пустых сообщениях. Это уже починил?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Доброе утро. Ты говорил, что парсер падает на пустых сообщениях. Это уже починил?"
+    }
+   ]
+  },
+  {
+   "id": 16,
+   "type": "message",
+   "date": "2026-09-07T20:47:34",
+   "date_unixtime": "1788803254",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "утро) да, пофиксил",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "утро) да, пофиксил"
+    }
+   ]
+  },
+  {
+   "id": 17,
+   "type": "message",
+   "date": "2026-09-07T20:47:38",
+   "date_unixtime": "1788803258",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "там был None в поле text, теперь проверка есть",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "там был None в поле text, теперь проверка есть"
+    }
+   ]
+  },
+  {
+   "id": 18,
+   "type": "message",
+   "date": "2026-09-07T20:48:44",
+   "date_unixtime": "1788803324",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Отлично, спасибо. Проверю на фронте сегодня.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Отлично, спасибо. Проверю на фронте сегодня."
+    }
+   ]
+  },
+  {
+   "id": 19,
+   "type": "message",
+   "date": "2026-09-07T20:50:41",
+   "date_unixtime": "1788803441",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "чекни на экспорте с медиа, там тоже странные поля",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "чекни на экспорте с медиа, там тоже странные поля"
+    }
+   ]
+  },
+  {
+   "id": 20,
+   "type": "message",
+   "date": "2026-09-07T20:53:10",
+   "date_unixtime": "1788803590",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Понял, сделаю. Кстати, в субботу играем в баскетбол?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Понял, сделаю. Кстати, в субботу играем в баскетбол?"
+    }
+   ]
+  },
+  {
+   "id": 21,
+   "type": "message",
+   "date": "2026-09-07T21:00:27",
+   "date_unixtime": "1788804027",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "нее, в среду. в субботу хз буду ли",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "нее, в среду. в субботу хз буду ли"
+    }
+   ]
+  },
+  {
+   "id": 22,
+   "type": "message",
+   "date": "2026-09-07T21:00:36",
+   "date_unixtime": "1788804036",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ваще я за)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ваще я за)"
+    }
+   ]
+  },
+  {
+   "id": 23,
+   "type": "message",
+   "date": "2026-09-07T21:03:28",
+   "date_unixtime": "1788804208",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, тогда в среду. Напишу в группу.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, тогда в среду. Напишу в группу."
+    }
+   ]
+  },
+  {
+   "id": 24,
+   "type": "message",
+   "date": "2026-09-07T21:05:22",
+   "date_unixtime": "1788804322",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го"
+    }
+   ]
+  },
+  {
+   "id": 25,
+   "type": "message",
+   "date": "2026-09-10T15:20:52",
+   "date_unixtime": "1789042852",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Коллеги, по бэку: эндпоинт /analyze отдаёт 500, если сообщений меньше двадцати. Это ожидаемо?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Коллеги, по бэку: эндпоинт /analyze отдаёт 500, если сообщений меньше двадцати. Это ожидаемо?"
+    }
+   ]
+  },
+  {
+   "id": 26,
+   "type": "message",
+   "date": "2026-09-10T15:22:55",
+   "date_unixtime": "1789042975",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "неа, баг",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "неа, баг"
+    }
+   ]
+  },
+  {
+   "id": 27,
+   "type": "message",
+   "date": "2026-09-10T15:23:05",
+   "date_unixtime": "1789042985",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "там деление на ноль в среднем по окну",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "там деление на ноль в среднем по окну"
+    }
+   ]
+  },
+  {
+   "id": 28,
+   "type": "message",
+   "date": "2026-09-10T15:23:28",
+   "date_unixtime": "1789043008",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ща пофикшу, добавлю минимум сообщений",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ща пофикшу, добавлю минимум сообщений"
+    }
+   ]
+  },
+  {
+   "id": 29,
+   "type": "message",
+   "date": "2026-09-10T15:25:39",
+   "date_unixtime": "1789043139",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Пришли, как поправишь. Я пока сделаю заглушку на фронте.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Пришли, как поправишь. Я пока сделаю заглушку на фронте."
+    }
+   ]
+  },
+  {
+   "id": 30,
+   "type": "message",
+   "date": "2026-09-10T15:26:28",
+   "date_unixtime": "1789043188",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок, к обеду будет",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок, к обеду будет"
+    }
+   ]
+  },
+  {
+   "id": 31,
+   "type": "message",
+   "date": "2026-09-10T15:26:37",
+   "date_unixtime": "1789043197",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста можешь подсказку в инпут поставить про минимум? хз как назвать",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста можешь подсказку в инпут поставить про минимум? хз как назвать"
+    }
+   ]
+  },
+  {
+   "id": 32,
+   "type": "message",
+   "date": "2026-09-10T15:27:49",
+   "date_unixtime": "1789043269",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Назову «Минимум 20 сообщений». Нормально?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Назову «Минимум 20 сообщений». Нормально?"
+    }
+   ]
+  },
+  {
+   "id": 33,
+   "type": "message",
+   "date": "2026-09-10T15:28:59",
+   "date_unixtime": "1789043339",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "норм, оч хорошо))",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "норм, оч хорошо))"
+    }
+   ]
+  },
+  {
+   "id": 34,
+   "type": "message",
+   "date": "2026-09-10T15:29:31",
+   "date_unixtime": "1789043371",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Спасибо. Отправлю в ветку сегодня.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Спасибо. Отправлю в ветку сегодня."
+    }
+   ]
+  },
+  {
+   "id": 35,
+   "type": "message",
+   "date": "2026-09-10T20:21:43",
+   "date_unixtime": "1789060903",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "🔥",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "🔥"
+    }
+   ]
+  },
+  {
+   "id": 36,
+   "type": "message",
+   "date": "2026-09-12T09:44:19",
+   "date_unixtime": "1789195459",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Привет! Деплой на Render упал. Ругается на requirements, scikit-learn не ставится.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Привет! Деплой на Render упал. Ругается на requirements, scikit-learn не ставится."
+    }
+   ]
+  },
+  {
+   "id": 37,
+   "type": "message",
+   "date": "2026-09-12T09:44:38",
+   "date_unixtime": "1789195478",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "прив. а питон какой версии",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "прив. а питон какой версии"
+    }
+   ]
+  },
+  {
+   "id": 38,
+   "type": "message",
+   "date": "2026-09-12T09:45:19",
+   "date_unixtime": "1789195519",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "3.12 по умолчанию. Может, надо зафиксировать версию numpy?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "3.12 по умолчанию. Может, надо зафиксировать версию numpy?"
+    }
+   ]
+  },
+  {
+   "id": 39,
+   "type": "message",
+   "date": "2026-09-12T09:45:54",
+   "date_unixtime": "1789195554",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "скорее да, колесо не собирается",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "скорее да, колесо не собирается"
+    }
+   ]
+  },
+  {
+   "id": 40,
+   "type": "message",
+   "date": "2026-09-12T09:46:15",
+   "date_unixtime": "1789195575",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "поставим 3.11 в runtime, ща запушу",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "поставим 3.11 в runtime, ща запушу"
+    }
+   ]
+  },
+  {
+   "id": 41,
+   "type": "message",
+   "date": "2026-09-12T09:47:49",
+   "date_unixtime": "1789195669",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Спасибо, жду. Тесты на фронте пока отключу, чтобы не мешали.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Спасибо, жду. Тесты на фронте пока отключу, чтобы не мешали."
+    }
+   ]
+  },
+  {
+   "id": 42,
+   "type": "message",
+   "date": "2026-09-12T09:49:07",
+   "date_unixtime": "1789195747",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "не надо, у меня локально тесты норм",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "не надо, у меня локально тесты норм"
+    }
+   ]
+  },
+  {
+   "id": 43,
+   "type": "message",
+   "date": "2026-09-12T09:49:28",
+   "date_unixtime": "1789195768",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста созвон в шесть не забудь, жду тя",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста созвон в шесть не забудь, жду тя"
+    }
+   ]
+  },
+  {
+   "id": 44,
+   "type": "message",
+   "date": "2026-09-12T09:49:55",
+   "date_unixtime": "1789195795",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Не забуду. Ты сегодня успеешь на баскетбол?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Не забуду. Ты сегодня успеешь на баскетбол?"
+    }
+   ]
+  },
+  {
+   "id": 45,
+   "type": "message",
+   "date": "2026-09-12T09:50:33",
+   "date_unixtime": "1789195833",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "хз, может",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "хз, может"
+    }
+   ]
+  },
+  {
+   "id": 46,
+   "type": "message",
+   "date": "2026-09-12T20:35:51",
+   "date_unixtime": "1789234551",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "если деплой не сломается)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "если деплой не сломается)"
+    }
+   ]
+  },
+  {
+   "id": 47,
+   "type": "message",
+   "date": "2026-09-12T20:39:01",
+   "date_unixtime": "1789234741",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, держу кулаки.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, держу кулаки."
+    }
+   ]
+  },
+  {
+   "id": 48,
+   "type": "message",
+   "date": "2026-09-12T20:42:31",
+   "date_unixtime": "1789234951",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "спс, держи",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "спс, держи"
+    }
+   ]
+  },
+  {
+   "id": 49,
+   "type": "message",
+   "date": "2026-09-15T17:03:21",
+   "date_unixtime": "1789481001",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Доброе утро. Деплой поднялся, спасибо. Можешь глянуть, почему /health отдаёт пустой ответ?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Доброе утро. Деплой поднялся, спасибо. Можешь глянуть, почему /health отдаёт пустой ответ?"
+    }
+   ]
+  },
+  {
+   "id": 50,
+   "type": "message",
+   "date": "2026-09-15T17:06:16",
+   "date_unixtime": "1789481176",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "утро. ща",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "утро. ща"
+    }
+   ]
+  },
+  {
+   "id": 51,
+   "type": "message",
+   "date": "2026-09-15T17:06:34",
+   "date_unixtime": "1789481194",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "а, роут в другом файле, не подключён в main",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "а, роут в другом файле, не подключён в main"
+    }
+   ]
+  },
+  {
+   "id": 52,
+   "type": "message",
+   "date": "2026-09-15T17:06:45",
+   "date_unixtime": "1789481205",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "подключил, запушил",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "подключил, запушил"
+    }
+   ]
+  },
+  {
+   "id": 53,
+   "type": "message",
+   "date": "2026-09-15T17:10:37",
+   "date_unixtime": "1789481437",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Работает. Кстати, сериал, который ты советовал, оказался огонь.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Работает. Кстати, сериал, который ты советовал, оказался огонь."
+    }
+   ]
+  },
+  {
+   "id": 54,
+   "type": "message",
+   "date": "2026-09-15T17:11:50",
+   "date_unixtime": "1789481510",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "оо, рад что зашло)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "оо, рад что зашло)"
+    }
+   ]
+  },
+  {
+   "id": 55,
+   "type": "message",
+   "date": "2026-09-15T17:12:09",
+   "date_unixtime": "1789481529",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "тогда вторую серию тоже глянь, там оч годно",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "тогда вторую серию тоже глянь, там оч годно"
+    }
+   ]
+  },
+  {
+   "id": 56,
+   "type": "message",
+   "date": "2026-09-15T17:16:35",
+   "date_unixtime": "1789481795",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Посмотрю вечером. Субботу созвонимся по фронту?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Посмотрю вечером. Субботу созвонимся по фронту?"
+    }
+   ]
+  },
+  {
+   "id": 57,
+   "type": "message",
+   "date": "2026-09-15T17:18:17",
+   "date_unixtime": "1789481897",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го"
+    }
+   ]
+  },
+  {
+   "id": 58,
+   "type": "message",
+   "date": "2026-09-15T18:29:31",
+   "date_unixtime": "1789486171",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ток у меня будет часов в пять",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ток у меня будет часов в пять"
+    }
+   ]
+  },
+  {
+   "id": 59,
+   "type": "message",
+   "date": "2026-09-15T18:30:38",
+   "date_unixtime": "1789486238",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Нормально, в пять подойдёт.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Нормально, в пять подойдёт."
+    }
+   ]
+  },
+  {
+   "id": 60,
+   "type": "message",
+   "date": "2026-09-17T14:12:12",
+   "date_unixtime": "1789643532",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Привет! Ты видел правку в схеме ответа? Я добавил поле confidence.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Привет! Ты видел правку в схеме ответа? Я добавил поле confidence."
+    }
+   ]
+  },
+  {
+   "id": 61,
+   "type": "message",
+   "date": "2026-09-17T14:14:59",
+   "date_unixtime": "1789643699",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "прив. видел",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "прив. видел"
+    }
+   ]
+  },
+  {
+   "id": 62,
+   "type": "message",
+   "date": "2026-09-17T14:15:07",
+   "date_unixtime": "1789643707",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "confidence от 0 до 1 или в процентах",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "confidence от 0 до 1 или в процентах"
+    }
+   ]
+  },
+  {
+   "id": 63,
+   "type": "message",
+   "date": "2026-09-17T14:15:47",
+   "date_unixtime": "1789643747",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "От 0 до 1, как написано в контракте.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "От 0 до 1, как написано в контракте."
+    }
+   ]
+  },
+  {
+   "id": 64,
+   "type": "message",
+   "date": "2026-09-17T14:17:40",
+   "date_unixtime": "1789643860",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок, но у тя в доке написано в процентах)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок, но у тя в доке написано в процентах)"
+    }
+   ]
+  },
+  {
+   "id": 65,
+   "type": "message",
+   "date": "2026-09-17T14:20:45",
+   "date_unixtime": "1789644045",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Исправлю документ, спасибо, что заметил. Это правка контракта, её надо обсудить в команде.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Исправлю документ, спасибо, что заметил. Это правка контракта, её надо обсудить в команде."
+    }
+   ]
+  },
+  {
+   "id": 66,
+   "type": "message",
+   "date": "2026-09-17T14:22:30",
+   "date_unixtime": "1789644150",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го, напиши в чат, я гляну",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го, напиши в чат, я гляну"
+    }
+   ]
+  },
+  {
+   "id": 67,
+   "type": "message",
+   "date": "2026-09-17T14:25:37",
+   "date_unixtime": "1789644337",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, сегодня напишу.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, сегодня напишу."
+    }
+   ]
+  },
+  {
+   "id": 68,
+   "type": "message",
+   "date": "2026-09-17T14:27:14",
+   "date_unixtime": "1789644434",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок"
+    }
+   ]
+  },
+  {
+   "id": 69,
+   "type": "message",
+   "date": "2026-09-17T14:28:33",
+   "date_unixtime": "1789644513",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Ты будешь на созвоне завтра?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ты будешь на созвоне завтра?"
+    }
+   ]
+  },
+  {
+   "id": 70,
+   "type": "message",
+   "date": "2026-09-17T14:36:09",
+   "date_unixtime": "1789644969",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "да, буду, ща запишу в календарь",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "да, буду, ща запишу в календарь"
+    }
+   ]
+  },
+  {
+   "id": 71,
+   "type": "message",
+   "date": "2026-09-17T14:37:43",
+   "date_unixtime": "1789645063",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Отлично.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Отлично."
+    }
+   ]
+  },
+  {
+   "id": 72,
+   "type": "message",
+   "date": "2026-09-17T14:39:53",
+   "date_unixtime": "1789645193",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста а в доке еще таблица кривая, тоже глянь",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста а в доке еще таблица кривая, тоже глянь"
+    }
+   ]
+  },
+  {
+   "id": 73,
+   "type": "message",
+   "date": "2026-09-17T22:05:09",
+   "date_unixtime": "1789671909",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Посмотрю. Спасибо.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Посмотрю. Спасибо."
+    }
+   ]
+  },
+  {
+   "id": 74,
+   "type": "message",
+   "date": "2026-09-20T23:41:02",
+   "date_unixtime": "1789936862",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Привет! Ты можешь глянуть баг с кнопкой сравнения? На телефоне она не нажимается.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Привет! Ты можешь глянуть баг с кнопкой сравнения? На телефоне она не нажимается."
+    }
+   ]
+  },
+  {
+   "id": 75,
+   "type": "message",
+   "date": "2026-09-20T23:41:54",
+   "date_unixtime": "1789936914",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "прив. это фронт, я туда не лезу",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "прив. это фронт, я туда не лезу"
+    }
+   ]
+  },
+  {
+   "id": 76,
+   "type": "message",
+   "date": "2026-09-20T23:42:08",
+   "date_unixtime": "1789936928",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "но могу глянуть логи, если скинешь",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "но могу глянуть логи, если скинешь"
+    }
+   ]
+  },
+  {
+   "id": 77,
+   "type": "message",
+   "date": "2026-09-20T23:43:19",
+   "date_unixtime": "1789936999",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Скину в понедельник. Кстати, что будем показывать на демо?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Скину в понедельник. Кстати, что будем показывать на демо?"
+    }
+   ]
+  },
+  {
+   "id": 78,
+   "type": "message",
+   "date": "2026-09-20T23:44:23",
+   "date_unixtime": "1789937063",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "хз, может график стилометрии",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "хз, может график стилометрии"
+    }
+   ]
+  },
+  {
+   "id": 79,
+   "type": "message",
+   "date": "2026-09-20T23:44:47",
+   "date_unixtime": "1789937087",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "или сравнение двух чатов, оно круче)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "или сравнение двух чатов, оно круче)"
+    }
+   ]
+  },
+  {
+   "id": 80,
+   "type": "message",
+   "date": "2026-09-20T23:46:03",
+   "date_unixtime": "1789937163",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Согласен, сравнение лучше. Сделаем его основным сценарием.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Согласен, сравнение лучше. Сделаем его основным сценарием."
+    }
+   ]
+  },
+  {
+   "id": 81,
+   "type": "message",
+   "date": "2026-09-20T23:47:15",
+   "date_unixtime": "1789937235",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го. кста бублик опять залез на клаву пока я созванивался",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го. кста бублик опять залез на клаву пока я созванивался"
+    }
+   ]
+  },
+  {
+   "id": 82,
+   "type": "message",
+   "date": "2026-09-20T23:47:48",
+   "date_unixtime": "1789937268",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Ха, он явно хочет стать разработчиком.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ха, он явно хочет стать разработчиком."
+    }
+   ]
+  },
+  {
+   "id": 83,
+   "type": "message",
+   "date": "2026-09-20T23:50:12",
+   "date_unixtime": "1789937412",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "он уже 50 коммитов сделал, шучу)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "он уже 50 коммитов сделал, шучу)"
+    }
+   ]
+  },
+  {
+   "id": 84,
+   "type": "message",
+   "date": "2026-09-20T23:52:36",
+   "date_unixtime": "1789937556",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Смешно. Хорошей пятницы.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Смешно. Хорошей пятницы."
+    }
+   ]
+  },
+  {
+   "id": 85,
+   "type": "message",
+   "date": "2026-09-20T23:54:02",
+   "date_unixtime": "1789937642",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "тя тоже)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "тя тоже)"
+    }
+   ]
+  },
+  {
+   "id": 86,
+   "type": "message",
+   "date": "2026-09-20T23:54:49",
+   "date_unixtime": "1789937689",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "👍",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "👍"
+    }
+   ]
+  },
+  {
+   "id": 87,
+   "type": "message",
+   "date": "2026-09-20T23:55:47",
+   "date_unixtime": "1789937747",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста пиццу в пятницу заказываем? хз",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста пиццу в пятницу заказываем? хз"
+    }
+   ]
+  },
+  {
+   "id": 88,
+   "type": "message",
+   "date": "2026-09-20T23:56:57",
+   "date_unixtime": "1789937817",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Давай. Я за.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Давай. Я за."
+    }
+   ]
+  },
+  {
+   "id": 89,
+   "type": "message",
+   "date": "2026-09-20T23:57:50",
+   "date_unixtime": "1789937870",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го, оно норм)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го, оно норм)"
+    }
+   ]
+  },
+  {
+   "id": 90,
+   "type": "message",
+   "date": "2026-09-21T00:01:02",
+   "date_unixtime": "1789938062",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Отлично. Тогда до завтра.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Отлично. Тогда до завтра."
+    }
+   ]
+  },
+  {
+   "id": 91,
+   "type": "message",
+   "date": "2026-09-23T09:00:18",
+   "date_unixtime": "1790143218",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Доброе утро! Сегодня поднимаю сравнение пары авторов, нужен эндпоинт /compare.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Доброе утро! Сегодня поднимаю сравнение пары авторов, нужен эндпоинт /compare."
+    }
+   ]
+  },
+  {
+   "id": 92,
+   "type": "message",
+   "date": "2026-09-23T09:01:30",
+   "date_unixtime": "1790143290",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "утро. ок, в каком формате отдавать",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "утро. ок, в каком формате отдавать"
+    }
+   ]
+  },
+  {
+   "id": 93,
+   "type": "message",
+   "date": "2026-09-23T09:04:04",
+   "date_unixtime": "1790143444",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Список из двух author_id и массив признаков. Как в контракте.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Список из двух author_id и массив признаков. Как в контракте."
+    }
+   ]
+  },
+  {
+   "id": 94,
+   "type": "message",
+   "date": "2026-09-23T09:06:46",
+   "date_unixtime": "1790143606",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "понял, сделаю",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "понял, сделаю"
+    }
+   ]
+  },
+  {
+   "id": 95,
+   "type": "message",
+   "date": "2026-09-23T09:06:53",
+   "date_unixtime": "1790143613",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста pytest у меня падает на фикстуре с маленьким чатом",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста pytest у меня падает на фикстуре с маленьким чатом"
+    }
+   ]
+  },
+  {
+   "id": 96,
+   "type": "message",
+   "date": "2026-09-23T09:09:38",
+   "date_unixtime": "1790143778",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Это та, где 15 сообщений?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Это та, где 15 сообщений?"
+    }
+   ]
+  },
+  {
+   "id": 97,
+   "type": "message",
+   "date": "2026-09-23T09:10:49",
+   "date_unixtime": "1790143849",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ага, надо минимум 20 в фикстуре",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ага, надо минимум 20 в фикстуре"
+    }
+   ]
+  },
+  {
+   "id": 98,
+   "type": "message",
+   "date": "2026-09-23T09:11:59",
+   "date_unixtime": "1790143919",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, добавлю в файл fixtures и тебе пришлю.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, добавлю в файл fixtures и тебе пришлю."
+    }
+   ]
+  },
+  {
+   "id": 99,
+   "type": "message",
+   "date": "2026-09-23T09:13:57",
+   "date_unixtime": "1790144037",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок"
+    }
+   ]
+  },
+  {
+   "id": 100,
+   "type": "message",
+   "date": "2026-09-23T09:14:16",
+   "date_unixtime": "1790144056",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ща",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ща"
+    }
+   ]
+  },
+  {
+   "id": 101,
+   "type": "message",
+   "date": "2026-09-23T17:05:21",
+   "date_unixtime": "1790172321",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Спасибо. Займусь вёрсткой таблицы.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Спасибо. Займусь вёрсткой таблицы."
+    }
+   ]
+  },
+  {
+   "id": 102,
+   "type": "message",
+   "date": "2026-09-23T17:05:53",
+   "date_unixtime": "1790172353",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го)"
+    }
+   ]
+  },
+  {
+   "id": 103,
+   "type": "message",
+   "date": "2026-09-23T17:09:59",
+   "date_unixtime": "1790172599",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Кстати, как прошла тренировка в среду?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Кстати, как прошла тренировка в среду?"
+    }
+   ]
+  },
+  {
+   "id": 104,
+   "type": "message",
+   "date": "2026-09-23T17:12:23",
+   "date_unixtime": "1790172743",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "норм, пять мячей закинул)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "норм, пять мячей закинул)"
+    }
+   ]
+  },
+  {
+   "id": 105,
+   "type": "message",
+   "date": "2026-09-23T17:13:56",
+   "date_unixtime": "1790172836",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Молодец! 😊",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Молодец! 😊"
+    }
+   ]
+  },
+  {
+   "id": 106,
+   "type": "message",
+   "date": "2026-09-23T17:16:06",
+   "date_unixtime": "1790172966",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ха, тя в следующий раз тоже вытащу",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ха, тя в следующий раз тоже вытащу"
+    }
+   ]
+  },
+  {
+   "id": 107,
+   "type": "message",
+   "date": "2026-09-23T17:18:38",
+   "date_unixtime": "1790173118",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Посмотрим, я после хакатона отосплюсь.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Посмотрим, я после хакатона отосплюсь."
+    }
+   ]
+  },
+  {
+   "id": 108,
+   "type": "message",
+   "date": "2026-09-23T20:15:07",
+   "date_unixtime": "1790183707",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "пон",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "пон"
+    }
+   ]
+  },
+  {
+   "id": 109,
+   "type": "message",
+   "date": "2026-09-25T11:32:26",
+   "date_unixtime": "1790325146",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Привет! Фикстуру посмотрел, пока непонятно, почему сравнение пустое.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Привет! Фикстуру посмотрел, пока непонятно, почему сравнение пустое."
+    }
+   ]
+  },
+  {
+   "id": 110,
+   "type": "message",
+   "date": "2026-09-25T11:33:44",
+   "date_unixtime": "1790325224",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "прив. а ты передаёшь оба id?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "прив. а ты передаёшь оба id?"
+    }
+   ]
+  },
+  {
+   "id": 111,
+   "type": "message",
+   "date": "2026-09-25T11:35:06",
+   "date_unixtime": "1790325306",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Да, оба в query, как в доке.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Да, оба в query, как в доке."
+    }
+   ]
+  },
+  {
+   "id": 112,
+   "type": "message",
+   "date": "2026-09-25T11:36:27",
+   "date_unixtime": "1790325387",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "в query надо author_a и author_b, у меня в коде a и b",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "в query надо author_a и author_b, у меня в коде a и b"
+    }
+   ]
+  },
+  {
+   "id": 113,
+   "type": "message",
+   "date": "2026-09-25T11:37:04",
+   "date_unixtime": "1790325424",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хм, в контракте как раз author_a. Значит, я ошибся?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хм, в контракте как раз author_a. Значит, я ошибся?"
+    }
+   ]
+  },
+  {
+   "id": 114,
+   "type": "message",
+   "date": "2026-09-25T11:37:25",
+   "date_unixtime": "1790325445",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "нее, мой косяк, поменяю",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "нее, мой косяк, поменяю"
+    }
+   ]
+  },
+  {
+   "id": 115,
+   "type": "message",
+   "date": "2026-09-25T11:37:42",
+   "date_unixtime": "1790325462",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "изи, 5 минут",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "изи, 5 минут"
+    }
+   ]
+  },
+  {
+   "id": 116,
+   "type": "message",
+   "date": "2026-09-25T11:38:18",
+   "date_unixtime": "1790325498",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, жду. Спасибо за быстрый ответ.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, жду. Спасибо за быстрый ответ."
+    }
+   ]
+  },
+  {
+   "id": 117,
+   "type": "message",
+   "date": "2026-09-25T12:05:06",
+   "date_unixtime": "1790327106",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "норм)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "норм)"
+    }
+   ]
+  },
+  {
+   "id": 118,
+   "type": "message",
+   "date": "2026-09-25T12:05:29",
+   "date_unixtime": "1790327129",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста API лимит на claude ключ сегодня оч жёсткий, осторожнее с кнопками",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста API лимит на claude ключ сегодня оч жёсткий, осторожнее с кнопками"
+    }
+   ]
+  },
+  {
+   "id": 119,
+   "type": "message",
+   "date": "2026-09-25T12:07:07",
+   "date_unixtime": "1790327227",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Понял, буду кешировать тексты.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Понял, буду кешировать тексты."
+    }
+   ]
+  },
+  {
+   "id": 120,
+   "type": "message",
+   "date": "2026-09-25T12:07:28",
+   "date_unixtime": "1790327248",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок, го",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок, го"
+    }
+   ]
+  },
+  {
+   "id": 121,
+   "type": "message",
+   "date": "2026-09-25T12:07:58",
+   "date_unixtime": "1790327278",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Пожалуйста, не отправляй больше одного запроса в минуту на тест. Хорошо?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Пожалуйста, не отправляй больше одного запроса в минуту на тест. Хорошо?"
+    }
+   ]
+  },
+  {
+   "id": 122,
+   "type": "message",
+   "date": "2026-09-25T12:13:27",
+   "date_unixtime": "1790327607",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок))",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок))"
+    }
+   ]
+  },
+  {
+   "id": 123,
+   "type": "message",
+   "date": "2026-09-25T12:16:17",
+   "date_unixtime": "1790327777",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Спасибо!",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Спасибо!"
+    }
+   ]
+  },
+  {
+   "id": 124,
+   "type": "message",
+   "date": "2026-09-28T08:37:06",
+   "date_unixtime": "1790573826",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Доброе утро. Всё работает, спасибо. Кстати, LLM-тексты к сравнению приходят с задержкой 8 секунд.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Доброе утро. Всё работает, спасибо. Кстати, LLM-тексты к сравнению приходят с задержкой 8 секунд."
+    }
+   ]
+  },
+  {
+   "id": 125,
+   "type": "message",
+   "date": "2026-09-28T08:38:19",
+   "date_unixtime": "1790573899",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "утро. это таймаут, ща гляну",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "утро. это таймаут, ща гляну"
+    }
+   ]
+  },
+  {
+   "id": 126,
+   "type": "message",
+   "date": "2026-09-28T13:42:03",
+   "date_unixtime": "1790592123",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "там я ждал весь ответ сразу, надо стриминг",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "там я ждал весь ответ сразу, надо стриминг"
+    }
+   ]
+  },
+  {
+   "id": 127,
+   "type": "message",
+   "date": "2026-09-28T13:44:54",
+   "date_unixtime": "1790592294",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Может, отдавать сначала числа, а текст подгружать отдельно?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Может, отдавать сначала числа, а текст подгружать отдельно?"
+    }
+   ]
+  },
+  {
+   "id": 128,
+   "type": "message",
+   "date": "2026-09-28T13:45:43",
+   "date_unixtime": "1790592343",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го, так даже лучше",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го, так даже лучше"
+    }
+   ]
+  },
+  {
+   "id": 129,
+   "type": "message",
+   "date": "2026-09-28T13:46:02",
+   "date_unixtime": "1790592362",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "отдам текст отдельным эндпоинтом /explain",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "отдам текст отдельным эндпоинтом /explain"
+    }
+   ]
+  },
+  {
+   "id": 130,
+   "type": "message",
+   "date": "2026-09-28T13:47:38",
+   "date_unixtime": "1790592458",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Отлично. Ты будешь вечером на созвоне?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Отлично. Ты будешь вечером на созвоне?"
+    }
+   ]
+  },
+  {
+   "id": 131,
+   "type": "message",
+   "date": "2026-09-28T13:48:30",
+   "date_unixtime": "1790592510",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "да, ща скину ссылку",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "да, ща скину ссылку"
+    }
+   ]
+  },
+  {
+   "id": 132,
+   "type": "message",
+   "date": "2026-09-28T13:49:41",
+   "date_unixtime": "1790592581",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо. Я пока займусь таблицей.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо. Я пока займусь таблицей."
+    }
+   ]
+  },
+  {
+   "id": 133,
+   "type": "message",
+   "date": "2026-09-28T13:50:40",
+   "date_unixtime": "1790592640",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок, потом)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок, потом)"
+    }
+   ]
+  },
+  {
+   "id": 134,
+   "type": "message",
+   "date": "2026-09-28T13:52:24",
+   "date_unixtime": "1790592744",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Понял. 👍",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Понял. 👍"
+    }
+   ]
+  },
+  {
+   "id": 135,
+   "type": "message",
+   "date": "2026-09-28T13:53:33",
+   "date_unixtime": "1790592813",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста таблица ваще не нужна, график лучше",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста таблица ваще не нужна, график лучше"
+    }
+   ]
+  },
+  {
+   "id": 136,
+   "type": "message",
+   "date": "2026-09-30T19:36:14",
+   "date_unixtime": "1790786174",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Привет! Вчера ты обещал /explain. Он уже готов?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Привет! Вчера ты обещал /explain. Он уже готов?"
+    }
+   ]
+  },
+  {
+   "id": 137,
+   "type": "message",
+   "date": "2026-09-30T19:37:39",
+   "date_unixtime": "1790786259",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "прив. почти, осталось прикрутить кеш",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "прив. почти, осталось прикрутить кеш"
+    }
+   ]
+  },
+  {
+   "id": 138,
+   "type": "message",
+   "date": "2026-09-30T19:37:56",
+   "date_unixtime": "1790786276",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ща допилю, часа через два",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ща допилю, часа через два"
+    }
+   ]
+  },
+  {
+   "id": 139,
+   "type": "message",
+   "date": "2026-09-30T19:38:32",
+   "date_unixtime": "1790786312",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо. Фронт пока сделаю с заглушкой.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо. Фронт пока сделаю с заглушкой."
+    }
+   ]
+  },
+  {
+   "id": 140,
+   "type": "message",
+   "date": "2026-09-30T19:39:24",
+   "date_unixtime": "1790786364",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "норм, тя заглушка не подведёт)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "норм, тя заглушка не подведёт)"
+    }
+   ]
+  },
+  {
+   "id": 141,
+   "type": "message",
+   "date": "2026-09-30T19:40:27",
+   "date_unixtime": "1790786427",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Кстати, в мае на концерте Синих огней было классно. Вспоминаю до сих пор.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Кстати, в мае на концерте Синих огней было классно. Вспоминаю до сих пор."
+    }
+   ]
+  },
+  {
+   "id": 142,
+   "type": "message",
+   "date": "2026-09-30T19:41:03",
+   "date_unixtime": "1790786463",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "да оч круто было, потом в Хмель и солод зашли",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "да оч круто было, потом в Хмель и солод зашли"
+    }
+   ]
+  },
+  {
+   "id": 143,
+   "type": "message",
+   "date": "2026-09-30T19:44:03",
+   "date_unixtime": "1790786643",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Да, хорошее место. Бар понравился.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Да, хорошее место. Бар понравился."
+    }
+   ]
+  },
+  {
+   "id": 144,
+   "type": "message",
+   "date": "2026-09-30T19:45:09",
+   "date_unixtime": "1790786709",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го повторим, когда демку сдадим",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го повторим, когда демку сдадим"
+    }
+   ]
+  },
+  {
+   "id": 145,
+   "type": "message",
+   "date": "2026-09-30T19:46:06",
+   "date_unixtime": "1790786766",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Договорились.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Договорились."
+    }
+   ]
+  },
+  {
+   "id": 146,
+   "type": "message",
+   "date": "2026-09-30T19:48:12",
+   "date_unixtime": "1790786892",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста бублик тоже хотел на концерт, но его не пустили)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста бублик тоже хотел на концерт, но его не пустили)"
+    }
+   ]
+  },
+  {
+   "id": 147,
+   "type": "message",
+   "date": "2026-09-30T19:49:28",
+   "date_unixtime": "1790786968",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Ха, передай ему, что это несправедливо.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ха, передай ему, что это несправедливо."
+    }
+   ]
+  },
+  {
+   "id": 148,
+   "type": "message",
+   "date": "2026-09-30T19:52:45",
+   "date_unixtime": "1790787165",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "передал, он в ответ лёг на клаву",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "передал, он в ответ лёг на клаву"
+    }
+   ]
+  },
+  {
+   "id": 149,
+   "type": "message",
+   "date": "2026-10-03T09:48:55",
+   "date_unixtime": "1791010135",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Доброе утро! Демо репетируем в пятницу. Что у тебя готово?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Доброе утро! Демо репетируем в пятницу. Что у тебя готово?"
+    }
+   ]
+  },
+  {
+   "id": 150,
+   "type": "message",
+   "date": "2026-10-03T09:50:19",
+   "date_unixtime": "1791010219",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "утро. /analyze, /compare, /explain. кеш пока в памяти",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "утро. /analyze, /compare, /explain. кеш пока в памяти"
+    }
+   ]
+  },
+  {
+   "id": 151,
+   "type": "message",
+   "date": "2026-10-03T09:51:26",
+   "date_unixtime": "1791010286",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Отлично. Надо сохранять в файл, иначе после рестарта сбросится.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Отлично. Надо сохранять в файл, иначе после рестарта сбросится."
+    }
+   ]
+  },
+  {
+   "id": 152,
+   "type": "message",
+   "date": "2026-10-03T09:52:29",
+   "date_unixtime": "1791010349",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок, sqlite сделаю",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок, sqlite сделаю"
+    }
+   ]
+  },
+  {
+   "id": 153,
+   "type": "message",
+   "date": "2026-10-03T09:52:56",
+   "date_unixtime": "1791010376",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, спасибо.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, спасибо."
+    }
+   ]
+  },
+  {
+   "id": 154,
+   "type": "message",
+   "date": "2026-10-03T09:53:21",
+   "date_unixtime": "1791010401",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста сколько ждём при первом запуске? хз",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста сколько ждём при первом запуске? хз"
+    }
+   ]
+  },
+  {
+   "id": 155,
+   "type": "message",
+   "date": "2026-10-03T09:54:58",
+   "date_unixtime": "1791010498",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Около 20 секунд на холодном старте Render, я засёк.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Около 20 секунд на холодном старте Render, я засёк."
+    }
+   ]
+  },
+  {
+   "id": 156,
+   "type": "message",
+   "date": "2026-10-03T09:56:40",
+   "date_unixtime": "1791010600",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "блин, это долго",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "блин, это долго"
+    }
+   ]
+  },
+  {
+   "id": 157,
+   "type": "message",
+   "date": "2026-10-03T14:19:32",
+   "date_unixtime": "1791026372",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "могу пингер поставить, чтобы не засыпал",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "могу пингер поставить, чтобы не засыпал"
+    }
+   ]
+  },
+  {
+   "id": 158,
+   "type": "message",
+   "date": "2026-10-03T14:20:40",
+   "date_unixtime": "1791026440",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Это было бы классно. Пожалуйста, сделай.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Это было бы классно. Пожалуйста, сделай."
+    }
+   ]
+  },
+  {
+   "id": 159,
+   "type": "message",
+   "date": "2026-10-03T14:20:54",
+   "date_unixtime": "1791026454",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "изи",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "изи"
+    }
+   ]
+  },
+  {
+   "id": 160,
+   "type": "message",
+   "date": "2026-10-03T14:21:13",
+   "date_unixtime": "1791026473",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ща",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ща"
+    }
+   ]
+  },
+  {
+   "id": 161,
+   "type": "message",
+   "date": "2026-10-03T14:21:17",
+   "date_unixtime": "1791026477",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "готово)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "готово)"
+    }
+   ]
+  },
+  {
+   "id": 162,
+   "type": "message",
+   "date": "2026-10-03T22:44:34",
+   "date_unixtime": "1791056674",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Проверю. 👍",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Проверю. 👍"
+    }
+   ]
+  },
+  {
+   "id": 163,
+   "type": "message",
+   "date": "2026-10-05T20:19:49",
+   "date_unixtime": "1791220789",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Привет! Сделал карточку пары двойников на фронте. Выглядит неплохо.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Привет! Сделал карточку пары двойников на фронте. Выглядит неплохо."
+    }
+   ]
+  },
+  {
+   "id": 164,
+   "type": "message",
+   "date": "2026-10-05T20:21:43",
+   "date_unixtime": "1791220903",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "прив. гляну на деплое",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "прив. гляну на деплое"
+    }
+   ]
+  },
+  {
+   "id": 165,
+   "type": "message",
+   "date": "2026-10-05T20:21:58",
+   "date_unixtime": "1791220918",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "а что показываешь по стилометрии, какие признаки",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "а что показываешь по стилометрии, какие признаки"
+    }
+   ]
+  },
+  {
+   "id": 166,
+   "type": "message",
+   "date": "2026-10-05T20:23:27",
+   "date_unixtime": "1791221007",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Частоту пунктуации, длину сообщений и строчные буквы.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Частоту пунктуации, длину сообщений и строчные буквы."
+    }
+   ]
+  },
+  {
+   "id": 167,
+   "type": "message",
+   "date": "2026-10-05T20:24:56",
+   "date_unixtime": "1791221096",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "оч нужная штука, маленькие буквы прям палят",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "оч нужная штука, маленькие буквы прям палят"
+    }
+   ]
+  },
+  {
+   "id": 168,
+   "type": "message",
+   "date": "2026-10-05T20:28:08",
+   "date_unixtime": "1791221288",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Да, согласен. Это надо объяснить в демо.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Да, согласен. Это надо объяснить в демо."
+    }
+   ]
+  },
+  {
+   "id": 169,
+   "type": "message",
+   "date": "2026-10-05T20:29:09",
+   "date_unixtime": "1791221349",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "чекни ещё эмодзи, у меня там тоже счётчик",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "чекни ещё эмодзи, у меня там тоже счётчик"
+    }
+   ]
+  },
+  {
+   "id": 170,
+   "type": "message",
+   "date": "2026-10-05T20:33:25",
+   "date_unixtime": "1791221605",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, добавлю.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, добавлю."
+    }
+   ]
+  },
+  {
+   "id": 171,
+   "type": "message",
+   "date": "2026-10-05T20:34:56",
+   "date_unixtime": "1791221696",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "норм",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "норм"
+    }
+   ]
+  },
+  {
+   "id": 172,
+   "type": "message",
+   "date": "2026-10-05T20:35:04",
+   "date_unixtime": "1791221704",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста бублик опять на подоконнике спит, пока я кодю",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста бублик опять на подоконнике спит, пока я кодю"
+    }
+   ]
+  },
+  {
+   "id": 173,
+   "type": "message",
+   "date": "2026-10-05T20:36:57",
+   "date_unixtime": "1791221817",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Передай ему привет от меня.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Передай ему привет от меня."
+    }
+   ]
+  },
+  {
+   "id": 174,
+   "type": "message",
+   "date": "2026-10-05T20:39:55",
+   "date_unixtime": "1791221995",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "передал, он игнорит)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "передал, он игнорит)"
+    }
+   ]
+  },
+  {
+   "id": 175,
+   "type": "message",
+   "date": "2026-10-05T20:41:26",
+   "date_unixtime": "1791222086",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Ха, понятно.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ха, понятно."
+    }
+   ]
+  },
+  {
+   "id": 176,
+   "type": "message",
+   "date": "2026-10-08T11:24:16",
+   "date_unixtime": "1791447856",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Доброе утро. Проверю пингер, он работает?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Доброе утро. Проверю пингер, он работает?"
+    }
+   ]
+  },
+  {
+   "id": 177,
+   "type": "message",
+   "date": "2026-10-08T11:25:25",
+   "date_unixtime": "1791447925",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "утро. да, пингует каждые 10 минут",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "утро. да, пингует каждые 10 минут"
+    }
+   ]
+  },
+  {
+   "id": 178,
+   "type": "message",
+   "date": "2026-10-08T11:27:22",
+   "date_unixtime": "1791448042",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Отлично, холодный старт теперь быстрый.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Отлично, холодный старт теперь быстрый."
+    }
+   ]
+  },
+  {
+   "id": 179,
+   "type": "message",
+   "date": "2026-10-08T11:28:44",
+   "date_unixtime": "1791448124",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го, демка будет норм",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го, демка будет норм"
+    }
+   ]
+  },
+  {
+   "id": 180,
+   "type": "message",
+   "date": "2026-10-08T11:30:05",
+   "date_unixtime": "1791448205",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Нормально. Ты готов к репетиции?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Нормально. Ты готов к репетиции?"
+    }
+   ]
+  },
+  {
+   "id": 181,
+   "type": "message",
+   "date": "2026-10-08T11:31:09",
+   "date_unixtime": "1791448269",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ща доделаю тест на /compare и гоу",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ща доделаю тест на /compare и гоу"
+    }
+   ]
+  },
+  {
+   "id": 182,
+   "type": "message",
+   "date": "2026-10-08T21:47:10",
+   "date_unixtime": "1791485230",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, в четыре созвонимся.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, в четыре созвонимся."
+    }
+   ]
+  },
+  {
+   "id": 183,
+   "type": "message",
+   "date": "2026-10-08T21:48:22",
+   "date_unixtime": "1791485302",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок)"
+    }
+   ]
+  },
+  {
+   "id": 184,
+   "type": "message",
+   "date": "2026-10-08T21:48:52",
+   "date_unixtime": "1791485332",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Кстати, спасибо за помощь на этой неделе. Ты выручил.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Кстати, спасибо за помощь на этой неделе. Ты выручил."
+    }
+   ]
+  },
+  {
+   "id": 185,
+   "type": "message",
+   "date": "2026-10-08T21:51:23",
+   "date_unixtime": "1791485483",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "да ладно, тя тоже)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "да ладно, тя тоже)"
+    }
+   ]
+  },
+  {
+   "id": 186,
+   "type": "message",
+   "date": "2026-10-08T21:59:15",
+   "date_unixtime": "1791485955",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошей пятницы.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошей пятницы."
+    }
+   ]
+  },
+  {
+   "id": 187,
+   "type": "message",
+   "date": "2026-10-08T22:00:58",
+   "date_unixtime": "1791486058",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "тя тоже, го спать",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "тя тоже, го спать"
+    }
+   ]
+  },
+  {
+   "id": 188,
+   "type": "message",
+   "date": "2026-10-11T09:20:28",
+   "date_unixtime": "1791699628",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Привет! Ruff ругается на мои изменения в backend. Это ты настроил?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Привет! Ruff ругается на мои изменения в backend. Это ты настроил?"
+    }
+   ]
+  },
+  {
+   "id": 189,
+   "type": "message",
+   "date": "2026-10-11T09:21:32",
+   "date_unixtime": "1791699692",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "прив. да, там line-length 100",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "прив. да, там line-length 100"
+    }
+   ]
+  },
+  {
+   "id": 190,
+   "type": "message",
+   "date": "2026-10-11T18:28:05",
+   "date_unixtime": "1791732485",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ща ruff format запущу",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ща ruff format запущу"
+    }
+   ]
+  },
+  {
+   "id": 191,
+   "type": "message",
+   "date": "2026-10-11T18:29:10",
+   "date_unixtime": "1791732550",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Спасибо. Я тогда сам не буду трогать backend.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Спасибо. Я тогда сам не буду трогать backend."
+    }
+   ]
+  },
+  {
+   "id": 192,
+   "type": "message",
+   "date": "2026-10-11T18:30:22",
+   "date_unixtime": "1791732622",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок, поправил",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок, поправил"
+    }
+   ]
+  },
+  {
+   "id": 193,
+   "type": "message",
+   "date": "2026-10-11T18:30:30",
+   "date_unixtime": "1791732630",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста линт в CI оч строгий, но оно и правильно",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста линт в CI оч строгий, но оно и правильно"
+    }
+   ]
+  },
+  {
+   "id": 194,
+   "type": "message",
+   "date": "2026-10-11T18:32:34",
+   "date_unixtime": "1791732754",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Согласен. Хорошо, что есть.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Согласен. Хорошо, что есть."
+    }
+   ]
+  },
+  {
+   "id": 195,
+   "type": "message",
+   "date": "2026-10-11T18:35:58",
+   "date_unixtime": "1791732958",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го, всё норм",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го, всё норм"
+    }
+   ]
+  },
+  {
+   "id": 196,
+   "type": "message",
+   "date": "2026-10-11T18:36:55",
+   "date_unixtime": "1791733015",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Кстати, в пятницу тренировка?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Кстати, в пятницу тренировка?"
+    }
+   ]
+  },
+  {
+   "id": 197,
+   "type": "message",
+   "date": "2026-10-11T18:37:48",
+   "date_unixtime": "1791733068",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "да, в шесть",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "да, в шесть"
+    }
+   ]
+  },
+  {
+   "id": 198,
+   "type": "message",
+   "date": "2026-10-11T18:38:05",
+   "date_unixtime": "1791733085",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Я, возможно, приду в следующий раз.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я, возможно, приду в следующий раз."
+    }
+   ]
+  },
+  {
+   "id": 199,
+   "type": "message",
+   "date": "2026-10-11T18:39:20",
+   "date_unixtime": "1791733160",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го, тя ждём)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го, тя ждём)"
+    }
+   ]
+  },
+  {
+   "id": 200,
+   "type": "message",
+   "date": "2026-10-11T18:41:34",
+   "date_unixtime": "1791733294",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Договорились. Хорошо, спасибо.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Договорились. Хорошо, спасибо."
+    }
+   ]
+  },
+  {
+   "id": 201,
+   "type": "message",
+   "date": "2026-10-11T18:43:25",
+   "date_unixtime": "1791733405",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "🔥",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "🔥"
+    }
+   ]
+  },
+  {
+   "id": 202,
+   "type": "message",
+   "date": "2026-10-13T09:45:42",
+   "date_unixtime": "1791873942",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Доброе утро. Пайплайн зелёный, спасибо. Пишем питч на завтра?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Доброе утро. Пайплайн зелёный, спасибо. Пишем питч на завтра?"
+    }
+   ]
+  },
+  {
+   "id": 203,
+   "type": "message",
+   "date": "2026-10-13T09:46:34",
+   "date_unixtime": "1791873994",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "утро. ага, давай черновик",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "утро. ага, давай черновик"
+    }
+   ]
+  },
+  {
+   "id": 204,
+   "type": "message",
+   "date": "2026-10-13T09:50:24",
+   "date_unixtime": "1791874224",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Я напишу первую часть: проблема и решение.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Я напишу первую часть: проблема и решение."
+    }
+   ]
+  },
+  {
+   "id": 205,
+   "type": "message",
+   "date": "2026-10-13T09:51:13",
+   "date_unixtime": "1791874273",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "а я про стилометрию и архитектуру",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "а я про стилометрию и архитектуру"
+    }
+   ]
+  },
+  {
+   "id": 206,
+   "type": "message",
+   "date": "2026-10-13T09:52:09",
+   "date_unixtime": "1791874329",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Отлично. Скинь список признаков.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Отлично. Скинь список признаков."
+    }
+   ]
+  },
+  {
+   "id": 207,
+   "type": "message",
+   "date": "2026-10-13T09:53:23",
+   "date_unixtime": "1791874403",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ща скину, там 12 штук",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ща скину, там 12 штук"
+    }
+   ]
+  },
+  {
+   "id": 208,
+   "type": "message",
+   "date": "2026-10-13T09:54:10",
+   "date_unixtime": "1791874450",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, жду.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, жду."
+    }
+   ]
+  },
+  {
+   "id": 209,
+   "type": "message",
+   "date": "2026-10-13T09:55:08",
+   "date_unixtime": "1791874508",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста в питче не забудь про Claude, судьи любят LLM",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста в питче не забудь про Claude, судьи любят LLM"
+    }
+   ]
+  },
+  {
+   "id": 210,
+   "type": "message",
+   "date": "2026-10-13T09:57:07",
+   "date_unixtime": "1791874627",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Добавлю, что объяснения генерирует Claude API.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Добавлю, что объяснения генерирует Claude API."
+    }
+   ]
+  },
+  {
+   "id": 211,
+   "type": "message",
+   "date": "2026-10-13T09:57:34",
+   "date_unixtime": "1791874654",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "норм)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "норм)"
+    }
+   ]
+  },
+  {
+   "id": 212,
+   "type": "message",
+   "date": "2026-10-13T09:59:45",
+   "date_unixtime": "1791874785",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Пожалуйста, пришли список до вечера.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Пожалуйста, пришли список до вечера."
+    }
+   ]
+  },
+  {
+   "id": 213,
+   "type": "message",
+   "date": "2026-10-13T10:01:11",
+   "date_unixtime": "1791874871",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок, пришлю",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок, пришлю"
+    }
+   ]
+  },
+  {
+   "id": 214,
+   "type": "message",
+   "date": "2026-10-13T10:01:38",
+   "date_unixtime": "1791874898",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Спасибо. 😊",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Спасибо. 😊"
+    }
+   ]
+  },
+  {
+   "id": 215,
+   "type": "message",
+   "date": "2026-10-13T10:03:47",
+   "date_unixtime": "1791875027",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ага",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ага"
+    }
+   ]
+  },
+  {
+   "id": 216,
+   "type": "message",
+   "date": "2026-10-16T12:05:47",
+   "date_unixtime": "1792141547",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Привет! Прод снова отдаёт 500 на /upload для больших файлов.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Привет! Прод снова отдаёт 500 на /upload для больших файлов."
+    }
+   ]
+  },
+  {
+   "id": 217,
+   "type": "message",
+   "date": "2026-10-16T12:08:38",
+   "date_unixtime": "1792141718",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "прив. сколько мб",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "прив. сколько мб"
+    }
+   ]
+  },
+  {
+   "id": 218,
+   "type": "message",
+   "date": "2026-10-16T12:09:10",
+   "date_unixtime": "1792141750",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Около 40, экспорт с фото.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Около 40, экспорт с фото."
+    }
+   ]
+  },
+  {
+   "id": 219,
+   "type": "message",
+   "date": "2026-10-16T12:10:12",
+   "date_unixtime": "1792141812",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "а, там лимит у Render? хз",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "а, там лимит у Render? хз"
+    }
+   ]
+  },
+  {
+   "id": 220,
+   "type": "message",
+   "date": "2026-10-16T12:10:32",
+   "date_unixtime": "1792141832",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ща гляну конфиг",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ща гляну конфиг"
+    }
+   ]
+  },
+  {
+   "id": 221,
+   "type": "message",
+   "date": "2026-10-16T12:12:41",
+   "date_unixtime": "1792141961",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо. Загрузку пока заблокирую на фронте.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо. Загрузку пока заблокирую на фронте."
+    }
+   ]
+  },
+  {
+   "id": 222,
+   "type": "message",
+   "date": "2026-10-16T12:13:38",
+   "date_unixtime": "1792142018",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "нее, не блокируй, сделаю стриминг",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "нее, не блокируй, сделаю стриминг"
+    }
+   ]
+  },
+  {
+   "id": 223,
+   "type": "message",
+   "date": "2026-10-16T12:13:42",
+   "date_unixtime": "1792142022",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "изи, через час будет",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "изи, через час будет"
+    }
+   ]
+  },
+  {
+   "id": 224,
+   "type": "message",
+   "date": "2026-10-16T23:28:49",
+   "date_unixtime": "1792182529",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Спасибо, очень выручаешь.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Спасибо, очень выручаешь."
+    }
+   ]
+  },
+  {
+   "id": 225,
+   "type": "message",
+   "date": "2026-10-16T23:29:56",
+   "date_unixtime": "1792182596",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "да ладно",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "да ладно"
+    }
+   ]
+  },
+  {
+   "id": 226,
+   "type": "message",
+   "date": "2026-10-16T23:30:07",
+   "date_unixtime": "1792182607",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "тя тоже)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "тя тоже)"
+    }
+   ]
+  },
+  {
+   "id": 227,
+   "type": "message",
+   "date": "2026-10-16T23:33:00",
+   "date_unixtime": "1792182780",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Кстати, как прошёл твой тест в субботу?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Кстати, как прошёл твой тест в субботу?"
+    }
+   ]
+  },
+  {
+   "id": 228,
+   "type": "message",
+   "date": "2026-10-16T23:34:23",
+   "date_unixtime": "1792182863",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "норм, pytest весь зелёный",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "норм, pytest весь зелёный"
+    }
+   ]
+  },
+  {
+   "id": 229,
+   "type": "message",
+   "date": "2026-10-16T23:35:52",
+   "date_unixtime": "1792182952",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Здорово!",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Здорово!"
+    }
+   ]
+  },
+  {
+   "id": 230,
+   "type": "message",
+   "date": "2026-10-16T23:38:46",
+   "date_unixtime": "1792183126",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок, гоу дальше",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок, гоу дальше"
+    }
+   ]
+  },
+  {
+   "id": 231,
+   "type": "message",
+   "date": "2026-10-18T09:30:45",
+   "date_unixtime": "1792305045",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Доброе утро. Загрузка 40 мб работает, отлично.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Доброе утро. Загрузка 40 мб работает, отлично."
+    }
+   ]
+  },
+  {
+   "id": 232,
+   "type": "message",
+   "date": "2026-10-18T09:32:29",
+   "date_unixtime": "1792305149",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "утро)) ура",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "утро)) ура"
+    }
+   ]
+  },
+  {
+   "id": 233,
+   "type": "message",
+   "date": "2026-10-18T09:33:56",
+   "date_unixtime": "1792305236",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, теперь пройдусь по верстке.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, теперь пройдусь по верстке."
+    }
+   ]
+  },
+  {
+   "id": 234,
+   "type": "message",
+   "date": "2026-10-18T09:37:14",
+   "date_unixtime": "1792305434",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го, ток не ломай мне /analyze",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го, ток не ломай мне /analyze"
+    }
+   ]
+  },
+  {
+   "id": 235,
+   "type": "message",
+   "date": "2026-10-18T09:38:00",
+   "date_unixtime": "1792305480",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Не буду. Кстати, сходим на баскетбол в субботу?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Не буду. Кстати, сходим на баскетбол в субботу?"
+    }
+   ]
+  },
+  {
+   "id": 236,
+   "type": "message",
+   "date": "2026-10-18T09:38:46",
+   "date_unixtime": "1792305526",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "в субботу норм, го",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "в субботу норм, го"
+    }
+   ]
+  },
+  {
+   "id": 237,
+   "type": "message",
+   "date": "2026-10-18T09:40:28",
+   "date_unixtime": "1792305628",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, договорились.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, договорились."
+    }
+   ]
+  },
+  {
+   "id": 238,
+   "type": "message",
+   "date": "2026-10-18T11:06:52",
+   "date_unixtime": "1792310812",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста бублик опять залез на клаву и удалил коммит",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста бублик опять залез на клаву и удалил коммит"
+    }
+   ]
+  },
+  {
+   "id": 239,
+   "type": "message",
+   "date": "2026-10-18T22:45:29",
+   "date_unixtime": "1792352729",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Ха, надеюсь, ты сделал бэкап.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Ха, надеюсь, ты сделал бэкап."
+    }
+   ]
+  },
+  {
+   "id": 240,
+   "type": "message",
+   "date": "2026-10-18T22:45:51",
+   "date_unixtime": "1792352751",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ага, восстановил)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ага, восстановил)"
+    }
+   ]
+  },
+  {
+   "id": 241,
+   "type": "message",
+   "date": "2026-10-18T22:46:28",
+   "date_unixtime": "1792352788",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Отлично.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Отлично."
+    }
+   ]
+  },
+  {
+   "id": 242,
+   "type": "message",
+   "date": "2026-10-18T22:57:50",
+   "date_unixtime": "1792353470",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "тя тоже бэкап сделай)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "тя тоже бэкап сделай)"
+    }
+   ]
+  },
+  {
+   "id": 243,
+   "type": "message",
+   "date": "2026-10-18T22:59:10",
+   "date_unixtime": "1792353550",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Обязательно. Хорошего дня.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Обязательно. Хорошего дня."
+    }
+   ]
+  },
+  {
+   "id": 244,
+   "type": "message",
+   "date": "2026-10-18T22:59:40",
+   "date_unixtime": "1792353580",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "тя тоже",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "тя тоже"
+    }
+   ]
+  },
+  {
+   "id": 245,
+   "type": "message",
+   "date": "2026-10-21T21:50:28",
+   "date_unixtime": "1792608628",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Привет! Завтра хакатон, я уже почти закончил фронт.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Привет! Завтра хакатон, я уже почти закончил фронт."
+    }
+   ]
+  },
+  {
+   "id": 246,
+   "type": "message",
+   "date": "2026-10-21T21:53:50",
+   "date_unixtime": "1792608830",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "прив. я тоже почти. осталось README",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "прив. я тоже почти. осталось README"
+    }
+   ]
+  },
+  {
+   "id": 247,
+   "type": "message",
+   "date": "2026-10-21T21:58:11",
+   "date_unixtime": "1792609091",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо. Давай в 20:00 пройдём демо целиком.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо. Давай в 20:00 пройдём демо целиком."
+    }
+   ]
+  },
+  {
+   "id": 248,
+   "type": "message",
+   "date": "2026-10-21T22:00:08",
+   "date_unixtime": "1792609208",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го, норм",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го, норм"
+    }
+   ]
+  },
+  {
+   "id": 249,
+   "type": "message",
+   "date": "2026-10-21T22:00:27",
+   "date_unixtime": "1792609227",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "кста сценарий 3 минуты, мы не успеем показать всё",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "кста сценарий 3 минуты, мы не успеем показать всё"
+    }
+   ]
+  },
+  {
+   "id": 250,
+   "type": "message",
+   "date": "2026-10-21T22:04:26",
+   "date_unixtime": "1792609466",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Тогда уберу график, оставлю сравнение и пару двойников.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Тогда уберу график, оставлю сравнение и пару двойников."
+    }
+   ]
+  },
+  {
+   "id": 251,
+   "type": "message",
+   "date": "2026-10-21T22:05:59",
+   "date_unixtime": "1792609559",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок, оно круче)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок, оно круче)"
+    }
+   ]
+  },
+  {
+   "id": 252,
+   "type": "message",
+   "date": "2026-10-21T22:06:55",
+   "date_unixtime": "1792609615",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Согласен.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Согласен."
+    }
+   ]
+  },
+  {
+   "id": 253,
+   "type": "message",
+   "date": "2026-10-21T22:08:33",
+   "date_unixtime": "1792609713",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "изи",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "изи"
+    }
+   ]
+  },
+  {
+   "id": 254,
+   "type": "message",
+   "date": "2026-10-21T22:10:16",
+   "date_unixtime": "1792609816",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Спасибо за работу. Ты молодец.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Спасибо за работу. Ты молодец."
+    }
+   ]
+  },
+  {
+   "id": 255,
+   "type": "message",
+   "date": "2026-10-21T22:12:27",
+   "date_unixtime": "1792609947",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "да ладно, ты тоже",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "да ладно, ты тоже"
+    }
+   ]
+  },
+  {
+   "id": 256,
+   "type": "message",
+   "date": "2026-10-21T22:16:53",
+   "date_unixtime": "1792610213",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "😊",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "😊"
+    }
+   ]
+  },
+  {
+   "id": 257,
+   "type": "message",
+   "date": "2026-10-21T22:18:14",
+   "date_unixtime": "1792610294",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "тя ждём завтра в зале, йо",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "тя ждём завтра в зале, йо"
+    }
+   ]
+  },
+  {
+   "id": 258,
+   "type": "message",
+   "date": "2026-10-24T17:20:18",
+   "date_unixtime": "1792851618",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Доброе утро. Сегодня хакатон, немного волнуюсь.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Доброе утро. Сегодня хакатон, немного волнуюсь."
+    }
+   ]
+  },
+  {
+   "id": 259,
+   "type": "message",
+   "date": "2026-10-24T17:29:20",
+   "date_unixtime": "1792852160",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "утро. оно норм будет, всё работает",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "утро. оно норм будет, всё работает"
+    }
+   ]
+  },
+  {
+   "id": 260,
+   "type": "message",
+   "date": "2026-10-24T17:29:42",
+   "date_unixtime": "1792852182",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ща проверю прод ещё раз",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ща проверю прод ещё раз"
+    }
+   ]
+  },
+  {
+   "id": 261,
+   "type": "message",
+   "date": "2026-10-24T21:47:41",
+   "date_unixtime": "1792867661",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Хорошо, спасибо. Пойдём вместе?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Хорошо, спасибо. Пойдём вместе?"
+    }
+   ]
+  },
+  {
+   "id": 262,
+   "type": "message",
+   "date": "2026-10-24T21:48:28",
+   "date_unixtime": "1792867708",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го, встретимся в десять у входа",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го, встретимся в десять у входа"
+    }
+   ]
+  },
+  {
+   "id": 263,
+   "type": "message",
+   "date": "2026-10-24T21:49:21",
+   "date_unixtime": "1792867761",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Отлично, до встречи.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Отлично, до встречи."
+    }
+   ]
+  },
+  {
+   "id": 264,
+   "type": "message",
+   "date": "2026-10-24T21:52:10",
+   "date_unixtime": "1792867930",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок, не проспи)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок, не проспи)"
+    }
+   ]
+  },
+  {
+   "id": 265,
+   "type": "message",
+   "date": "2026-10-24T21:54:23",
+   "date_unixtime": "1792868063",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Не просплю. Кстати, Бублика возьмёшь?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Не просплю. Кстати, Бублика возьмёшь?"
+    }
+   ]
+  },
+  {
+   "id": 266,
+   "type": "message",
+   "date": "2026-10-24T21:54:57",
+   "date_unixtime": "1792868097",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ахах нее, он будет дома спать",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ахах нее, он будет дома спать"
+    }
+   ]
+  },
+  {
+   "id": 267,
+   "type": "message",
+   "date": "2026-10-24T21:56:16",
+   "date_unixtime": "1792868176",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Жаль, я бы посмотрел.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Жаль, я бы посмотрел."
+    }
+   ]
+  },
+  {
+   "id": 268,
+   "type": "message",
+   "date": "2026-10-24T21:58:24",
+   "date_unixtime": "1792868304",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "ок, в другой раз)",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "ок, в другой раз)"
+    }
+   ]
+  },
+  {
+   "id": 269,
+   "type": "message",
+   "date": "2026-10-24T22:00:03",
+   "date_unixtime": "1792868403",
+   "from": "Данила",
+   "from_id": "user1001",
+   "text": "Договорились.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Договорились."
+    }
+   ]
+  },
+  {
+   "id": 270,
+   "type": "message",
+   "date": "2026-10-24T22:00:48",
+   "date_unixtime": "1792868448",
+   "from": "Alex",
+   "from_id": "user7007",
+   "text": "го удачи нам",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "го удачи нам"
+    }
+   ]
+  }
+ ]
+}
