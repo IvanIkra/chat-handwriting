@@ -49,6 +49,6 @@ cd ../<repo>-14 && cp ../<repo>/CLAUDE.local.md ../<repo>/.env . && claude
 | `CLAUDE.local.md.example` | личное: кто я, моя зона (копия в git не попадает) |
 | `.claude/settings.json` | разрешения: git/gh без лишних вопросов, запрет пушей в main, force-push, чтения `.env` |
 | `.claude/commands/` | `/task`, `/sync`, `/ship`, `/contract`, `/status` |
-| `docs/CONTRACT.md` | шаблон контракта API |
+| `docs/CONTRACT.md` | контракт API между зонами — источник истины |
 | `.github/pull_request_template.md` | шаблон PR |
 | `setup-github.sh` | метки, приглашение напарника, squash-only, защита main |
