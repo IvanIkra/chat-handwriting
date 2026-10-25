@@ -23,7 +23,8 @@ export default function HealthBadge() {
         {useMocks && 'Моки · '}
         {state.kind === 'loading' && 'Проверяем бэкенд…'}
         {state.kind === 'ok' &&
-          `Бэкенд: ${state.health.status}, LLM: ${state.health.llm ? 'доступна' : 'нет'}`}
+          // llm — только «ключ задан»: отвечает ли LLM на самом деле, бэкенд не проверяет
+          `Бэкенд: ${state.health.status}, LLM: ${state.health.llm ? 'ключ задан' : 'без ключа'}`}
         {state.kind === 'error' && 'Бэкенд недоступен'}
       </span>
     </p>

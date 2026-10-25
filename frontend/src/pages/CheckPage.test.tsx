@@ -72,6 +72,32 @@ test('автор без данных: «мало данных», без шкал
   expect(screen.queryByRole('meter')).not.toBeInTheDocument()
 })
 
+test('текст из одних ссылок и упоминаний: «нет почерка», а не «мало данных об авторе»', async () => {
+  await renderCheck('c_7f3a9b', 'user2002')
+  await check('https://t.me/x @sasha')
+
+  expect(await screen.findByText('В тексте нет почерка')).toBeInTheDocument()
+  expect(screen.queryByText('Мало данных об авторе')).not.toBeInTheDocument()
+})
+
+test('длиннее 4096 символов: не обрезаем, счётчик в кодовых точках, отправка заблокирована', async () => {
+  const spy = vi.spyOn(api, 'checkMessage')
+  await renderCheck('c_7f3a9b', 'user2002')
+  const field = await screen.findByLabelText('Сообщение')
+
+  // 4096 эмодзи — ровно лимит, хотя text.length = 8192
+  fireEvent.change(field, { target: { value: '🔥'.repeat(4096) } })
+  expect(screen.getByText('4096 / 4096')).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Проверить' })).toBeEnabled()
+
+  fireEvent.change(field, { target: { value: '🔥'.repeat(4097) } })
+  expect(field).toHaveValue('🔥'.repeat(4097))
+  expect(screen.getByText('4097 / 4096')).toBeInTheDocument()
+  expect(screen.getByText('Слишком длинное сообщение')).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Проверить' })).toBeDisabled()
+  expect(spy).not.toHaveBeenCalled()
+})
+
 test('пустой текст не отправляется, время уходит в UTC', async () => {
   const spy = vi.spyOn(api, 'checkMessage')
   await renderCheck('c_7f3a9b', 'user2002')

@@ -44,6 +44,14 @@ export function describeError(err: unknown): ErrorView {
         reupload: false,
         retry: false,
       }
+    case 'internal':
+      // Текст бэкенда здесь общий, без подробностей — наш понятнее
+      return {
+        title: 'Ошибка на сервере',
+        message: 'Бэкенд не смог обработать запрос. Попробуйте позже.',
+        reupload: false,
+        retry: true,
+      }
     case 'network':
       return {
         title: 'Нет связи',

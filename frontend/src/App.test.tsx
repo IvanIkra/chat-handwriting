@@ -23,7 +23,7 @@ test('показывает статус бэкенда из /api/health', async 
 
   renderAt('/')
 
-  expect(await screen.findByText('Бэкенд: ok, LLM: нет')).toBeInTheDocument()
+  expect(await screen.findByText('Бэкенд: ok, LLM: без ключа')).toBeInTheDocument()
   expect(fetchMock).toHaveBeenCalledWith('/api/health', undefined)
 })
 

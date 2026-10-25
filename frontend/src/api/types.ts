@@ -7,6 +7,8 @@ export type ApiErrorCode =
   | 'not_found'
   | 'file_too_large'
   | 'validation'
+  | 'internal'
+  | 'http_error'
 
 export type ApiErrorBody = { error: { code: ApiErrorCode | string; message: string } }
 
@@ -44,7 +46,7 @@ export type StyleProfile = {
   traits: Trait[]
   top_words: string[]
   emoji: { char: string; count: number }[]
-  /** 24 доли по часам UTC, сумма = 1 */
+  /** 24 доли по часам UTC, сумма ≈ 1 (округление, отклонение до 0.002) */
   active_hours: number[]
 }
 
@@ -64,6 +66,9 @@ export type Signal = {
 
 export type CheckVerdict = 'match' | 'uncertain' | 'mismatch' | 'not_enough_data'
 
+/** Почему not_enough_data: мало сообщений у автора или в тексте нет почерка (только ссылки, @упоминания, команды, код) */
+export type CheckReason = 'few_messages' | 'no_style_text'
+
 export type CheckText = { text: string; sent_at?: string }
 
 /** Один текст или серия — от 2 до 20 сообщений подряд */
@@ -74,6 +79,8 @@ export type CheckResult = {
   /** null при verdict = not_enough_data */
   score: number | null
   verdict: CheckVerdict
+  /** Только при not_enough_data, иначе null; без поля — считать few_messages */
+  reason?: CheckReason | null
   signals: Signal[]
   explanation: string | null
   challenge_question: string | null
