@@ -41,7 +41,7 @@ export default function ChatPage() {
                 <strong>{author.name}</strong>{' '}
                 <span className="muted">{plural(author.message_count, messagesWord)}</span>
                 {!author.enough_data && (
-                  <span className="badge" title="Меньше сообщений, чем нужно для надёжного анализа">
+                  <span className="badge" title="Мало собственных сообщений для надёжного анализа: пересланные и через ботов не считаются">
                     мало данных
                   </span>
                 )}

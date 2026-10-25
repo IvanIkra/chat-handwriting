@@ -32,7 +32,7 @@ test('паспорт: черты, слова, эмодзи и ссылка на 
     'href',
     '/chats/c_7f3a9b/authors/user2002/check',
   )
-  expect(screen.queryByText(/мало сообщений/)).not.toBeInTheDocument()
+  expect(screen.queryByText(/мало собственных сообщений/)).not.toBeInTheDocument()
 })
 
 test('часы активности: 24 столбца, пик подписан, подсказка при наведении', async () => {
@@ -53,7 +53,7 @@ test('часы активности: 24 столбца, пик подписан,
 test('автор с малым числом сообщений — предупреждение', async () => {
   renderProfile('c_19ab42', 'user3005')
 
-  expect(await screen.findByText(/мало сообщений/)).toBeInTheDocument()
+  expect(await screen.findByText(/мало собственных сообщений/)).toBeInTheDocument()
 })
 
 test('неизвестный автор — предлагает загрузить заново', async () => {
