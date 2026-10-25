@@ -83,6 +83,7 @@ def test_check_mismatch_texts(fake):
     explain = next(p for p in prompts if "<message>" in p)
     assert f"<message>{SCAM}</message>" in explain
     assert "Приветствие" in explain
+    assert f"Оценка {round(result['score'] * 100)}% " in explain
     question = next(p for p in prompts if "<chat>" in p)
     fragments = question.split("<chat>\n")[1].split("\n</chat>")[0].splitlines()
     assert 0 < len(fragments) <= llm.MAX_FRAGMENTS
@@ -160,6 +161,7 @@ def test_pair_explanation(fake):
     prompt = prompt_of(messages.calls[0])
     assert "Общие редкие слова" in prompt
     assert "<example>" in prompt
+    assert f"— {round(details['pair']['score'] * 100)}%," in prompt
     # повторный запрос пары, в любом порядке, — из кэша
     client.get(f"/api/chats/{chat_id}/twins/user2003/user2002")
     assert len(messages.calls) == 1
