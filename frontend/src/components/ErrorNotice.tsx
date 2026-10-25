@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { describeError } from '../utils/errors'
+import Clawd from './Clawd'
 
 type Props = {
   error: unknown
@@ -14,11 +15,16 @@ export default function ErrorNotice({ error, showReuploadLink = true, standalone
   const reuploadLink = reupload && showReuploadLink
   return (
     <div role="alert" className={`notice danger error-notice${standalone ? ' error-notice--standalone' : ''}`}>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="9.5" />
-        <path d="M12 7.5v5.5" />
-        <path d="M12 16.5h.01" />
-      </svg>
+      {standalone ? (
+        // Целый экран с ошибкой: Clawd листает книгу в поисках ответа
+        <Clawd pose="book" scale={0.4} />
+      ) : (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9.5" />
+          <path d="M12 7.5v5.5" />
+          <path d="M12 16.5h.01" />
+        </svg>
+      )}
       <div className="error-notice__body">
         <strong className="error-notice__title">{title}</strong>
         <p className="error-notice__message">{message}</p>

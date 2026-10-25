@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type DragEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { api, ApiError } from '../api'
 import Avatar from '../components/Avatar'
+import Clawd from '../components/Clawd'
 import ErrorNotice from '../components/ErrorNotice'
 import { useApiData } from '../hooks/useApiData'
 import { MAX_UPLOAD_BYTES, tooLargeMessage } from '../utils/errors'
@@ -27,21 +28,6 @@ const MODES = [
     title: 'Двойники в чате',
     text: 'Какие аккаунты группы, скорее всего, ведёт один и тот же человек.',
     tag: 'Групповой чат',
-  },
-] as const
-
-const STEPS = [
-  {
-    title: 'Загрузите экспорт',
-    text: 'result.json из Telegram Desktop. Переписка разбирается в памяти сервера, без базы данных.',
-  },
-  {
-    title: 'Получите паспорт почерка',
-    text: 'Пунктуация, регистр, скобки и эмодзи, любимые слова, длина сообщений и часы активности.',
-  },
-  {
-    title: 'Проверьте сомнительное',
-    text: 'Оценка похожести с уликами: расхождения подсвечены прямо в тексте сообщения.',
   },
 ] as const
 
@@ -143,20 +129,12 @@ export default function UploadPage() {
     <div className="page upload">
       <section className="upload-hero">
         <div className="upload-hero__text">
-          <p className="eyebrow">Стилометрия · Telegram</p>
-          <h2 className="upload-hero__title">
-            Проверьте, <span className="upload-hero__accent">кто на самом деле</span> написал сообщение
-          </h2>
+          <Clawd pose="waving" scale={0.36} className="upload-hero__clawd" />
+          <h2 className="upload-hero__title">Кто на самом деле написал сообщение</h2>
           <p className="upload-hero__lead">
-            Аккаунт можно взломать, а один человек может писать с нескольких. Мы сверяем не аккаунт, а
-            почерк: слова, знаки, ритм и часы активности. Вердикт — вероятность с уликами, а не
-            приговор.
+            Аккаунт можно взломать, а один человек может писать с нескольких. Поэтому сверяем не аккаунт, а
+            почерк: слова, пунктуацию, эмодзи и часы, когда человек обычно пишет.
           </p>
-          <ul className="upload-hero__facts">
-            <li>Без регистрации</li>
-            <li>Данные не хранятся</li>
-            <li>Работает локально</li>
-          </ul>
         </div>
 
         <figure className="upload-specimen" aria-hidden="true">
@@ -196,6 +174,7 @@ export default function UploadPage() {
       </section>
 
       <section className="card upload-card" aria-labelledby="upload-title">
+        <Clawd pose="lurking" scale={0.5} className="upload-card__lurker" />
         <div className="upload-card__head">
           <h2 id="upload-title" className="upload-card__title">
             Загрузка экспорта
@@ -294,9 +273,8 @@ export default function UploadPage() {
 
       <section className="upload-section" aria-labelledby="upload-modes-title">
         <div className="upload-section__head">
-          <p className="eyebrow">Три режима</p>
           <h2 id="upload-modes-title" className="upload-section__title">
-            Один движок почерка — три вопроса
+            Что можно проверить
           </h2>
         </div>
         <ul className="upload-modes">
@@ -330,30 +308,9 @@ export default function UploadPage() {
         </ul>
       </section>
 
-      <section className="upload-section" aria-labelledby="upload-how-title">
-        <div className="upload-section__head">
-          <p className="eyebrow">Как это работает</p>
-          <h2 id="upload-how-title" className="upload-section__title">
-            От экспорта до вердикта за минуту
-          </h2>
-        </div>
-        <ol className="upload-steps">
-          {STEPS.map((step, i) => (
-            <li key={step.title} className="upload-step">
-              <span className="upload-step__num" aria-hidden="true">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <h3 className="upload-step__title">{step.title}</h3>
-              <p className="upload-step__text">{step.text}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
       {recent.length > 0 && (
         <section className="upload-section" aria-labelledby="upload-recent-title">
           <div className="upload-section__head">
-            <p className="eyebrow">В этом браузере</p>
             <h2 id="upload-recent-title" className="upload-section__title">
               Недавние чаты
             </h2>

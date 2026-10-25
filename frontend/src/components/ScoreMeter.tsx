@@ -1,4 +1,5 @@
 import type { CheckReason, CheckVerdict } from '../api/types'
+import Clawd, { type ClawdPose } from './Clawd'
 
 const VERDICTS: Record<CheckVerdict, { icon: string; label: string; hint: string }> = {
   match: { icon: '✓', label: 'Похоже на автора', hint: 'Почерк совпадает с перепиской' },
@@ -16,6 +17,14 @@ const NO_STYLE_TEXT = {
   icon: '…',
   label: 'В тексте нет почерка',
   hint: 'Только ссылки, @упоминания, команды или код — добавьте обычный текст',
+}
+
+/** Как Clawd реагирует на вердикт */
+const CLAWD: Record<CheckVerdict, ClawdPose> = {
+  match: 'dancing',
+  uncertain: 'magnifier',
+  mismatch: 'pointing',
+  not_enough_data: 'book',
 }
 
 type Props = {
@@ -66,10 +75,10 @@ export default function ScoreMeter({ verdict, score, reason }: Props) {
           </div>
         </div>
         <div className="verdict__text">
-          <span className="eyebrow">Вердикт по почерку</span>
           <strong className="verdict__label">{v.label}</strong>
           <p className="verdict__hint">{v.hint}</p>
         </div>
+        <Clawd pose={CLAWD[known]} scale={0.34} className="verdict__clawd" />
       </div>
       {percent !== null && (
         <div

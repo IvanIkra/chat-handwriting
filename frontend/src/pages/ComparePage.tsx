@@ -2,6 +2,7 @@ import { useEffect, useId, useState, type FormEvent } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { api } from '../api'
 import type { Chat, TwinVerdict } from '../api/types'
+import Clawd from '../components/Clawd'
 import ErrorNotice from '../components/ErrorNotice'
 import Loading from '../components/Loading'
 import { useApiData } from '../hooks/useApiData'
@@ -22,13 +23,13 @@ export default function ComparePage() {
     <div className="page compare-page">
       <header className="page-header">
         <div>
-          <p className="eyebrow">Режим · сравнение переписок</p>
           <h2>Сравнение двух чатов</h2>
           <p className="page-subtitle">
             Кто из авторов одного чата, скорее всего, тот же человек, что и автор другого: например, Саша из
             одной переписки и Alex из другой.
           </p>
         </div>
+        <Clawd pose="pointing" scale={0.42} className="page-header__clawd" />
       </header>
       {/* key — чтобы выбор сбрасывался при переходе по ссылке с другими чатами */}
       <ChatPicker
@@ -288,7 +289,6 @@ function CompareResult({ a, b, onLoaded }: { a: string; b: string; onLoaded: () 
   return (
     <section className="compare-result" aria-live="polite">
       <div className="card compare-summary">
-        <p className="eyebrow">Результат сравнения</p>
         <h3 className="compare-summary__title">
           «{chatA.title}» и «{chatB.title}»
         </h3>

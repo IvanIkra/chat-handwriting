@@ -3,6 +3,7 @@ import { api } from '../api'
 import type { Signal, TwinPair } from '../api/types'
 import Avatar from '../components/Avatar'
 import Breadcrumbs from '../components/Breadcrumbs'
+import Clawd from '../components/Clawd'
 import ErrorNotice from '../components/ErrorNotice'
 import Loading from '../components/Loading'
 import TwinsGraph from '../components/TwinsGraph'
@@ -73,13 +74,13 @@ export default function TwinsPage() {
 
       <header className="page-header">
         <div>
-          <p className="eyebrow">Поиск двойников</p>
           <h2>Это точно разные люди?</h2>
           <p className="page-subtitle">
             Сравниваем почерк каждого участника с каждым: редкие словечки, пунктуацию, ритм ответов. Если два
             аккаунта пишут как один человек и никогда не появляются одновременно — стоит присмотреться.
           </p>
         </div>
+        <Clawd pose="dancing" scale={0.42} className="page-header__clawd" />
       </header>
 
       <div className="twins-overview">
@@ -161,7 +162,6 @@ export default function TwinsPage() {
           <section className="card twins-map" aria-labelledby="twins-map-title">
             <div className="twins-section-head">
               <div>
-                <p className="eyebrow">Карта сходства</p>
                 <h3 id="twins-map-title" className="card-title">
                   Кто на кого похож
                 </h3>
@@ -171,7 +171,6 @@ export default function TwinsPage() {
           </section>
 
           <section className="twins-ranking">
-            <p className="eyebrow">Рейтинг · самые похожие сверху</p>
             <h3 className="section-title">Пары</h3>
             <ol className="twins-pairs">
               {pairs.map((pair, index) => {

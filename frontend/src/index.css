@@ -1,6 +1,6 @@
 /* =====================================================================
-   «Это точно Саша?» — дизайн-система
-   1. Токены (светлая / тёмная тема)
+   «Это точно Клавдий?» — дизайн-система в духе Claude Code
+   1. Токены (только тёмная тема)
    2. Reset и база
    3. Оболочка приложения (хедер, футер)
    4. Раскладка и типографика
@@ -10,84 +10,54 @@
    ===================================================================== */
 
 /* ---------- 1. Токены ---------- */
+/* Только тёмная тема в духе Claude Code: тёплый почти чёрный фон, глина Claude как акцент */
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
 
-  --bg: #f6f6fb;
-  --bg-elevated: #ffffff;
-  --surface-2: #f1f0f9;
-  --text: #17162a;
-  --text-muted: #646179;
+  --bg: #141413;
+  --bg-elevated: #1e1d1b;
+  --surface-2: #2a2926;
+  --text: #f0eee6;
+  --text-muted: #a8a59b;
   --muted: var(--text-muted);
-  --border: #e5e3f0;
-  --border-strong: #cfcce2;
+  --border: #33312d;
+  --border-strong: #4a4740;
 
-  --accent: #5b4cf0;
-  --accent-hover: #4a3bdc;
-  --accent-soft: #eeebff;
-  --accent-contrast: #ffffff;
+  --accent: #d97757;
+  --accent-hover: #e8896a;
+  --accent-soft: #3a2520;
+  --accent-contrast: #141413;
 
-  --good: #11805a;
-  --good-soft: #e2f5ec;
-  --warn: #9a5c00;
-  --warn-bg: #fff3da;
-  --danger: #c63129;
-  --danger-bg: #fdecea;
-  --danger-contrast: #ffffff;
+  --good: #9ab972;
+  --good-soft: #1f2717;
+  --warn: #e3b55a;
+  --warn-bg: #2d2412;
+  --danger: #ef6f62;
+  --danger-bg: #351a18;
+  --danger-contrast: #1a0b0a;
 
-  --radius: 16px;
-  --radius-sm: 10px;
-  --radius-lg: 24px;
-  --shadow-sm: 0 1px 2px rgb(23 20 60 / 6%);
-  --shadow: 0 1px 2px rgb(23 20 60 / 5%), 0 10px 30px -12px rgb(23 20 60 / 18%);
-  --shadow-lg: 0 2px 4px rgb(23 20 60 / 6%), 0 24px 48px -16px rgb(23 20 60 / 24%);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow: 0 1px 2px rgb(0 0 0 / 35%), 0 12px 32px -12px rgb(0 0 0 / 60%);
+  --shadow-lg: 0 2px 4px rgb(0 0 0 / 40%), 0 24px 48px -16px rgb(0 0 0 / 70%);
 
   --font-sans:
     system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
   --font-mono:
     ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  /* Заголовки, кнопки, навигация — моноширинным, как в терминале */
+  --font-display: var(--font-mono);
 
   --content-width: 1080px;
   --header-height: 64px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   /* Подсветка улик в тексте: три уровня силы */
-  --hl-1: color-mix(in srgb, var(--accent) 13%, transparent);
-  --hl-2: color-mix(in srgb, var(--accent) 24%, transparent);
-  --hl-3: color-mix(in srgb, var(--accent) 38%, transparent);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0d0c15;
-    --bg-elevated: #161522;
-    --surface-2: #1e1c2d;
-    --text: #edecf6;
-    --text-muted: #9d9ab4;
-    --border: #2a283e;
-    --border-strong: #3c3957;
-
-    --accent: #8b7dff;
-    --accent-hover: #a296ff;
-    --accent-soft: #231f47;
-    --accent-contrast: #100e22;
-
-    --good: #42cf92;
-    --good-soft: #10291f;
-    --warn: #f2b84b;
-    --warn-bg: #2c2210;
-    --danger: #ff6f66;
-    --danger-bg: #331a1b;
-    --danger-contrast: #1a0b0b;
-
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
-    --shadow: 0 1px 2px rgb(0 0 0 / 35%), 0 12px 32px -12px rgb(0 0 0 / 60%);
-    --shadow-lg: 0 2px 4px rgb(0 0 0 / 40%), 0 24px 48px -16px rgb(0 0 0 / 70%);
-
-    --hl-1: color-mix(in srgb, var(--accent) 20%, transparent);
-    --hl-2: color-mix(in srgb, var(--accent) 32%, transparent);
-    --hl-3: color-mix(in srgb, var(--accent) 48%, transparent);
-  }
+  --hl-1: color-mix(in srgb, var(--accent) 20%, transparent);
+  --hl-2: color-mix(in srgb, var(--accent) 32%, transparent);
+  --hl-3: color-mix(in srgb, var(--accent) 48%, transparent);
 }
 
 /* ---------- 2. Reset и база ---------- */
@@ -106,6 +76,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background: var(--bg);
+  caret-color: var(--accent);
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 16px;
@@ -142,22 +113,23 @@ h2,
 h3,
 h4 {
   margin: 0;
+  font-family: var(--font-display);
   line-height: 1.2;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
   color: var(--text);
   text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(1.9rem, 4vw, 2.6rem);
-  font-weight: 750;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 h2 {
-  font-size: clamp(1.5rem, 3vw, 1.95rem);
-  font-weight: 720;
-  letter-spacing: -0.025em;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  font-weight: 680;
+  letter-spacing: -0.02em;
 }
 
 h3 {
@@ -278,13 +250,15 @@ summary:focus-visible,
 
 .brand {
   display: inline-flex;
+  flex: none;
   align-items: center;
   gap: 10px;
   min-width: 0;
   color: var(--text);
-  font-weight: 750;
-  font-size: 1.05rem;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
   white-space: nowrap;
 }
 
@@ -295,28 +269,10 @@ summary:focus-visible,
 
 .brand__mark {
   flex: none;
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: linear-gradient(
-    135deg,
-    var(--accent),
-    color-mix(in srgb, var(--accent) 55%, var(--danger))
-  );
-  color: var(--accent-contrast);
-  box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--accent) 70%, transparent);
-  transition: transform 150ms var(--ease);
 }
 
-.brand:hover .brand__mark {
-  transform: rotate(-6deg) scale(1.04);
-}
-
-.brand__mark svg {
-  width: 20px;
-  height: 20px;
+.brand__accent {
+  color: var(--accent);
 }
 
 .brand__text {
@@ -333,9 +289,10 @@ summary:focus-visible,
 
 .app-nav a {
   padding: 6px 12px;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   color: var(--text-muted);
-  font-size: 0.93rem;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
   font-weight: 550;
   white-space: nowrap;
   transition:
@@ -352,6 +309,11 @@ summary:focus-visible,
 .app-nav a.active {
   color: var(--accent);
   background: var(--accent-soft);
+}
+
+/* Активный пункт — как выбранная строка в меню Claude Code */
+.app-nav a.active::before {
+  content: '› ';
 }
 
 .app-header__status {
@@ -372,6 +334,8 @@ summary:focus-visible,
 }
 
 .app-footer {
+  position: relative;
+  margin-top: 56px;
   border-top: 1px solid var(--border);
   background: color-mix(in srgb, var(--bg-elevated) 50%, var(--bg));
 }
@@ -397,13 +361,33 @@ summary:focus-visible,
   font-weight: 650;
 }
 
+.app-footer__motto {
+  font-family: var(--font-display);
+}
+
+/* Дорожка над линией футера: по ней ходит Clawd */
+.app-footer__stroll {
+  --stroll-size: 66px;
+
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: min(100% - 48px, var(--content-width) - 48px);
+  height: 46px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.app-footer__crab {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  animation: clawd-stroll 48s ease-in-out infinite;
+}
+
 .app-footer__motto::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-soft);
+  content: '✻';
+  color: var(--accent);
 }
 
 @media (max-width: 720px) {
@@ -460,6 +444,18 @@ summary:focus-visible,
   gap: 16px 24px;
 }
 
+/* Clawd справа от заголовка страницы; на узком экране не нужен */
+.page-header__clawd {
+  flex: none;
+  align-self: flex-end;
+}
+
+@media (max-width: 640px) {
+  .page-header__clawd {
+    display: none;
+  }
+}
+
 .page-header > :first-child {
   display: flex;
   flex-direction: column;
@@ -486,11 +482,13 @@ summary:focus-visible,
   align-items: center;
   gap: 6px;
   color: var(--accent);
+  font-family: var(--font-display);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+
 
 /* Заголовок секции: h3 и справа/рядом мелкая подпись или счётчик */
 .section-head {
@@ -505,7 +503,8 @@ summary:focus-visible,
 .section-head > h3,
 .section-title {
   margin: 0;
-  font-size: 1.25rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
   font-weight: 680;
   letter-spacing: -0.015em;
 }
@@ -604,6 +603,7 @@ summary:focus-visible,
   align-items: center;
   gap: 10px;
   margin: 0 0 14px;
+  font-family: var(--font-display);
   font-size: 1.08rem;
   font-weight: 650;
   letter-spacing: -0.01em;
@@ -685,7 +685,8 @@ summary:focus-visible,
   border-radius: var(--radius-sm);
   background: var(--bg-elevated);
   color: var(--text);
-  font-size: 0.95rem;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.2;
   text-decoration: none;
@@ -870,6 +871,7 @@ summary:focus-visible,
 
 .stat-label {
   color: var(--text-muted);
+  font-family: var(--font-display);
   font-size: 0.72rem;
   font-weight: 650;
   letter-spacing: 0.1em;
@@ -901,6 +903,8 @@ select {
 
 textarea {
   min-height: 120px;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
   line-height: 1.5;
   resize: vertical;
 }
@@ -1034,6 +1038,7 @@ legend {
 
 .dropzone__title {
   color: var(--text);
+  font-family: var(--font-display);
   font-size: 1.1rem;
   font-weight: 650;
 }
@@ -1055,6 +1060,7 @@ legend {
 
 .table th {
   color: var(--text-muted);
+  font-family: var(--font-display);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1243,7 +1249,8 @@ legend {
   border-radius: 999px;
   background: var(--bg-elevated);
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-family: var(--font-display);
+  font-size: 0.76rem;
   font-weight: 550;
   line-height: 1.3;
   white-space: nowrap;
@@ -1286,7 +1293,7 @@ legend {
   text-overflow: ellipsis;
 }
 
-/* Загрузка */
+/* Загрузка: Clawd за ноутбуком и строка статуса, как у Claude Code */
 .loading {
   display: flex;
   flex-direction: column;
@@ -1296,11 +1303,54 @@ legend {
   animation: fade-up 0.3s var(--ease) both;
 }
 
+.loading__head {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.loading__clawd {
+  flex: none;
+}
+
+.loading__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding-bottom: 6px;
+}
+
 .loading__label {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-weight: 550;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.loading__meta {
+  padding-left: 30px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+/* Текст с бегущим бликом, как «Thinking…» в Claude Code */
+.shimmer-text {
+  background: linear-gradient(
+      90deg,
+      var(--accent) 0%,
+      var(--accent) 40%,
+      #ffd2bf 50%,
+      var(--accent) 60%,
+      var(--accent) 100%
+    )
+    0 0 / 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer-text 2.2s linear infinite;
 }
 
 .loading__skeleton {
@@ -1330,34 +1380,89 @@ legend {
   width: 74%;
 }
 
+@media (max-width: 520px) {
+  .loading__clawd img {
+    width: 120px;
+    height: auto;
+  }
+}
+
+/* Спиннер Claude Code: звёздочка перебирает начертания · ✢ ✳ ✶ ✻ ✽ туда и обратно */
 .spinner {
   flex: none;
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  border: 2px solid color-mix(in srgb, var(--accent) 22%, transparent);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.75s linear infinite;
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.spinner::before {
+  content: '✻';
+  animation: claude-glyph 1.2s steps(1, end) infinite;
 }
 
 /* На залитой акцентом кнопке */
 .spinner--on-accent {
-  width: 16px;
-  height: 16px;
-  border-color: color-mix(in srgb, var(--accent-contrast) 35%, transparent);
-  border-top-color: var(--accent-contrast);
+  color: var(--accent-contrast);
 }
 
 .spinner--sm {
   width: 16px;
   height: 16px;
+  font-size: 15px;
 }
 
 .spinner--lg {
-  width: 26px;
-  height: 26px;
-  border-width: 3px;
+  width: 30px;
+  height: 30px;
+  font-size: 28px;
+}
+
+/* Маскот: гифки Clawd (компонент Clawd) — пиксели без размытия */
+.clawd {
+  display: block;
+  line-height: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.clawd img {
+  image-rendering: pixelated;
+}
+
+/* Пиксельный Clawd на SVG (компонент ClawdMark) */
+.clawd-mark {
+  overflow: visible;
+  fill: var(--accent);
+}
+
+.clawd-mark__eyes {
+  fill: var(--bg);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: clawd-blink 4.2s infinite;
+}
+
+.clawd-mark__claw,
+.clawd-mark__leg {
+  transform-box: fill-box;
+}
+
+/* Озирается: глаза бегают влево-вправо */
+.clawd-mark--search .clawd-mark__eyes {
+  animation:
+    clawd-look 3.2s steps(1, end) infinite,
+    clawd-blink 4.2s infinite;
+}
+
+.clawd-mark--search .clawd-mark__body {
+  animation: clawd-bob 1.6s steps(1, end) infinite;
 }
 
 /* Аватар с инициалами (компонент Avatar): оттенок стабилен для имени и выводится из акцента */
@@ -1495,14 +1600,7 @@ legend {
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--v-color) 30%, var(--border));
   border-radius: var(--radius-lg);
-  background:
-    radial-gradient(
-      120% 140% at 0% 0%,
-      color-mix(in srgb, var(--v-color) 14%, transparent),
-      transparent 60%
-    ),
-    var(--bg-elevated);
-  box-shadow: var(--shadow);
+  background: var(--bg-elevated);
   animation: fade-up 0.35s var(--ease) both;
 }
 
@@ -1598,6 +1696,13 @@ legend {
   height: 28px;
 }
 
+.verdict__clawd {
+  flex: none;
+  align-self: flex-end;
+  margin-left: auto;
+  animation: fade-in 0.4s 0.5s both;
+}
+
 .verdict__text {
   display: flex;
   flex-direction: column;
@@ -1612,6 +1717,7 @@ legend {
 .verdict__label {
   display: block;
   color: var(--text);
+  font-family: var(--font-display);
   font-size: clamp(1.4rem, 3.2vw, 1.85rem);
   font-weight: 750;
   letter-spacing: -0.025em;
@@ -1695,6 +1801,10 @@ legend {
   .verdict__score {
     font-size: 1.8rem;
   }
+
+  .verdict__clawd {
+    display: none;
+  }
 }
 
 /* Подсветка улик в тексте (HighlightedText) */
@@ -1748,12 +1858,6 @@ legend {
 }
 
 /* ---------- Анимации ---------- */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -1803,6 +1907,108 @@ legend {
   }
 }
 
+@keyframes claude-glyph {
+  0%,
+  100% {
+    content: '·';
+  }
+
+  10% {
+    content: '✢';
+  }
+
+  20% {
+    content: '✳';
+  }
+
+  30% {
+    content: '✶';
+  }
+
+  40% {
+    content: '✻';
+  }
+
+  50% {
+    content: '✽';
+  }
+
+  60% {
+    content: '✻';
+  }
+
+  70% {
+    content: '✶';
+  }
+
+  80% {
+    content: '✳';
+  }
+
+  90% {
+    content: '✢';
+  }
+}
+
+@keyframes shimmer-text {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -150% 0;
+  }
+}
+
+@keyframes clawd-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  95% {
+    transform: scaleY(0.15);
+  }
+}
+
+@keyframes clawd-look {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  25% {
+    translate: -1px 0;
+  }
+
+  50% {
+    translate: 0 0;
+  }
+
+  75% {
+    translate: 1px 0;
+  }
+}
+
+@keyframes clawd-bob {
+  50% {
+    translate: 0 0.5px;
+  }
+}
+
+/* Clawd ходит боком по футеру туда и обратно: краб же */
+@keyframes clawd-stroll {
+  0%,
+  100% {
+    left: 0;
+  }
+
+  50% {
+    left: calc(100% - var(--stroll-size));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1813,7 +2019,7 @@ legend {
   }
 
   /* Спиннер нужен, чтобы было видно, что идёт работа, — только медленнее */
-  .spinner {
-    animation-duration: 1.6s !important;
+  .spinner::before {
+    animation-duration: 2.4s !important;
   }
 }

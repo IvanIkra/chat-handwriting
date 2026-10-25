@@ -76,7 +76,6 @@ export default function PairPage() {
 
       <header className="page-header">
         <div>
-          <p className="eyebrow">Очная ставка</p>
           <h2>
             {a.name} и {b.name}
           </h2>
@@ -139,7 +138,6 @@ export default function PairPage() {
 
       <div className="pair-grid">
         <section className="card pair-section">
-          <p className="eyebrow">По весу в итоговой оценке</p>
           <h3>Улики</h3>
           {signals.length === 0 ? (
             <p className="muted">Общих черт почерка не нашлось.</p>
@@ -174,7 +172,6 @@ export default function PairPage() {
         </section>
 
         <section className="card pair-section pair-timeline">
-          <p className="eyebrow">Ритм переписки</p>
           <h3>Когда пишут</h3>
           <p className="pair-timeline__intro">
             С двух аккаунтов одновременно не напишешь: у одного человека они не пересекаются по времени и сменяют
@@ -207,7 +204,6 @@ export default function PairPage() {
       </div>
 
       <section className="card pair-section">
-        <p className="eyebrow">Лицом к лицу</p>
         <h3>Похожие сообщения</h3>
         {examples.length === 0 ? (
           <p className="muted">Примеров нет.</p>

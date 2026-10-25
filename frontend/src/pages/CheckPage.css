@@ -704,11 +704,6 @@ textarea.check-bubble--big {
   background: color-mix(in srgb, var(--bg-elevated) 60%, transparent);
 }
 
-.check-empty svg {
-  width: 52px;
-  height: 52px;
-}
-
 .check-empty > p {
   max-width: 42ch;
 }
