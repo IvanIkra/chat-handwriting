@@ -24,6 +24,29 @@ test('неизвестный чат или автор — not_found', async () =
   await expect(api.getProfile('c_7f3a9b', 'user0')).rejects.toMatchObject({ code: 'not_found' })
 })
 
+test('проверка серии: улики с местом в тексте — у сообщения со «срочно»', async () => {
+  const result = await api.checkMessage('c_7f3a9b', 'user2002', {
+    messages: [{ text: 'Привет!' }, { text: 'срочно займи 5000' }],
+  })
+
+  expect(result.verdict).toBe('mismatch')
+  expect(result.signals.filter((s) => s.span).every((s) => s.message === 1)).toBe(true)
+  expect(result.signals.filter((s) => !s.span).every((s) => s.message === null)).toBe(true)
+})
+
+test('проверка: 422 раньше 404, как у бэкенда', async () => {
+  await expect(api.checkMessage('c_missing', 'user0', { text: ' ' })).rejects.toMatchObject({
+    status: 422,
+    code: 'validation',
+  })
+  await expect(api.checkMessage('c_missing', 'user0', { messages: [{ text: 'один' }] })).rejects.toMatchObject({
+    status: 422,
+  })
+  await expect(
+    api.checkMessage('c_7f3a9b', 'user2002', { messages: [{ text: 'прив' }, { text: '' }] }),
+  ).rejects.toMatchObject({ status: 422 })
+})
+
 test('паспорт почерка — по примеру контракта', async () => {
   const profile = await api.getProfile('c_7f3a9b', 'user2002')
 

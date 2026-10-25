@@ -89,6 +89,46 @@ test('пустой текст не отправляется, время уход
   spy.mockRestore()
 })
 
+test('серия: поля на каждое сообщение, «Добавить» копирует время, улика подсвечена в своём сообщении', async () => {
+  const spy = vi.spyOn(api, 'checkMessage')
+  await renderCheck('c_7f3a9b', 'user2002')
+  fireEvent.click(await screen.findByRole('radio', { name: 'Несколько подряд' }))
+
+  const submit = screen.getByRole('button', { name: 'Проверить' })
+  fireEvent.change(screen.getByLabelText('Сообщение 1'), { target: { value: 'ну что' } })
+  expect(submit).toBeDisabled()
+  fireEvent.change(screen.getAllByLabelText(/Когда отправлено/)[1], { target: { value: '2026-10-26T03:12' } })
+  fireEvent.click(screen.getByRole('button', { name: '+ Добавить сообщение' }))
+  expect(screen.getAllByLabelText(/Когда отправлено/)[2]).toHaveValue('2026-10-26T03:12')
+
+  fireEvent.change(screen.getByLabelText('Сообщение 2'), { target: { value: FAKE } })
+  // Третье поле пустое — не отправляется
+  fireEvent.click(submit)
+
+  expect(await screen.findByText('Не похоже')).toBeInTheDocument()
+  expect(spy).toHaveBeenCalledWith('c_7f3a9b', 'user2002', {
+    messages: [{ text: 'ну что' }, { text: FAKE, sent_at: new Date('2026-10-26T03:12').toISOString() }],
+  })
+  const [first, second] = within(screen.getByRole('heading', { name: 'Сообщения' }).nextElementSibling as HTMLElement)
+    .getAllByRole('listitem')
+  expect(first.querySelectorAll('mark')).toHaveLength(0)
+  expect(within(second).getByText('срочно', { selector: 'mark' })).toBeInTheDocument()
+  const rare = screen.getByText('Нетипичные слова').closest('li')!
+  expect(within(rare).getByText('сообщение 2')).toBeInTheDocument()
+  spy.mockRestore()
+})
+
+test('серия: «Убрать» есть, только когда сообщений больше двух', async () => {
+  await renderCheck('c_7f3a9b', 'user2002')
+  fireEvent.click(await screen.findByRole('radio', { name: 'Несколько подряд' }))
+
+  expect(screen.queryByRole('button', { name: /Убрать/ })).not.toBeInTheDocument()
+  fireEvent.click(screen.getByRole('button', { name: '+ Добавить сообщение' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Убрать сообщение 2' }))
+
+  expect(screen.getAllByRole('textbox')).toHaveLength(2)
+})
+
 test('localToUtcIso: пустое и мусор — без времени', () => {
   expect(localToUtcIso('')).toBeUndefined()
   expect(localToUtcIso('не дата')).toBeUndefined()

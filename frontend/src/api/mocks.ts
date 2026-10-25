@@ -233,12 +233,17 @@ export function createMockApi({ delayMs = 300 }: { delayMs?: number } = {}): Api
         }
       }),
 
-    checkMessage: (chatId, authorId, { text }) =>
+    checkMessage: (chatId, authorId, body) =>
       respond(() => {
-        const author = findAuthor(chatId, authorId)
-        if (!text.trim()) {
+        // Как бэкенд: сначала тело запроса (422), потом чат и автор (404)
+        const texts = 'messages' in body ? body.messages.map((m) => m.text) : [body.text]
+        if ('messages' in body && (texts.length < 2 || texts.length > 20)) {
+          throw new ApiError(422, 'validation', 'messages: в серии от 2 до 20 сообщений')
+        }
+        if (texts.some((t) => !t.trim())) {
           throw new ApiError(422, 'validation', 'Текст сообщения пустой')
         }
+        const author = findAuthor(chatId, authorId)
         if (!author.enough_data) {
           return {
             author_id: author.id,
@@ -249,8 +254,18 @@ export function createMockApi({ delayMs = 300 }: { delayMs?: number } = {}): Api
             challenge_question: null,
           }
         }
-        const base = text.toLowerCase().includes('срочно') ? mismatchResult : matchResult
-        return { ...base, author_id: author.id }
+        if (!('messages' in body)) {
+          const base = body.text.toLowerCase().includes('срочно') ? mismatchResult : matchResult
+          return { ...base, author_id: author.id }
+        }
+        // Серия: улики с местом в тексте — у сообщения со «срочно» (или у первого), остальные — про всю серию
+        const fake = texts.findIndex((t) => t.toLowerCase().includes('срочно'))
+        const base = fake >= 0 ? mismatchResult : matchResult
+        return {
+          ...base,
+          author_id: author.id,
+          signals: base.signals.map((s) => ({ ...s, message: s.span ? Math.max(fake, 0) : null })),
+        }
       }),
 
     getTwins: (chatId) => respond(() => twinsFor(findChat(chatId))),
