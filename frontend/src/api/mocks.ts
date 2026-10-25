@@ -5,6 +5,7 @@ import type {
   Author,
   Chat,
   CheckResult,
+  Comparison,
   PairDetails,
   StyleProfile,
   TwinPair,
@@ -40,7 +41,20 @@ const groupChat: Chat = {
   authors: groupAuthors,
 }
 
-const chats: Chat[] = [personalChat, groupChat]
+// Второй личный чат — из примера Comparison в контракте
+const alexChat: Chat = {
+  id: 'c_51d0e2',
+  title: 'Alex',
+  kind: 'personal',
+  message_count: 420,
+  period: { from: '2026-09-01T10:00:00Z', to: '2026-10-24T21:05:00Z' },
+  authors: [
+    { id: 'user1001', name: 'Иван', message_count: 230, enough_data: true },
+    { id: 'user7007', name: 'Alex', message_count: 190, enough_data: true },
+  ],
+}
+
+const chats: Chat[] = [personalChat, groupChat, alexChat]
 
 const sashaProfile: StyleProfile = {
   author_id: 'user2002',
@@ -129,6 +143,19 @@ const topPairDetails: PairDetails = {
     'Оба аккаунта используют «щас» и «ваще», которых нет больше ни у кого в чате, одинаково ставят «!!». За три недели они ни разу не писали в одну и ту же минуту, а когда один замолкает, второй появляется через полминуты.',
 }
 
+const sashaAlexPair: TwinPair = {
+  a: 'user2002',
+  b: 'user7007',
+  score: 0.81,
+  verdict: 'likely_same',
+  signals: [
+    { feature: 'style', label: 'Общий почерк', expected: null, observed: 'похожи почти как две половины переписки одного человека', span: null, weight: 0.4 },
+    { feature: 'punctuation', label: 'Одинаковая пунктуация', expected: null, observed: 'без заглавных и точки в конце, «)» вместо эмодзи у обоих', span: null, weight: 0.25 },
+    { feature: 'shared_words', label: 'Общие словечки', expected: null, observed: '«кста», «ща», «ваще» — характерны для обоих', span: null, weight: 0.2 },
+    { feature: 'active_hours', label: 'Одинаковое время активности', expected: null, observed: 'оба обычно пишут 09:00–01:00 UTC', span: null, weight: 0.15 },
+  ],
+}
+
 function notFound(): never {
   throw new ApiError(404, 'not_found', 'Чат или автор не найден')
 }
@@ -149,6 +176,21 @@ function twinsFor(chat: Chat): TwinsResult {
       ? [{ a: authors[0].id, b: authors[1].id, score: 0.08, verdict: 'different', signals: [] }]
       : []
   return { chat_id: chat.id, authors, pairs, validation: null }
+}
+
+function comparisonFor(a: Chat, b: Chat): Comparison {
+  const bIds = new Set(b.authors.map((x) => x.id))
+  const shared = a.authors.filter((x) => bIds.has(x.id)).map((x) => x.id)
+  const usable = (chat: Chat) => chat.authors.filter((x) => x.enough_data && !shared.includes(x.id))
+  const pairs: TwinPair[] = usable(a).flatMap((x) =>
+    usable(b).map((y): TwinPair => {
+      if (x.id === sashaAlexPair.a && y.id === sashaAlexPair.b) return sashaAlexPair
+      if (x.id === sashaAlexPair.b && y.id === sashaAlexPair.a) return { ...sashaAlexPair, a: x.id, b: y.id }
+      return { a: x.id, b: y.id, score: 0.12, verdict: 'different', signals: [] }
+    }),
+  )
+  pairs.sort((p, q) => q.score - p.score)
+  return { a, b, shared, pairs }
 }
 
 export function createMockApi({ delayMs = 300 }: { delayMs?: number } = {}): Api {
@@ -172,7 +214,8 @@ export function createMockApi({ delayMs = 300 }: { delayMs?: number } = {}): Api
         if (!file.name.endsWith('.json')) {
           throw new ApiError(400, 'invalid_export', 'Файл не похож на экспорт Telegram')
         }
-        return file.name.startsWith('group') ? groupChat : personalChat
+        if (file.name.startsWith('group')) return groupChat
+        return file.name.startsWith('alex') ? alexChat : personalChat
       }),
 
     getChat: (chatId) => respond(() => findChat(chatId)),
@@ -227,6 +270,14 @@ export function createMockApi({ delayMs = 300 }: { delayMs?: number } = {}): Api
           timeline: { overlap_minutes: 14, median_switch_seconds: null },
           explanation: null,
         }
+      }),
+
+    compare: (aChatId, bChatId) =>
+      respond(() => {
+        if (!aChatId || !bChatId || aChatId === bChatId) {
+          throw new ApiError(422, 'validation', 'Нужны два разных чата')
+        }
+        return comparisonFor(findChat(aChatId), findChat(bChatId))
       }),
   }
 }

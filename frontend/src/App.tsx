@@ -2,6 +2,7 @@ import { Link, Route, Routes } from 'react-router-dom'
 import HealthBadge from './components/HealthBadge'
 import ChatPage from './pages/ChatPage'
 import CheckPage from './pages/CheckPage'
+import ComparePage from './pages/ComparePage'
 import NotFoundPage from './pages/NotFoundPage'
 import PairPage from './pages/PairPage'
 import ProfilePage from './pages/ProfilePage'
@@ -24,6 +25,7 @@ function App() {
         <Route path="/chats/:chatId/authors/:authorId/check" element={<CheckPage />} />
         <Route path="/chats/:chatId/twins" element={<TwinsPage />} />
         <Route path="/chats/:chatId/twins/:aId/:bId" element={<PairPage />} />
+        <Route path="/compare" element={<ComparePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </main>
