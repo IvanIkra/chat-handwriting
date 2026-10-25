@@ -1,6 +1,6 @@
-import { useState, type FormEvent, type KeyboardEvent } from 'react'
+import { useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { api, ApiError, type CheckResult } from '../api'
+import { api, ApiError, type CheckRequest, type CheckResult, type Signal } from '../api'
 import ErrorNotice from '../components/ErrorNotice'
 import Loading from '../components/Loading'
 import HighlightedText from '../components/HighlightedText'
@@ -10,15 +10,30 @@ import { localToUtcIso } from '../utils/format'
 
 /** Лимит бэкенда на длину проверяемого текста */
 const MAX_CHECK_TEXT = 4096
+/** Сколько сообщений бэкенд принимает в серии */
+const MIN_SERIES = 2
+const MAX_SERIES = 20
 
-type Checked = { text: string; result: CheckResult }
+type Mode = 'single' | 'series'
+type Draft = { id: number; text: string; sentAt: string }
+type Checked = { texts: string[]; series: boolean; result: CheckResult }
+
+/** Улики одного сообщения серии: у остальных убираем место в тексте, индексы сохраняются */
+const signalsOf = (signals: Signal[], message: number): Signal[] =>
+  signals.map((s) => (s.message === message ? s : { ...s, span: null }))
 
 export default function CheckPage() {
   const { chatId = '', authorId = '' } = useParams()
   const chat = useApiData(chatId, () => api.getChat(chatId))
 
+  const [mode, setMode] = useState<Mode>('single')
   const [text, setText] = useState('')
   const [sentAt, setSentAt] = useState('')
+  const [drafts, setDrafts] = useState<Draft[]>([
+    { id: 0, text: '', sentAt: '' },
+    { id: 1, text: '', sentAt: '' },
+  ])
+  const nextId = useRef(2)
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<unknown>(null)
   // Подсветка привязана к тексту на момент проверки, а не к тому, что сейчас в поле
@@ -31,20 +46,23 @@ export default function CheckPage() {
   if (!author) return <ErrorNotice error={new ApiError(404, 'not_found', 'Нет такого автора')} standalone />
 
   const chatPath = `/chats/${encodeURIComponent(chatId)}`
-  const canSubmit = text.trim() !== '' && !pending
+  const series = mode === 'series'
+  // Пустые поля серии не отправляем — бэкенд их не примет
+  const filled = drafts.filter((d) => d.text.trim() !== '')
+  const canSubmit = (series ? filled.length >= MIN_SERIES : text.trim() !== '') && !pending
 
   async function submit(e?: FormEvent) {
     e?.preventDefault()
     if (!canSubmit) return
-    const snapshot = text
+    const texts = series ? filled.map((d) => d.text) : [text]
+    const body: CheckRequest = series
+      ? { messages: filled.map((d) => ({ text: d.text, sent_at: localToUtcIso(d.sentAt) })) }
+      : { text, sent_at: localToUtcIso(sentAt) }
     setPending(true)
     setError(null)
     try {
-      const result = await api.checkMessage(chatId, authorId, {
-        text: snapshot,
-        sent_at: localToUtcIso(sentAt),
-      })
-      setChecked({ text: snapshot, result })
+      const result = await api.checkMessage(chatId, authorId, body)
+      setChecked({ texts, series, result })
       setActive(null)
     } catch (err) {
       setError(err)
@@ -57,7 +75,34 @@ export default function CheckPage() {
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) void submit()
   }
 
-  const utc = localToUtcIso(sentAt)
+  function updateDraft(id: number, patch: Partial<Draft>) {
+    setDrafts((list) => list.map((d) => (d.id === id ? { ...d, ...patch } : d)))
+  }
+
+  function addDraft() {
+    // Серия пишется подряд — время по умолчанию как у предыдущего сообщения
+    const last = drafts[drafts.length - 1]
+    setDrafts([...drafts, { id: nextId.current++, text: '', sentAt: last?.sentAt ?? '' }])
+  }
+
+  function switchMode(next: Mode) {
+    setMode(next)
+    setError(null)
+  }
+
+  const timeField = (value: string, onChange: (value: string) => void, hint = 'необязательно, ваше местное время') => {
+    const utc = localToUtcIso(value)
+    return (
+      <label>
+        <span>
+          Когда отправлено <span className="muted">({hint})</span>
+        </span>
+        <input type="datetime-local" value={value} onChange={(e) => onChange(e.target.value)} />
+        {utc && <span className="muted">В UTC: {utc.slice(0, 16).replace('T', ' ')}</span>}
+      </label>
+    )
+  }
+
   const result = checked?.result
   const ranked = result
     ? result.signals.map((s, i) => ({ s, i })).sort((a, b) => b.s.weight - a.s.weight)
@@ -73,22 +118,78 @@ export default function CheckPage() {
       </p>
 
       <form className="check-form" onSubmit={submit}>
-        <label>
-          Сообщение
-          <textarea
-            value={text}
-            rows={4}
-            maxLength={MAX_CHECK_TEXT}
-            placeholder="Привет! срочно займи 5000 на карту, потом объясню"
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={onKeyDown}
-          />
-        </label>
-        <label>
-          Когда отправлено <span className="muted">(необязательно, ваше местное время)</span>
-          <input type="datetime-local" value={sentAt} onChange={(e) => setSentAt(e.target.value)} />
-          {utc && <span className="muted">В UTC: {utc.slice(0, 16).replace('T', ' ')}</span>}
-        </label>
+        <fieldset className="check-mode">
+          <legend className="visually-hidden">Что проверяем</legend>
+          <label>
+            <input type="radio" name="mode" checked={!series} onChange={() => switchMode('single')} />
+            Одно сообщение
+          </label>
+          <label>
+            <input type="radio" name="mode" checked={series} onChange={() => switchMode('series')} />
+            Несколько подряд
+          </label>
+        </fieldset>
+
+        {series ? (
+          <>
+            <p className="muted">
+              Сообщения, которые «{author.name}» прислал подряд, — по серии оценка точнее: короткие реплики по
+              отдельности почти ничего не говорят. От {MIN_SERIES} до {MAX_SERIES}, пустые поля не отправляются.
+            </p>
+            <ol className="series">
+              {drafts.map((d, i) => (
+                <li key={d.id} className="series__item">
+                  <label>
+                    Сообщение {i + 1}
+                    <textarea
+                      value={d.text}
+                      rows={2}
+                      maxLength={MAX_CHECK_TEXT}
+                      placeholder={i === 0 ? 'Привет!' : i === 1 ? 'срочно займи 5000 на карту' : ''}
+                      onChange={(e) => updateDraft(d.id, { text: e.target.value })}
+                      onKeyDown={onKeyDown}
+                    />
+                  </label>
+                  {timeField(d.sentAt, (v) => updateDraft(d.id, { sentAt: v }), 'необязательно')}
+                  {drafts.length > MIN_SERIES && (
+                    <button
+                      type="button"
+                      className="link-button series__remove"
+                      aria-label={`Убрать сообщение ${i + 1}`}
+                      onClick={() => setDrafts(drafts.filter((x) => x.id !== d.id))}
+                    >
+                      Убрать
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ol>
+            <button
+              type="button"
+              className="link-button"
+              disabled={drafts.length >= MAX_SERIES}
+              onClick={addDraft}
+            >
+              + Добавить сообщение
+            </button>
+          </>
+        ) : (
+          <>
+            <label>
+              Сообщение
+              <textarea
+                value={text}
+                rows={4}
+                maxLength={MAX_CHECK_TEXT}
+                placeholder="Привет! срочно займи 5000 на карту, потом объясню"
+                onChange={(e) => setText(e.target.value)}
+                onKeyDown={onKeyDown}
+              />
+            </label>
+            {timeField(sentAt, setSentAt)}
+          </>
+        )}
+
         <button type="submit" className="button" disabled={!canSubmit}>
           {pending && <span className="spinner spinner--on-accent" aria-hidden="true" />}
           {pending ? 'Проверяем…' : 'Проверить'}
@@ -101,20 +202,35 @@ export default function CheckPage() {
         <div className="check-result" aria-live="polite">
           {/* key — чтобы анимация вердикта проигрывалась на каждой новой проверке */}
           <ScoreMeter
-            key={`${checked.text}|${result.verdict}|${result.score}`}
+            key={`${checked.texts.join('\n')}|${result.verdict}|${result.score}`}
             verdict={result.verdict}
             score={result.score}
           />
 
           {result.verdict !== 'not_enough_data' && (
             <>
-              <h3>Сообщение</h3>
-              <HighlightedText
-                text={checked.text}
-                signals={result.signals}
-                active={active}
-                onActivate={setActive}
-              />
+              <h3>{checked.series ? 'Сообщения' : 'Сообщение'}</h3>
+              {checked.series ? (
+                <ol className="series-result">
+                  {checked.texts.map((t, i) => (
+                    <li key={i}>
+                      <HighlightedText
+                        text={t}
+                        signals={signalsOf(result.signals, i)}
+                        active={active}
+                        onActivate={setActive}
+                      />
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <HighlightedText
+                  text={checked.texts[0]}
+                  signals={result.signals}
+                  active={active}
+                  onActivate={setActive}
+                />
+              )}
             </>
           )}
 
@@ -132,6 +248,9 @@ export default function CheckPage() {
                     <div className="signal__head">
                       <strong>{s.label}</strong>
                       {s.span === null && <span className="badge badge--neutral">не в тексте</span>}
+                      {checked.series && s.span !== null && typeof s.message === 'number' && (
+                        <span className="badge badge--neutral">сообщение {s.message + 1}</span>
+                      )}
                       <span className="signal__weight" aria-label={`вес ${Math.round(s.weight * 100)}%`}>
                         <span style={{ width: `${Math.round(s.weight * 100)}%` }} />
                       </span>

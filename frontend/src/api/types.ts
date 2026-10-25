@@ -58,11 +58,16 @@ export type Signal = {
   observed: string
   span: Span | null
   weight: number
+  /** При проверке серии — номер сообщения (с 0), к которому относится span; иначе null или нет поля */
+  message?: number | null
 }
 
 export type CheckVerdict = 'match' | 'uncertain' | 'mismatch' | 'not_enough_data'
 
-export type CheckRequest = { text: string; sent_at?: string }
+export type CheckText = { text: string; sent_at?: string }
+
+/** Один текст или серия — от 2 до 20 сообщений подряд */
+export type CheckRequest = CheckText | { messages: CheckText[] }
 
 export type CheckResult = {
   author_id: string

@@ -63,7 +63,8 @@ test('чаты из ссылки после сравнения запомина�
   await screen.findByRole('heading', { name: '«Alex» и «Саша»' })
 
   const first = screen.getByLabelText('Первый чат')
-  expect(within(first).getByRole('option', { name: 'Alex (личный)' })).toBeInTheDocument()
+  // Список обновляется после ответа, уже следующим рендером
+  expect(await within(first).findByRole('option', { name: 'Alex (личный)' })).toBeInTheDocument()
   expect(within(first).getByRole('option', { name: 'Саша (личный)' })).toBeInTheDocument()
   expect(JSON.parse(localStorage.getItem('recentChats') ?? '[]').map((c: { id: string }) => c.id)).toEqual([
     'c_51d0e2',
