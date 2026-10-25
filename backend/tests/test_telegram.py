@@ -13,18 +13,45 @@ def load(name: str) -> bytes:
     return (FIXTURES / name).read_bytes()
 
 
-def test_personal_chat_keeps_only_own_text_messages():
+def by_id(chat, msg_id):
+    return next(m for m in chat.messages if m.id == msg_id)
+
+
+def test_personal_chat_keeps_text_messages():
     chat = parse_export(load("personal_chat.json"))
     assert chat.title == "Саша"
     assert chat.kind == "personal"
-    # без служебного, фото без подписи и пересланного
-    assert [m.id for m in chat.messages] == [1, 2, 4, 7, 8]
+    # без служебного и фото без подписи
+    assert [m.id for m in chat.messages] == [1, 2, 4, 6, 7, 9, 10, 8]
 
 
-def test_text_entities_are_flattened():
-    chat = parse_export(load("personal_chat.json"))
-    msg = next(m for m in chat.messages if m.id == 4)
+def test_text_entities_are_flattened_and_links_cut_from_style():
+    msg = by_id(parse_export(load("personal_chat.json")), 4)
     assert msg.text == "кста глянь https://example.com ща"
+    assert msg.style_text == "кста глянь ща"
+    assert msg.has_style
+
+
+def test_forwarded_and_via_bot_are_kept_but_not_style():
+    chat = parse_export(load("personal_chat.json"))
+    forwarded = by_id(chat, 6)
+    assert forwarded.forwarded and not forwarded.via_bot
+    assert forwarded.text == "Важная новость дня"
+    assert not forwarded.has_style
+
+    via_bot = by_id(chat, 9)
+    assert via_bot.via_bot and not via_bot.forwarded
+    assert not via_bot.has_style
+
+    own = by_id(chat, 2)
+    assert not own.forwarded and not own.via_bot
+    assert own.style_text == own.text == "йо) норм"
+
+
+def test_link_only_message_has_no_style():
+    msg = by_id(parse_export(load("personal_chat.json")), 10)
+    assert msg.text == "https://t.me/example"
+    assert not msg.has_style
 
 
 def test_dates_are_utc_from_unixtime():

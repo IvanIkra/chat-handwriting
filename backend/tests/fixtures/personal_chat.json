@@ -95,6 +95,27 @@
    "from_id": "user2002",
    "text": "го завтра))",
    "text_entities": [{"type": "plain", "text": "го завтра))"}]
+  },
+  {
+   "id": 9,
+   "type": "message",
+   "date": "2025-03-03T13:00:00",
+   "date_unixtime": "1740996000",
+   "from": "Иван",
+   "from_id": "user1001",
+   "via_bot": "@examplebot",
+   "text": "🎲 Выпало: 6",
+   "text_entities": [{"type": "plain", "text": "🎲 Выпало: 6"}]
+  },
+  {
+   "id": 10,
+   "type": "message",
+   "date": "2025-03-03T14:00:00",
+   "date_unixtime": "1740999600",
+   "from": "Саша",
+   "from_id": "user2002",
+   "text": [{"type": "link", "text": "https://t.me/example"}],
+   "text_entities": [{"type": "link", "text": "https://t.me/example"}]
   }
  ]
 }
