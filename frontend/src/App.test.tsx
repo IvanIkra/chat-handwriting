@@ -37,7 +37,6 @@ test('сообщает, если бэкенд недоступен', async () =>
 
 test.each([
   ['/', 'Загрузка экспорта'],
-  ['/chats/c_7f3a9b', 'Чат и авторы'],
   ['/chats/c_7f3a9b/authors/user2002', 'Паспорт почерка'],
   ['/chats/c_7f3a9b/authors/user2002/check', 'Проверка сообщения'],
   ['/chats/c_19ab42/twins', 'Двойники'],
@@ -50,4 +49,12 @@ test.each([
 
   expect(screen.getByRole('heading', { level: 2, name: heading })).toBeInTheDocument()
   await screen.findByText('Бэкенд недоступен')
+})
+
+test('экран чата без бэкенда показывает ошибку', async () => {
+  vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')))
+
+  renderAt('/chats/c_7f3a9b')
+
+  expect(await screen.findByRole('alert')).toHaveTextContent('Бэкенд недоступен')
 })
