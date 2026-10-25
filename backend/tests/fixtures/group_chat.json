@@ -1,0 +1,69 @@
+{
+ "name": "Тестовый чат",
+ "type": "private_supergroup",
+ "id": 3000,
+ "messages": [
+  {
+   "id": 10,
+   "type": "service",
+   "date": "2025-05-10T14:59:00",
+   "date_unixtime": "1746878340",
+   "actor": "Аня",
+   "actor_id": "user3001",
+   "action": "invite_members",
+   "members": ["Катя", "Дима"],
+   "text": "",
+   "text_entities": []
+  },
+  {
+   "id": 11,
+   "type": "message",
+   "date": "2025-05-10T15:00:00",
+   "date_unixtime": "1746878400",
+   "from": "Аня",
+   "from_id": "user3001",
+   "text": "Всем привет! Обсуждаем субботу.",
+   "text_entities": [{"type": "plain", "text": "Всем привет! Обсуждаем субботу."}]
+  },
+  {
+   "id": 12,
+   "type": "message",
+   "date": "2025-05-10T15:00:40",
+   "date_unixtime": "1746878440",
+   "from": "Дима",
+   "from_id": "user3004",
+   "text": [{"type": "bold", "text": "ваще"}, " согласен!!"],
+   "text_entities": [{"type": "bold", "text": "ваще"}, {"type": "plain", "text": " согласен!!"}]
+  },
+  {
+   "id": 13,
+   "type": "message",
+   "date": "2025-05-10T15:02:00",
+   "date_unixtime": "1746878520",
+   "from": "Катя",
+   "from_id": "user3003",
+   "text": "щас гляну, ваще не помню",
+   "text_entities": [{"type": "plain", "text": "щас гляну, ваще не помню"}]
+  },
+  {
+   "id": 14,
+   "type": "message",
+   "date": "2025-05-10T15:02:30",
+   "date_unixtime": "1746878550",
+   "from": null,
+   "from_id": "user3006",
+   "text": "я тоже за",
+   "text_entities": [{"type": "plain", "text": "я тоже за"}]
+  },
+  {
+   "id": 15,
+   "type": "message",
+   "date": "2025-05-10T15:03:15",
+   "date_unixtime": "1746878595",
+   "from": "Дима_88",
+   "from_id": "user3004",
+   "text": "щас скину!!",
+   "text_entities": [{"type": "plain", "text": "щас скину!!"}]
+  }
+ ]
+}

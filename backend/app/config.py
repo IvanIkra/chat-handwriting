@@ -9,3 +9,7 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY") or None
+
+# Сколько сообщений нужно автору для надёжного анализа (Author.enough_data)
+MIN_MESSAGES = 30
+MAX_UPLOAD_BYTES = 50 * 1024 * 1024

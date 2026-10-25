@@ -1,0 +1,100 @@
+{
+ "name": "Саша",
+ "type": "personal_chat",
+ "id": 2002,
+ "messages": [
+  {
+   "id": 1,
+   "type": "message",
+   "date": "2025-03-01T12:12:00",
+   "date_unixtime": "1740820320",
+   "from": "Иван",
+   "from_id": "user1001",
+   "text": "прив, как ты?",
+   "text_entities": [{"type": "plain", "text": "прив, как ты?"}]
+  },
+  {
+   "id": 2,
+   "type": "message",
+   "date": "2025-03-01T12:13:30",
+   "date_unixtime": "1740820410",
+   "from": "Саша",
+   "from_id": "user2002",
+   "text": "йо) норм",
+   "text_entities": [{"type": "plain", "text": "йо) норм"}]
+  },
+  {
+   "id": 3,
+   "type": "service",
+   "date": "2025-03-01T12:15:00",
+   "date_unixtime": "1740820500",
+   "actor": "Саша",
+   "actor_id": "user2002",
+   "action": "phone_call",
+   "duration_seconds": 120,
+   "text": "",
+   "text_entities": []
+  },
+  {
+   "id": 4,
+   "type": "message",
+   "date": "2025-03-01T12:20:05",
+   "date_unixtime": "1740820805",
+   "from": "Саша",
+   "from_id": "user2002",
+   "text": [
+    "кста глянь ",
+    {"type": "link", "text": "https://example.com"},
+    " ща"
+   ],
+   "text_entities": [
+    {"type": "plain", "text": "кста глянь "},
+    {"type": "link", "text": "https://example.com"},
+    {"type": "plain", "text": " ща"}
+   ]
+  },
+  {
+   "id": 5,
+   "type": "message",
+   "date": "2025-03-02T21:00:00",
+   "date_unixtime": "1740938400",
+   "from": "Иван",
+   "from_id": "user1001",
+   "photo": "(File not included. Change data exporting settings to download.)",
+   "width": 1280,
+   "height": 960,
+   "text": "",
+   "text_entities": []
+  },
+  {
+   "id": 6,
+   "type": "message",
+   "date": "2025-03-02T21:01:10",
+   "date_unixtime": "1740938470",
+   "from": "Саша",
+   "from_id": "user2002",
+   "forwarded_from": "Новости",
+   "text": "Важная новость дня",
+   "text_entities": [{"type": "plain", "text": "Важная новость дня"}]
+  },
+  {
+   "id": 7,
+   "type": "message",
+   "date": "2025-03-02T21:05:00",
+   "date_unixtime": "1740938700",
+   "from": "Иван",
+   "from_id": "user1001",
+   "text": "ок, вечером созвонимся.",
+   "text_entities": [{"type": "plain", "text": "ок, вечером созвонимся."}]
+  },
+  {
+   "id": 8,
+   "type": "message",
+   "date": "2025-03-03T22:40:00",
+   "from": "Саша",
+   "from_id": "user2002",
+   "text": "го завтра))",
+   "text_entities": [{"type": "plain", "text": "го завтра))"}]
+  }
+ ]
+}
