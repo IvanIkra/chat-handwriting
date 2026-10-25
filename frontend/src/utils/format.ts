@@ -1,3 +1,5 @@
+import type { TwinVerdict } from '../api/types'
+
 /** plural(5, ['сообщение', 'сообщения', 'сообщений']) → '5 сообщений' */
 export function plural(n: number, [one, few, many]: [string, string, string]): string {
   const mod10 = n % 10
@@ -27,4 +29,10 @@ export function localToUtcIso(value: string): string | undefined {
   if (!value) return undefined
   const date = new Date(value)
   return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
+}
+
+export const twinVerdictLabel: Record<TwinVerdict, string> = {
+  likely_same: 'вероятно, один человек',
+  possible: 'возможно, один человек',
+  different: 'разные люди',
 }

@@ -570,3 +570,148 @@ header h1 a {
 .llm-block p {
   margin: 0;
 }
+
+:root {
+  --twin-same: #d92d20;
+  --twin-possible: #dc8a00;
+  --twin-different: #9aa1ab;
+  --twin-node: #2f6fde;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --twin-same: #ff6b5e;
+    --twin-possible: #f5b83d;
+    --twin-different: #6b727c;
+    --twin-node: #6c9cff;
+  }
+}
+
+.validation {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.validation p {
+  margin: 0;
+}
+
+.validation__rate {
+  font-size: 2em;
+  color: var(--accent);
+}
+
+.twins-graph {
+  margin: 16px 0 24px;
+}
+
+.twins-graph svg {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  height: auto;
+  overflow: visible;
+}
+
+.twins-graph figcaption {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.twins-graph__edge {
+  cursor: pointer;
+  outline: none;
+}
+
+.twins-graph__line {
+  stroke-linecap: round;
+  stroke: var(--twin-different);
+}
+
+.twins-graph__edge--likely_same .twins-graph__line {
+  stroke: var(--twin-same);
+}
+
+.twins-graph__edge--possible .twins-graph__line {
+  stroke: var(--twin-possible);
+}
+
+.twins-graph__edge:hover .twins-graph__line,
+.twins-graph__edge:focus-visible .twins-graph__line {
+  stroke-opacity: 1;
+  filter: drop-shadow(0 0 3px var(--accent));
+}
+
+.twins-graph__hit {
+  stroke: transparent;
+  stroke-width: 18;
+}
+
+.twins-graph__node circle {
+  fill: var(--twin-node);
+}
+
+.twins-graph__node text {
+  fill: var(--text-strong);
+  font-size: 13px;
+}
+
+.twins-graph__node--faded {
+  opacity: 0.35;
+}
+
+.twin-pairs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.twin-pair {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.twin-pair__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.twin-pair__score {
+  font-weight: 600;
+}
+
+.twin-pair__signals {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: 0.9em;
+}
+
+.twin-verdict {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.85em;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.twin-verdict--likely_same {
+  border-color: transparent;
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.twin-verdict--possible {
+  border-color: transparent;
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+
+@media (max-width: 560px) {
+  .twins-graph__node text {
+    font-size: 18px;
+  }
+}
