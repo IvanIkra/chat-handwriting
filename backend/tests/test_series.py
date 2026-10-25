@@ -51,6 +51,18 @@ def test_series_habit_match_is_not_evidence():
     assert "brackets_smile" not in {s["feature"] for s in result["signals"]}
 
 
+def test_series_evidence_without_span_has_no_message():
+    chat_id = upload_chat()
+    texts = [
+        "Привет! Переведи, пожалуйста, 3000 на карту, которую я сейчас скину",
+        "Это срочно, очень прошу тебя, потом всё объясню подробно",
+    ]
+    signals = check(chat_id, "user2002", series(texts)).json()["signals"]
+    no_span = [s for s in signals if s["span"] is None]
+    assert {s["feature"] for s in no_span} >= {"length"}
+    assert all(s["message"] is None for s in no_span)
+
+
 def test_series_active_hours_once():
     chat_id = upload_chat()
     # Саша пишет только в 10:xx UTC

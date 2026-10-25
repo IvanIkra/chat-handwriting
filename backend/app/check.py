@@ -34,6 +34,9 @@ STRENGTH_SCALE = 0.4  # сколько логитов оценки снимае�
 BASE_LOGIT_SCALE = 0.6
 MAX_BASE_LOGIT = 4.0
 MIN_BASE_LOGIT = -0.5
+# Сравнить не с кем (у остальных нет своего текста) — опираемся только на улики:
+# без улик это match, одна сильная улика опускает до mismatch
+NO_CLASSIFIER_LOGIT = 0.5
 # Серию классификатор угадывает лучше — подбирается по калибровке
 SERIES_MIN_BASE_LOGIT = -0.5
 # В серии улики по привычкам и длине суммируются по всем сообщениям, где совпадение с
@@ -163,6 +166,8 @@ def check_series(
     # по серии классификатор ошибается реже — ему можно доверять сильнее
     floor = SERIES_MIN_BASE_LOGIT if series else MIN_BASE_LOGIT
     logit = max(floor, min(MAX_BASE_LOGIT, BASE_LOGIT_SCALE * base_logit))
+    if model.classifier is None:
+        logit = NO_CLASSIFIER_LOGIT
     strengths = [STRENGTH_SCALE * min(e.llr, MAX_LLR) for e in evidence]
     score = 1 / (1 + math.exp(-(logit - sum(strengths))))
 
@@ -173,7 +178,8 @@ def check_series(
             expected=e.expected,
             observed=e.observed,
             span=list(e.span) if e.span else None,
-            message=e.message,
+            # номер сообщения — только у улик с местом в тексте, остальные про всю серию
+            message=e.message if e.span else None,
             weight=round(1 - math.exp(-s), 2),
         )
         for e, s in zip(evidence, strengths, strict=True)
