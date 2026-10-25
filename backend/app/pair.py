@@ -27,7 +27,7 @@ def pair_details(stored: StoredChat, a_id: str, b_id: str) -> PairDetails:
     analysis = twins.analyze(stored)
     pair = next((p for p in analysis.result.pairs if {p.a, p.b} == {a_id, b_id}), None)
     if a_id == b_id or pair is None:
-        raise ApiError(404, "not_found", "Такой пары нет — у одного из авторов мало сообщений")
+        raise ApiError(404, "not_found", _missing_reason(stored, a_id, b_id))
     stats = analysis.stats[(pair.a, pair.b)]
     if pair.a != a_id:
         pair = pair.model_copy(update={"a": a_id, "b": b_id})
@@ -64,6 +64,15 @@ def pair_details(stored: StoredChat, a_id: str, b_id: str) -> PairDetails:
             median_switch_seconds=round(float(np.median(switches))) if switches else None,
         ),
     )
+
+
+def _missing_reason(stored: StoredChat, a_id: str, b_id: str) -> str:
+    known = {x.id for x in stored.chat.authors}
+    if a_id not in known or b_id not in known:
+        return "Нет такого автора в чате"
+    if a_id == b_id:
+        return "Нужны два разных автора"
+    return "Такой пары нет — у одного из авторов мало сообщений"
 
 
 def _example(feature: str, a: Message, b: Message) -> PairExample:

@@ -107,6 +107,26 @@ def test_check_one_comma_is_not_mismatch():
     assert result["verdict"] != "mismatch"
 
 
+def test_check_without_classifier():
+    # Иван только пересылает — сравнить Сашу не с кем, решают одни улики
+    messages = [
+        _msg(i, "user2002", "Саша", t, 1740823200 + i * 5) for i, t in enumerate(SASHA * 10)
+    ]
+    for i, text in enumerate(IVAN):
+        msg = _msg(len(messages), "user1001", "Иван", text, 1740852000 + i * 60)
+        messages.append({**msg, "forwarded_from": "Канал"})
+    export = {"name": "Саша", "type": "personal_chat", "messages": messages}
+    resp = client.post(
+        "/api/chats",
+        files={"file": ("result.json", json.dumps(export).encode(), "application/json")},
+    )
+    chat_id = resp.json()["id"]
+    own = check(chat_id, "user2002", {"text": "кста ща гляну)"}).json()
+    assert own["verdict"] == "match"
+    scam = check(chat_id, "user2002", {"text": SCAM}).json()
+    assert scam["verdict"] == "mismatch"
+
+
 def test_check_span_in_code_points():
     chat_id = upload_chat()
     # «созвонимся» пишет Иван, но не Саша

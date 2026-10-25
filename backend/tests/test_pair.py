@@ -61,18 +61,18 @@ def test_pair_different_people():
 
 
 @pytest.mark.parametrize(
-    ("a", "b"),
+    ("a", "b", "message"),
     [
-        ("user2002", "user9999"),  # нет такого автора
-        ("user2002", "user3005"),  # у Лёши мало сообщений
-        ("user2002", "user2002"),
+        ("user2002", "user9999", "Нет такого автора в чате"),
+        ("user2002", "user3005", "Такой пары нет — у одного из авторов мало сообщений"),
+        ("user2002", "user2002", "Нужны два разных автора"),
     ],
 )
-def test_pair_not_found(a, b):
+def test_pair_not_found(a, b, message):
     chat_id = upload(group_export())
     resp = get_pair(chat_id, a, b)
     assert resp.status_code == 404
-    assert resp.json()["error"]["code"] == "not_found"
+    assert resp.json()["error"] == {"code": "not_found", "message": message}
 
 
 def test_pair_unknown_chat():
