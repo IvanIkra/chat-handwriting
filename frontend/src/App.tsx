@@ -1,4 +1,6 @@
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import Clawd from './components/Clawd'
+import ClawdMark from './components/ClawdMark'
 import ErrorBoundary from './components/ErrorBoundary'
 import HealthBadge from './components/HealthBadge'
 import ChatPage from './pages/ChatPage'
@@ -9,18 +11,6 @@ import PairPage from './pages/PairPage'
 import ProfilePage from './pages/ProfilePage'
 import TwinsPage from './pages/TwinsPage'
 import UploadPage from './pages/UploadPage'
-
-/** Знак: лупа над «пузырём» сообщения */
-function LogoMark() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h7A2.5 2.5 0 0 1 16 5.5v4A2.5 2.5 0 0 1 13.5 12H9l-3.5 3v-3H6.5" opacity="0.55" />
-      <circle cx="14.5" cy="14.5" r="4.5" />
-      <path d="m18 18 3 3" />
-      <path d="M13 14.5h3" opacity="0.8" />
-    </svg>
-  )
-}
 
 function App() {
   const location = useLocation()
@@ -33,9 +23,11 @@ function App() {
         <div className="app-header__inner">
           <Link to="/" className="brand">
             <span className="brand__mark">
-              <LogoMark />
+              <ClawdMark />
             </span>
-            <span className="brand__text">Это точно Саша?</span>
+            <span className="brand__text">
+              Это точно <span className="brand__accent">Клавдий</span>?
+            </span>
           </Link>
           <nav className="app-nav" aria-label="Основная навигация">
             <NavLink to="/" end>
@@ -64,6 +56,9 @@ function App() {
         </ErrorBoundary>
       </main>
       <footer className="app-footer">
+        <div className="app-footer__stroll" aria-hidden="true">
+          <Clawd pose="crab-walking" scale={0.25} className="app-footer__crab" />
+        </div>
         <div className="app-footer__inner">
           <span className="app-footer__motto">Интернет больше не доказательство</span>
           <span>Стилометрия: сравниваем почерк сообщения с тем, как автор пишет обычно. Это вероятность, а не приговор.</span>

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { api, ApiError, type CheckRequest, type CheckResult, type Signal } from '../api'
 import Avatar from '../components/Avatar'
 import Breadcrumbs from '../components/Breadcrumbs'
+import Clawd from '../components/Clawd'
 import ErrorNotice from '../components/ErrorNotice'
 import Loading from '../components/Loading'
 import HighlightedText from '../components/HighlightedText'
@@ -83,13 +84,6 @@ const Icon = {
     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
       <path d="M9.2 9.2a2.9 2.9 0 1 1 4.3 2.5c-.9.5-1.5 1.2-1.5 2.2v.6" />
       <circle cx="12" cy="18" r="0.6" fill="currentColor" />
-    </svg>
-  ),
-  lens: (
-    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-      <circle cx="21" cy="21" r="12" />
-      <path d="m30 30 10 10" />
-      <path d="M15 19c1-3 3.5-4.5 6-4.5M15 24.5c1.5 2 3.5 3 6 3" opacity="0.6" />
     </svg>
   ),
   close: (
@@ -534,7 +528,7 @@ export default function CheckPage() {
             </div>
           ) : (
             <div className="empty check-empty">
-              {Icon.lens}
+              <Clawd pose="magnifier" scale={0.4} />
               <h3>Здесь появится вердикт</h3>
               <p>
                 Сравним сообщение с паспортом почерка: регистр, пунктуацию, любимые слова, эмодзи и час отправки.

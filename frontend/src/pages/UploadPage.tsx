@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type DragEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { api, ApiError } from '../api'
 import Avatar from '../components/Avatar'
+import Clawd from '../components/Clawd'
 import ErrorNotice from '../components/ErrorNotice'
 import { useApiData } from '../hooks/useApiData'
 import { MAX_UPLOAD_BYTES, tooLargeMessage } from '../utils/errors'
@@ -143,6 +144,18 @@ export default function UploadPage() {
     <div className="page upload">
       <section className="upload-hero">
         <div className="upload-hero__text">
+          <div className="upload-hello">
+            <Clawd pose="waving" scale={0.36} className="upload-hello__clawd" />
+            <div className="upload-welcome">
+              <p className="upload-welcome__title">
+                <span className="upload-welcome__star" aria-hidden="true">
+                  ✻
+                </span>{' '}
+                Добро пожаловать в «Это точно Клавдий?»
+              </p>
+              <p className="upload-welcome__hint">почерк вместо аккаунта · вероятность вместо приговора</p>
+            </div>
+          </div>
           <p className="eyebrow">Стилометрия · Telegram</p>
           <h2 className="upload-hero__title">
             Проверьте, <span className="upload-hero__accent">кто на самом деле</span> написал сообщение
@@ -196,6 +209,7 @@ export default function UploadPage() {
       </section>
 
       <section className="card upload-card" aria-labelledby="upload-title">
+        <Clawd pose="lurking" scale={0.5} className="upload-card__lurker" />
         <div className="upload-card__head">
           <h2 id="upload-title" className="upload-card__title">
             Загрузка экспорта

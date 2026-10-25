@@ -6,6 +6,58 @@
 
 /* ---------- Hero ---------- */
 
+/* Приветствие как в Claude Code: машущий Clawd и рамка цвета акцента */
+.upload-hello {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  margin-bottom: 4px;
+}
+
+.upload-hello__clawd {
+  flex: none;
+}
+
+.upload-welcome {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 10px 16px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  animation: fade-up 0.4s 0.1s var(--ease) both;
+}
+
+.upload-welcome__title {
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.upload-welcome__star {
+  display: inline-block;
+  color: var(--accent);
+  animation: star-turn 6s var(--ease) infinite;
+}
+
+.upload-welcome__hint {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+@keyframes star-turn {
+  0%,
+  80% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
 .upload-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
@@ -27,10 +79,10 @@
 
 .upload-hero__title {
   margin: 0;
-  font-size: clamp(2rem, 1.2rem + 3.2vw, 3.25rem);
-  line-height: 1.05;
+  font-size: clamp(1.8rem, 1.1rem + 2.8vw, 2.9rem);
+  line-height: 1.1;
   letter-spacing: -0.03em;
-  font-weight: 750;
+  font-weight: 700;
   color: var(--text);
   text-wrap: balance;
 }
@@ -219,6 +271,7 @@
 /* ---------- Карточка загрузки ---------- */
 
 .upload-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -243,6 +296,20 @@
 
 .upload-card__intro {
   margin: 0;
+}
+
+/* Clawd выглядывает из-за правого края карточки — только там, где сбоку есть место */
+.upload-card__lurker {
+  position: absolute;
+  bottom: 28px;
+  left: 100%;
+  display: none;
+}
+
+@media (min-width: 1260px) {
+  .upload-card__lurker {
+    display: block;
+  }
 }
 
 /* База — глобальная .dropzone; здесь горизонтальная раскладка и состояния */

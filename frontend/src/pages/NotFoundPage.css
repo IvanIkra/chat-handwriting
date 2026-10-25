@@ -35,13 +35,16 @@
   color: var(--text);
 }
 
+/* Вместо нуля — Clawd, который озирается в поисках страницы */
 .notfound-code__zero {
   display: inline-block;
-  color: var(--accent);
-  text-decoration: underline;
-  text-decoration-thickness: 6px;
-  text-underline-offset: 10px;
-  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  margin: 0 0.12em;
+  vertical-align: -0.05em;
+}
+
+.notfound-code__zero .clawd-mark {
+  width: 1.1em;
+  height: auto;
 }
 
 .notfound-card .eyebrow {

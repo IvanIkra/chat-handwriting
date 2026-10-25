@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import ClawdMark from '../components/ClawdMark'
 import './NotFoundPage.css'
 
 export default function NotFoundPage() {
@@ -6,7 +7,11 @@ export default function NotFoundPage() {
     <section className="page notfound">
       <div className="card notfound-card">
         <p className="notfound-code" aria-hidden="true">
-          4<span className="notfound-code__zero">0</span>4
+          4
+          <span className="notfound-code__zero">
+            <ClawdMark mood="search" />
+          </span>
+          4
         </p>
         <p className="eyebrow">Улика не найдена</p>
         <h2 className="notfound-title">Такой страницы нет</h2>

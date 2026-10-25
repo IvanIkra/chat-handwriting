@@ -2,6 +2,7 @@ import { useEffect, useId, useState, type FormEvent } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { api } from '../api'
 import type { Chat, TwinVerdict } from '../api/types'
+import Clawd from '../components/Clawd'
 import ErrorNotice from '../components/ErrorNotice'
 import Loading from '../components/Loading'
 import { useApiData } from '../hooks/useApiData'
@@ -29,6 +30,7 @@ export default function ComparePage() {
             одной переписки и Alex из другой.
           </p>
         </div>
+        <Clawd pose="pointing" scale={0.42} className="page-header__clawd" />
       </header>
       {/* key — чтобы выбор сбрасывался при переходе по ссылке с другими чатами */}
       <ChatPicker

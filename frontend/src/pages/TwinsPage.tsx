@@ -3,6 +3,7 @@ import { api } from '../api'
 import type { Signal, TwinPair } from '../api/types'
 import Avatar from '../components/Avatar'
 import Breadcrumbs from '../components/Breadcrumbs'
+import Clawd from '../components/Clawd'
 import ErrorNotice from '../components/ErrorNotice'
 import Loading from '../components/Loading'
 import TwinsGraph from '../components/TwinsGraph'
@@ -80,6 +81,7 @@ export default function TwinsPage() {
             аккаунта пишут как один человек и никогда не появляются одновременно — стоит присмотреться.
           </p>
         </div>
+        <Clawd pose="dancing" scale={0.42} className="page-header__clawd" />
       </header>
 
       <div className="twins-overview">
