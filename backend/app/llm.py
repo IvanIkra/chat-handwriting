@@ -12,20 +12,22 @@ from concurrent.futures import ThreadPoolExecutor
 import anthropic
 
 from app import config
-from app.models import Author, CheckResult, PairDetails, Signal
+from app.models import Author, CheckResult, PairDetails, PairMessage, Signal
 from app.store import StoredChat
 
 log = logging.getLogger(__name__)
 
 MODEL = "claude-opus-5-5"
 EFFORT = "low"  # короткие тексты по готовым уликам — глубоко думать не нужно
-TIMEOUT = 20.0  # секунд; дольше пользователь ждать не будет
+# секунд на запрос, без повторов: дольше пользователь ждать не будет, а анализ уже готов
+TIMEOUT = 10.0
 MAX_TOKENS = 4000  # с запасом: модель сначала думает, потом пишет пару предложений
 MAX_TEXT = 500  # символов проверяемого текста
 MAX_FRAGMENT = 200  # символов одного сообщения переписки
 MAX_FRAGMENTS = 30
 MIN_FRAGMENT = 25  # короче — «ок» и «да», вопрос из них не составить
 MAX_EXAMPLES = 3
+MAX_NAME = 40  # имя автора идёт в промпт вне тегов-данных — обрезаем
 NO_QUESTION = "НЕТ"  # так модель отвечает, если вопрос из фрагментов не составить
 # «НЕТ», «Нет.», «**НЕТ**», «НЕТ!», «Нет, из этих фрагментов не составить»
 NO_QUESTION_RE = re.compile(rf"^\W*{NO_QUESTION}\b", re.IGNORECASE)
@@ -56,7 +58,7 @@ def _get_client() -> anthropic.Anthropic:
     global _client
     if _client is None:
         _client = anthropic.Anthropic(
-            api_key=config.ANTHROPIC_API_KEY, timeout=TIMEOUT, max_retries=1
+            api_key=config.ANTHROPIC_API_KEY, timeout=TIMEOUT, max_retries=0
         )
     return _client
 
@@ -85,6 +87,10 @@ def ask(prompt: str) -> str | None:
     except anthropic.APIError as exc:
         log.warning("Ошибка Claude API: %s", exc)
         return None
+    except Exception:
+        # что бы ни случилось, анализ уже готов — без текста LLM он не должен пропасть
+        log.exception("Неожиданная ошибка при запросе к Claude")
+        return None
     if response.stop_reason != "end_turn":
         log.warning("Claude не дописал ответ: stop_reason=%s", response.stop_reason)
         return None
@@ -108,7 +114,7 @@ def add_check_texts(
 
 def explain_check(author: Author, text: str, result: CheckResult) -> str | None:
     prompt = (
-        f"Проверяли, похоже ли сообщение на то, как обычно пишет {author.name}.\n"
+        f"Проверяли, похоже ли сообщение на то, как обычно пишет {_name(author.name)}.\n"
         f"<message>{text[:MAX_TEXT]}</message>\n"
         f"Оценка {result.score} (0 — совсем не похоже, 1 — точно похоже), "
         f"вывод: {VERDICTS[result.verdict]}.\n"
@@ -123,15 +129,16 @@ def challenge_question(stored: StoredChat, author: Author) -> str | None:
     """Вопрос, на который ответит только настоящий автор. Один на автора — кэшируется."""
     key = f"llm:question:{author.id}"
     if key not in stored.cache:
+        name = _name(author.name)
         fragments = _fragments(stored)
         if not fragments:
             return None
         prompt = (
-            f"Собеседник сомневается, что ему сейчас пишет настоящий {author.name}. Вот "
+            f"Собеседник сомневается, что ему сейчас пишет настоящий {name}. Вот "
             "фрагменты их общей переписки:\n"
             f"<chat>\n{fragments}\n</chat>\n\n"
             f"Придумай один контрольный вопрос, на который ответит только настоящий "
-            f"{author.name}: про конкретный общий случай из этих фрагментов — место, событие, "
+            f"{name}: про конкретный общий случай из этих фрагментов — место, событие, "
             "договорённость, — а не про то, что легко узнать со стороны. Ответ должен "
             "однозначно следовать из переписки. Ответь только самим вопросом, без пояснений и "
             "оговорок: одно-два предложения, начни со «Спроси», в скобках — правильный ответ, "
@@ -151,9 +158,16 @@ def explain_pair(stored: StoredChat, details: PairDetails) -> str | None:
     key = "llm:pair:" + ":".join(sorted((details.a.id, details.b.id)))
     if key not in stored.cache:
         pair = details.pair
+        a_name, b_name = _name(details.a.name), _name(details.b.name)
+        # в ответе API примеры как в переписке, а в Claude — без ссылок, телефонов и карт
+        style = {(m.author_id, m.sent_at, m.text): m.style_text for m in stored.messages}
+
+        def own(author_id: str, msg: PairMessage) -> str:
+            return style.get((author_id, msg.sent_at, msg.text), "")[:MAX_FRAGMENT]
+
         examples = "\n".join(
-            f"<example>{details.a.name}: {e.a.text[:MAX_FRAGMENT]}\n"
-            f"{details.b.name}: {e.b.text[:MAX_FRAGMENT]}</example>"
+            f"<example>{a_name}: {own(details.a.id, e.a)}\n"
+            f"{b_name}: {own(details.b.id, e.b)}</example>"
             for e in details.examples[:MAX_EXAMPLES]
         )
         timeline = details.timeline
@@ -163,7 +177,7 @@ def explain_pair(stored: StoredChat, details: PairDetails) -> str | None:
             else "друг за другом они не писали"
         )
         prompt = (
-            f"Сравнивали два аккаунта одного чата: {details.a.name} и {details.b.name}. "
+            f"Сравнивали два аккаунта одного чата: {a_name} и {b_name}. "
             f"Оценка, что это один человек, — {pair.score}, вывод: {VERDICTS[pair.verdict]}.\n"
             f"Улики за то, что это один человек:\n{_signals(pair.signals)}\n"
             f"Время: в одну и ту же минуту оба писали {timeline.overlap_minutes} раз, {switch}.\n"
@@ -176,6 +190,11 @@ def explain_pair(stored: StoredChat, details: PairDetails) -> str | None:
             return None
         stored.cache[key] = answer
     return stored.cache[key]
+
+
+def _name(name: str) -> str:
+    """Имя автора для промпта: одной строкой, без угловых скобок, не длиннее MAX_NAME."""
+    return re.sub(r"[\s<>]+", " ", name).strip()[:MAX_NAME]
 
 
 def _signals(signals: list[Signal], with_expected: bool = False) -> str:
@@ -195,6 +214,6 @@ def _fragments(stored: StoredChat) -> str:
     candidates = [m for m in stored.messages if len(m.style_text) >= MIN_FRAGMENT]
     step = max(1, len(candidates) // MAX_FRAGMENTS)
     return "\n".join(
-        f"[{m.sent_at:%d.%m.%Y}] {m.author_name}: {m.style_text[:MAX_FRAGMENT]}"
+        f"[{m.sent_at:%d.%m.%Y}] {_name(m.author_name)}: {m.style_text[:MAX_FRAGMENT]}"
         for m in candidates[::step][:MAX_FRAGMENTS]
     )
