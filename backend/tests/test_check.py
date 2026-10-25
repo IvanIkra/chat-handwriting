@@ -165,10 +165,26 @@ def test_check_not_enough_data():
         "author_id": "user1001",
         "score": None,
         "verdict": "not_enough_data",
+        "reason": "few_messages",
         "signals": [],
         "explanation": None,
         "challenge_question": None,
     }
+
+
+@pytest.mark.parametrize("text", ["https://example.com", "@sasha https://x.ru", "/start"])
+def test_check_no_style_text(text):
+    chat_id = upload_chat()
+    result = check(chat_id, "user2002", {"text": text, "sent_at": "2026-10-26T03:12:00Z"}).json()
+    assert result["verdict"] == "not_enough_data"
+    assert result["reason"] == "no_style_text"
+    assert result["score"] is None
+    assert result["signals"] == []
+
+
+def test_check_reason_null_with_verdict():
+    chat_id = upload_chat()
+    assert check(chat_id, "user2002", {"text": SCAM}).json()["reason"] is None
 
 
 @pytest.mark.parametrize("text", ["", "   \n"])

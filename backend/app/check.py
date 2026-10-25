@@ -126,17 +126,20 @@ def check_series(
 ) -> CheckResult:
     """Один текст или серия сообщений подряд: `items` — (текст, когда отправлен)."""
     if not author.enough_data:
-        return CheckResult(author_id=author.id, score=None, verdict="not_enough_data", signals=[])
+        return _not_enough_data(author, "few_messages")
+    cleans = [features.clean_text(text) for text, _ in items]
+    texts = [c for c in cleans if c]
+    # только ссылки, упоминания, команды — оценивать почерк не по чему
+    if not texts:
+        return _not_enough_data(author, "no_style_text")
     chat = chat_model(stored)
     model = author_model(stored, author.id)
     series = len(items) > 1
-    cleans = [features.clean_text(text) for text, _ in items]
-    texts = [c for c in cleans if c]
 
     # классификатор учили на отдельных сообщениях — так и спрашиваем; по серии логиты
     # складываются, но сообщения подряд зависимы, поэтому средний логит × √n, а не сумма
     base_logit = 0.0
-    if texts and model.classifier is not None:
+    if model.classifier is not None:
         probs = model.classifier.predict_proba(chat.vectorizer.transform(texts))[:, 1]
         logits = np.log(probs / (1 - probs))
         base_logit = float(logits.mean() * math.sqrt(len(texts)))
@@ -187,6 +190,12 @@ def check_series(
     signals.sort(key=lambda s: s.weight, reverse=True)
     return CheckResult(
         author_id=author.id, score=round(score, 2), verdict=_verdict(score), signals=signals
+    )
+
+
+def _not_enough_data(author: Author, reason: str) -> CheckResult:
+    return CheckResult(
+        author_id=author.id, score=None, verdict="not_enough_data", reason=reason, signals=[]
     )
 
 

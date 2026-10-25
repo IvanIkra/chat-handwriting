@@ -101,6 +101,8 @@ class CheckResult(BaseModel):
     author_id: str
     score: float | None
     verdict: Literal["match", "uncertain", "mismatch", "not_enough_data"]
+    # почему not_enough_data; при остальных вердиктах — None
+    reason: Literal["few_messages", "no_style_text"] | None = None
     signals: list[Signal]
     explanation: str | None = None
     challenge_question: str | None = None

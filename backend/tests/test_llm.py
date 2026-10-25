@@ -141,6 +141,16 @@ def test_no_key_no_calls(fake, monkeypatch):
     assert messages.calls == []
 
 
+def test_no_style_text_no_calls(fake):
+    messages = fake(reply("не должно прийти"))
+    chat_id = upload_chat()
+    result = check(chat_id, "user2002", {"text": "https://example.com"}).json()
+    assert result["reason"] == "no_style_text"
+    assert result["explanation"] is None
+    assert result["challenge_question"] is None
+    assert messages.calls == []
+
+
 def test_pair_explanation(fake):
     messages = fake(reply("Это один человек: те же словечки."))
     chat_id = upload(group_export())
