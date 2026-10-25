@@ -1,4 +1,5 @@
 import { expect, test } from 'vitest'
+import { sliceSpan } from '../utils/span'
 import { createMockApi } from './mocks'
 
 const api = createMockApi({ delayMs: 0 })
@@ -40,6 +41,14 @@ test('проверка: «срочно» — mismatch, обычный текст
   expect(fake.verdict).toBe('mismatch')
   expect(fake.challenge_question).not.toBeNull()
   expect(real.verdict).toBe('match')
+})
+
+test('span в мок-ответе указывают на фрагменты текста из контракта', async () => {
+  const text = 'Привет! срочно займи 5000 на карту, потом объясню'
+  const res = await api.checkMessage('c_7f3a9b', 'user2002', { text })
+
+  const fragments = res.signals.flatMap((s) => (s.span ? [sliceSpan(text, s.span)] : []))
+  expect(fragments).toEqual(['Привет!', 'П', 'срочно'])
 })
 
 test('проверка автора без данных — not_enough_data', async () => {
