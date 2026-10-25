@@ -43,7 +43,8 @@ test('часы активности: 24 столбца, пик подписан,
   // В примере контракта максимум 0.08 впервые в 18:00
   expect(screen.getByRole('img', { name: /пик в 18:00 UTC/ })).toBeInTheDocument()
 
-  fireEvent.pointerEnter(screen.getByLabelText('03:00 UTC — 0% сообщений'))
+  // Зона наведения — только для мыши, без подписи: берём полосу 03:00 по порядку
+  fireEvent.pointerEnter(container.querySelectorAll('.hours-chart__hit')[3])
   expect(screen.getByRole('tooltip')).toHaveTextContent('03:00 0%')
 
   const table = screen.getByRole('table')

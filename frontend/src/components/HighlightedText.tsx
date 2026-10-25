@@ -4,9 +4,9 @@ import { segmentText } from '../utils/highlight'
 type Props = {
   text: string
   signals: Signal[]
-  /** Улика, на которую сейчас навели — в тексте или в списке */
-  active: number | null
-  onActivate: (index: number | null) => void
+  /** Улики, на которые сейчас навели или поставили фокус — в тексте или в списке; пусто — ни одной */
+  active: number[]
+  onActivate: (indices: number[]) => void
 }
 
 /** Сила подсветки по весу: заметная даже у лёгкой улики, но без «кричащих» блоков */
@@ -19,7 +19,8 @@ export default function HighlightedText({ text, signals, active, onActivate }: P
     <p className="highlighted">
       {segments.map((seg, k) => {
         if (seg.signals.length === 0) return <span key={k}>{seg.text}</span>
-        const isActive = active !== null && seg.signals.includes(active)
+        // Span'ы перекрываются: фрагмент активен, если активна любая из его улик
+        const isActive = seg.signals.some((i) => active.includes(i))
         const labels = seg.signals.map((i) => signals[i].label).join(', ')
         return (
           <mark
@@ -28,10 +29,10 @@ export default function HighlightedText({ text, signals, active, onActivate }: P
             className={`hl hl--${level(seg.weight)}${isActive ? ' hl--active' : ''}`}
             title={labels}
             aria-label={`${seg.text} — ${labels}`}
-            onPointerEnter={() => onActivate(seg.signals[0])}
-            onPointerLeave={() => onActivate(null)}
-            onFocus={() => onActivate(seg.signals[0])}
-            onBlur={() => onActivate(null)}
+            onPointerEnter={() => onActivate(seg.signals)}
+            onPointerLeave={() => onActivate([])}
+            onFocus={() => onActivate(seg.signals)}
+            onBlur={() => onActivate([])}
           >
             {seg.text}
           </mark>

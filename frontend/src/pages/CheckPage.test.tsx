@@ -55,6 +55,36 @@ test('наведение на подсветку выделяет улику в 
   expect(screen.getByText('Нетипичные слова').closest('li')).toHaveClass('signal--active')
 })
 
+test('фрагмент под несколькими уликами выделяет их все', async () => {
+  await renderCheck('c_7f3a9b', 'user2002')
+  await check(FAKE)
+  await screen.findByText('Не похоже')
+
+  // «П» входит и в «Привет!», и в заглавную букву
+  fireEvent.pointerEnter(screen.getByText('П', { selector: 'mark' }))
+
+  expect(screen.getByText('Приветствие').closest('li')).toHaveClass('signal--active')
+  expect(screen.getByText('Заглавная буква в начале').closest('li')).toHaveClass('signal--active')
+  expect(screen.getByText('Нетипичные слова').closest('li')).not.toHaveClass('signal--active')
+})
+
+test('улику из списка можно выбрать с клавиатуры — фрагмент подсвечивается', async () => {
+  await renderCheck('c_7f3a9b', 'user2002')
+  await check(FAKE)
+  await screen.findByText('Не похоже')
+
+  const item = screen.getByText('Нетипичные слова').closest('li')!
+  expect(item).toHaveAttribute('tabindex', '0')
+  fireEvent.focus(item)
+
+  expect(item).toHaveClass('signal--active')
+  expect(screen.getByText('срочно', { selector: 'mark' })).toHaveClass('hl--active')
+  expect(screen.getByText('ривет!', { selector: 'mark' })).not.toHaveClass('hl--active')
+
+  fireEvent.blur(item)
+  expect(screen.getByText('срочно', { selector: 'mark' })).not.toHaveClass('hl--active')
+})
+
 test('настоящее сообщение: «похоже», блоков LLM нет', async () => {
   await renderCheck('c_7f3a9b', 'user2002')
   await check('го в кино)')

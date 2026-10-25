@@ -80,7 +80,8 @@ export default function ActiveHoursChart({ hours }: Props) {
                 {pct(peakBar.v)}
               </text>
             )}
-            {/* Зона наведения — вся полоса часа, а не только закрашенный столбец */}
+            {/* Зона наведения — вся полоса часа, а не только закрашенный столбец.
+                Только для мыши: внутри role="img" читалки её не видят, с клавиатуры часы — в таблице ниже */}
             {bars.map((b) => (
               <rect
                 key={b.h}
@@ -89,12 +90,8 @@ export default function ActiveHoursChart({ hours }: Props) {
                 y={0}
                 width={BAND}
                 height={baseline}
-                tabIndex={0}
-                aria-label={`${hourLabel(b.h)} UTC — ${pct(b.v)} сообщений`}
                 onPointerEnter={() => setActive(b.h)}
                 onPointerLeave={() => setActive(null)}
-                onFocus={() => setActive(b.h)}
-                onBlur={() => setActive(null)}
               />
             ))}
           </svg>
