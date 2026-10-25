@@ -30,6 +30,8 @@ async def _http_error(_: Request, exc: StarletteHTTPException) -> JSONResponse:
 async def _validation_error(_: Request, exc: RequestValidationError) -> JSONResponse:
     parts = []
     for err in exc.errors():
+        if err.get("type") == "json_invalid":
+            return error_response(422, "validation", "Тело запроса — не JSON")
         loc = ".".join(str(p) for p in err.get("loc", ()) if p != "body")
         parts.append(f"{loc}: {err.get('msg')}" if loc else str(err.get("msg")))
     return error_response(422, "validation", "; ".join(parts) or "Неверное тело запроса")
