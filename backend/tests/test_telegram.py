@@ -85,3 +85,37 @@ def test_group_chat():
 def test_invalid_exports(raw):
     with pytest.raises(InvalidExport):
         parse_export(raw)
+
+
+def _one_message(**extra) -> bytes:
+    msg = {
+        "id": 1,
+        "type": "message",
+        "date_unixtime": "1740820320",
+        "from": "Саша",
+        "from_id": "user1",
+        "text": "привет",
+        **extra,
+    }
+    return json.dumps({"name": "Чат", "type": "personal_chat", "messages": [msg]}).encode()
+
+
+@pytest.mark.parametrize(
+    "extra",
+    [
+        {"forwarded_from": None, "forwarded_from_id": "user9"},  # отправитель скрыл профиль
+        {"forwarded_from": None},
+        {"forwarded_from_id": "channel5"},
+    ],
+)
+def test_forwarded_with_hidden_sender_is_not_style(extra):
+    [msg] = parse_export(_one_message(**extra)).messages
+    assert msg.forwarded
+    assert not msg.has_style
+
+
+def test_mention_name_is_cut_from_style():
+    text = [{"type": "mention_name", "text": "Аркадий", "user_id": 5}, " ща гляну"]
+    [msg] = parse_export(_one_message(text=text)).messages
+    assert msg.text == "Аркадий ща гляну"
+    assert msg.style_text == "ща гляну"

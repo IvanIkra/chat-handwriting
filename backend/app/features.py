@@ -18,13 +18,20 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 WORD_RE = re.compile(r"[a-zа-яё]+(?:-[a-zа-яё]+)*", re.IGNORECASE)
 LATIN_WORD_RE = re.compile(r"\b[a-z]{2,}\b", re.IGNORECASE)
 CAPS_WORD_RE = re.compile(r"\b[A-ZА-ЯЁ]{3,}\b")
+_EMOJI_BASE = (
+    "[\U0001f300-\U0001f5ff\U0001f600-\U0001f64f\U0001f680-\U0001f6ff\U0001f900-\U0001faff☀-➿⭐⭕]"
+)
+_EMOJI_MODS = "[\ufe0f\U0001f3fb-\U0001f3ff]*"  # вариант-селектор и оттенок кожи
+# Эмодзи целиком: флаг из двух букв, база с оттенком, склейки через ZWJ (👍🏽, 🇷🇺, 👨‍💻)
 EMOJI_RE = re.compile(
-    "[\U0001f1e6-\U0001f1ff\U0001f300-\U0001f5ff\U0001f600-\U0001f64f\U0001f680-\U0001f6ff"
-    "\U0001f900-\U0001faff☀-➿⭐⭕]"
+    f"[\U0001f1e6-\U0001f1ff]{{2}}|{_EMOJI_BASE}{_EMOJI_MODS}(?:\u200d{_EMOJI_BASE}{_EMOJI_MODS})*"
 )
 SPACE_BEFORE_PUNCT_RE = re.compile(r"\w [?!,]")
-# Ссылки, @упоминания и /команды — не почерк
-NOISE_RE = re.compile(r"https?://\S+|www\.\S+|\b[\w-]+\.(?:me|ru|com|be|org|io)/\S*|[@/]\w+")
+# Ссылки, почта, @упоминания и /команды — не почерк; «и/или» и «1/2» — почерк
+NOISE_RE = re.compile(
+    r"https?://\S+|www\.\S+|\b[\w-]+\.(?:me|ru|com|be|org|io)/\S*|[\w.+-]+@[\w-]+\.[\w.]+"
+    r"|(?<!\w)[@/]\w+"
+)
 LAUGH_RE = re.compile(r"(?:а?х+а+)+х*|(?:х?а+х+)+а*")
 SHORT_MESSAGE_CHARS = 20
 LONG_MESSAGE_WORDS = 5
