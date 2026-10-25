@@ -60,6 +60,6 @@ test('неизвестный автор — предлагает загрузи�
   renderProfile('c_7f3a9b', 'user0')
 
   const alert = await screen.findByRole('alert')
-  expect(alert).toHaveTextContent('Чат не найден')
+  expect(alert).toHaveTextContent('нет такого автора')
   expect(within(alert).getByRole('link', { name: 'Загрузить файл заново' })).toBeInTheDocument()
 })

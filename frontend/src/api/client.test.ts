@@ -26,6 +26,21 @@ test('ответ без тела ошибки — код unknown', async () => {
   await expect(httpApi.getHealth()).rejects.toMatchObject({ status: 500, code: 'unknown' })
 })
 
+test('502 от прокси без тела по контракту — код network', async () => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn().mockResolvedValue(new Response('Bad Gateway', { status: 502, headers: { 'Content-Type': 'text/plain' } })),
+  )
+
+  await expect(httpApi.getHealth()).rejects.toMatchObject({ status: 502, code: 'network' })
+})
+
+test('503 с телом по контракту сохраняет код бэкенда', async () => {
+  stubFetch(503, { error: { code: 'http_error', message: 'Занято' } })
+
+  await expect(httpApi.getHealth()).rejects.toMatchObject({ status: 503, code: 'http_error' })
+})
+
 test('сетевой сбой — код network', async () => {
   vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')))
 
