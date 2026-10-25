@@ -2,6 +2,7 @@ import { useState, type FormEvent, type KeyboardEvent } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api, ApiError, type CheckResult } from '../api'
 import ErrorNotice from '../components/ErrorNotice'
+import Loading from '../components/Loading'
 import HighlightedText from '../components/HighlightedText'
 import ScoreMeter from '../components/ScoreMeter'
 import { useApiData } from '../hooks/useApiData'
@@ -21,10 +22,10 @@ export default function CheckPage() {
   const [checked, setChecked] = useState<Checked | null>(null)
   const [active, setActive] = useState<number | null>(null)
 
-  if (chat.kind === 'loading') return <p>Загружаем чат…</p>
-  if (chat.kind === 'error') return <ErrorNotice error={chat.error} />
+  if (chat.kind === 'loading') return <Loading>Загружаем чат…</Loading>
+  if (chat.kind === 'error') return <ErrorNotice error={chat.error} standalone />
   const author = chat.data.authors.find((a) => a.id === authorId)
-  if (!author) return <ErrorNotice error={new ApiError(404, 'not_found', 'Нет такого автора')} />
+  if (!author) return <ErrorNotice error={new ApiError(404, 'not_found', 'Нет такого автора')} standalone />
 
   const chatPath = `/chats/${encodeURIComponent(chatId)}`
   const canSubmit = text.trim() !== '' && !pending
@@ -85,6 +86,7 @@ export default function CheckPage() {
           {utc && <span className="muted">В UTC: {utc.slice(0, 16).replace('T', ' ')}</span>}
         </label>
         <button type="submit" className="button" disabled={!canSubmit}>
+          {pending && <span className="spinner spinner--on-accent" aria-hidden="true" />}
           {pending ? 'Проверяем…' : 'Проверить'}
         </button>
       </form>
@@ -93,7 +95,12 @@ export default function CheckPage() {
 
       {checked && result && (
         <div className="check-result" aria-live="polite">
-          <ScoreMeter verdict={result.verdict} score={result.score} />
+          {/* key — чтобы анимация вердикта проигрывалась на каждой новой проверке */}
+          <ScoreMeter
+            key={`${checked.text}|${result.verdict}|${result.score}`}
+            verdict={result.verdict}
+            score={result.score}
+          />
 
           {result.verdict !== 'not_enough_data' && (
             <>

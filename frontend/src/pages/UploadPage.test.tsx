@@ -1,13 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { expect, test, vi } from 'vitest'
+import { afterEach, expect, test, vi } from 'vitest'
 import { api } from '../api'
+import { rememberChat } from '../utils/recentChats'
 import UploadPage from './UploadPage'
 
 vi.mock('../api', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../api')>()
   const { createMockApi } = await import('../api/mocks')
   return { ...actual, api: createMockApi({ delayMs: 0 }) }
+})
+
+afterEach(() => {
+  localStorage.clear()
 })
 
 function renderUpload() {
@@ -47,4 +52,19 @@ test('файл больше 50 МБ не отправляется', async () => 
 
   expect(await screen.findByRole('alert')).toHaveTextContent('больше 50 МБ')
   expect(spy).not.toHaveBeenCalled()
+})
+
+test('без истории блока «Недавние чаты» нет', () => {
+  renderUpload()
+  expect(screen.queryByRole('heading', { name: 'Недавние чаты' })).not.toBeInTheDocument()
+})
+
+test('недавние чаты: ссылки на чаты и на сравнение', async () => {
+  rememberChat(await api.getChat('c_7f3a9b'))
+  rememberChat(await api.getChat('c_19ab42'))
+  renderUpload()
+
+  expect(screen.getByRole('link', { name: 'Двор на Лесной' })).toHaveAttribute('href', '/chats/c_19ab42')
+  expect(screen.getByRole('link', { name: 'Саша' })).toHaveAttribute('href', '/chats/c_7f3a9b')
+  expect(screen.getByRole('link', { name: 'Сравнить два чата →' })).toHaveAttribute('href', '/compare')
 })

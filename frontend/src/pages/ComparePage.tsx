@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { api } from '../api'
 import type { Chat } from '../api/types'
 import ErrorNotice from '../components/ErrorNotice'
+import Loading from '../components/Loading'
 import { useApiData } from '../hooks/useApiData'
 import { messagesWord, plural, twinVerdictLabel } from '../utils/format'
 import { loadRecentChats, rememberChat, type RecentChat } from '../utils/recentChats'
@@ -119,8 +120,8 @@ function ChatPicker(props: PickerProps) {
 function CompareResult({ a, b }: { a: string; b: string }) {
   const state = useApiData(`${a}/${b}`, () => api.compare(a, b))
 
-  if (state.kind === 'loading') return <p>Сравниваем почерки…</p>
-  if (state.kind === 'error') return <ErrorNotice error={state.error} />
+  if (state.kind === 'loading') return <Loading>Сравниваем почерки…</Loading>
+  if (state.kind === 'error') return <ErrorNotice error={state.error} standalone />
 
   const { shared } = state.data
   const chatA = state.data.a

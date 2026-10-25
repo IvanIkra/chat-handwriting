@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import type { TwinPair } from '../api/types'
 import ErrorNotice from '../components/ErrorNotice'
+import Loading from '../components/Loading'
 import TwinsGraph from '../components/TwinsGraph'
 import { useApiData } from '../hooks/useApiData'
 import { plural, twinVerdictLabel } from '../utils/format'
@@ -12,8 +13,8 @@ export default function TwinsPage() {
   const { chatId = '' } = useParams()
   const state = useApiData(chatId, () => api.getTwins(chatId))
 
-  if (state.kind === 'loading') return <p>Сравниваем почерки участников…</p>
-  if (state.kind === 'error') return <ErrorNotice error={state.error} />
+  if (state.kind === 'loading') return <Loading>Сравниваем почерки участников…</Loading>
+  if (state.kind === 'error') return <ErrorNotice error={state.error} standalone />
 
   const { authors, validation } = state.data
   const pairs = [...state.data.pairs].sort((x, y) => y.score - x.score)

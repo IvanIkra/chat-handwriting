@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import ErrorNotice from '../components/ErrorNotice'
+import Loading from '../components/Loading'
 import { useApiData } from '../hooks/useApiData'
 import { formatDate, messagesWord, plural } from '../utils/format'
 import { rememberChat } from '../utils/recentChats'
@@ -14,8 +15,8 @@ export default function ChatPage() {
     if (state.kind === 'ok') rememberChat(state.data)
   }, [state])
 
-  if (state.kind === 'loading') return <p>Загружаем чат…</p>
-  if (state.kind === 'error') return <ErrorNotice error={state.error} />
+  if (state.kind === 'loading') return <Loading>Загружаем чат…</Loading>
+  if (state.kind === 'error') return <ErrorNotice error={state.error} standalone />
 
   const chat = state.data
   const base = `/chats/${encodeURIComponent(chat.id)}`

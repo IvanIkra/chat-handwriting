@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import ActiveHoursChart from '../components/ActiveHoursChart'
 import ErrorNotice from '../components/ErrorNotice'
+import Loading from '../components/Loading'
 import { useApiData } from '../hooks/useApiData'
 import { messagesWord, plural } from '../utils/format'
 
@@ -9,8 +10,8 @@ export default function ProfilePage() {
   const { chatId = '', authorId = '' } = useParams()
   const state = useApiData(`${chatId}/${authorId}`, () => api.getProfile(chatId, authorId))
 
-  if (state.kind === 'loading') return <p>Собираем паспорт почерка…</p>
-  if (state.kind === 'error') return <ErrorNotice error={state.error} />
+  if (state.kind === 'loading') return <Loading>Собираем паспорт почерка…</Loading>
+  if (state.kind === 'error') return <ErrorNotice error={state.error} standalone />
 
   const profile = state.data
   const chatPath = `/chats/${encodeURIComponent(chatId)}`
