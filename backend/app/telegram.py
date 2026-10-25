@@ -70,8 +70,8 @@ def parse_export(raw: bytes) -> ParsedChat:
         raise InvalidExport("В чате нет текстовых сообщений")
     messages.sort(key=lambda m: m.sent_at)
 
-    kind = "personal" if data.get("type") in PERSONAL_TYPES else "group"
-    title = data.get("name") or "Без названия"
+    kind = "personal" if _str(data.get("type")) in PERSONAL_TYPES else "group"
+    title = _str(data.get("name")) or "Без названия"
     return ParsedChat(title=title, kind=kind, messages=messages)
 
 
@@ -79,8 +79,9 @@ def _parse_message(msg: Any) -> Message | None:
     """Текстовое сообщение или None, если его нужно пропустить (служебное, пустое)."""
     if not isinstance(msg, dict) or msg.get("type") != "message":
         return None
+    msg_id = _int(msg.get("id"))
     author_id = msg.get("from_id")
-    if not author_id:
+    if msg_id is None or not author_id or not isinstance(author_id, str | int):
         return None
     text = _flatten_text(msg.get("text")).strip()
     if not text:
@@ -98,15 +99,29 @@ def _parse_message(msg: Any) -> Message | None:
         style_text = re.sub(r" {2,}", " ", style_text).strip()
 
     return Message(
-        id=int(msg.get("id", 0)),
+        id=msg_id,
         author_id=str(author_id),
-        author_name=msg.get("from") or DELETED_AUTHOR_NAME,
+        author_name=_str(msg.get("from")) or DELETED_AUTHOR_NAME,
         text=text,
         sent_at=sent_at,
         forwarded=forwarded,
         via_bot=via_bot,
         style_text=style_text,
     )
+
+
+def _str(value: Any) -> str:
+    """Строка из экспорта или пустая строка, если там что-то другое."""
+    return value if isinstance(value, str) else ""
+
+
+def _int(value: Any) -> int | None:
+    if isinstance(value, bool):
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError, OverflowError):
+        return None
 
 
 def _flatten_text(text: Any, skip: set[str] | frozenset[str] = frozenset()) -> str:
@@ -137,7 +152,8 @@ def _parse_date(msg: dict) -> datetime | None:
     if unixtime is not None:
         try:
             return datetime.fromtimestamp(int(unixtime), UTC)
-        except (TypeError, ValueError, OverflowError):
+        # OSError — дата за пределами того, что умеет ОС (на macOS — огромный unixtime)
+        except (TypeError, ValueError, OverflowError, OSError):
             pass
     date = msg.get("date")
     if isinstance(date, str):

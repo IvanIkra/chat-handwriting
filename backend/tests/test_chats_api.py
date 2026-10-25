@@ -116,3 +116,59 @@ def test_missing_file_field():
     resp = client.post("/api/chats")
     assert resp.status_code == 422
     assert resp.json()["error"]["code"] == "validation"
+
+
+def single_message_export(message: dict | None = None, **chat) -> bytes:
+    msg = {
+        "id": 1,
+        "type": "message",
+        "date_unixtime": "1740820320",
+        "from": "Саша",
+        "from_id": "user1",
+        "text": "привет",
+        **(message or {}),
+    }
+    return json.dumps({"name": "Чат", "type": "personal_chat", "messages": [msg], **chat}).encode()
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        {"id": "abc"},
+        {"id": None},
+        {"id": [1]},
+        {"from_id": {"id": 1}},
+        {"date_unixtime": "99999999999999999"},
+    ],
+)
+def test_broken_message_is_skipped(message):
+    # единственное сообщение битое — значит, текстовых сообщений нет
+    resp = upload(single_message_export(message))
+    assert resp.status_code == 400
+    assert resp.json()["error"]["code"] == "invalid_export"
+
+
+@pytest.mark.parametrize(
+    ("message", "chat", "title", "author"),
+    [
+        ({"from": 123}, {}, "Чат", "Удалённый аккаунт"),
+        ({}, {"name": 5}, "Без названия", "Саша"),
+        ({}, {"type": ["personal_chat"]}, "Чат", "Саша"),
+    ],
+)
+def test_odd_fields_fall_back_to_defaults(message, chat, title, author):
+    resp = upload(single_message_export(message, **chat))
+    assert resp.status_code == 201
+    body = resp.json()
+    assert body["title"] == title
+    assert body["authors"][0]["name"] == author
+
+
+def test_body_not_json():
+    resp = client.post(
+        "/api/chats/c_000000/authors/user1/check",
+        content=b"{oops",
+        headers={"content-type": "application/json"},
+    )
+    assert resp.status_code == 422
+    assert resp.json()["error"] == {"code": "validation", "message": "Тело запроса — не JSON"}
