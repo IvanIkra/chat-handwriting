@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 class Author(BaseModel):
@@ -59,19 +59,42 @@ class Signal(BaseModel):
     expected: str | None
     observed: str
     span: list[int] | None  # [начало, конец) в кодовых точках проверяемого текста
+    message: int | None = None  # номер сообщения серии, к которому относится span
     weight: float
 
 
-class CheckRequest(BaseModel):
+def _not_blank(text: str | None) -> str | None:
+    if text is not None and not text.strip():
+        raise ValueError("Текст пустой")
+    return text
+
+
+class SeriesMessage(BaseModel):
     text: str = Field(max_length=4096)
     sent_at: datetime | None = None
 
-    @field_validator("text")
-    @classmethod
-    def _not_blank(cls, text: str) -> str:
-        if not text.strip():
-            raise ValueError("Текст пустой")
-        return text
+    _check_text = field_validator("text")(_not_blank)
+
+
+class CheckRequest(BaseModel):
+    """Один текст (`text`, `sent_at`) или серия сообщений подряд (`messages`)."""
+
+    text: str | None = Field(None, max_length=4096)
+    sent_at: datetime | None = None
+    messages: list[SeriesMessage] | None = Field(None, min_length=2, max_length=20)
+
+    _check_text = field_validator("text")(_not_blank)
+
+    @model_validator(mode="after")
+    def _text_or_messages(self) -> "CheckRequest":
+        if (self.text is None) == (self.messages is None):
+            raise ValueError("Нужен либо text, либо messages")
+        return self
+
+    def items(self) -> list[tuple[str, datetime | None]]:
+        if self.messages is not None:
+            return [(m.text, m.sent_at) for m in self.messages]
+        return [(self.text, self.sent_at)]
 
 
 class CheckResult(BaseModel):
