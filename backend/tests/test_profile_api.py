@@ -81,3 +81,17 @@ def test_profile_unknown_chat():
     resp = client.get("/api/chats/c_000000/authors/user2002/profile")
     assert resp.status_code == 404
     assert resp.json()["error"]["code"] == "not_found"
+
+
+def test_active_hours_sum_to_one():
+    # по сообщению в три разных часа: 0.3333 × 3 = 0.9999
+    messages = [
+        _msg(i, "user2002", "Саша", f"сообщение {i}", 1740823200 + i * 3600) for i in range(3)
+    ]
+    export = {"name": "Саша", "type": "personal_chat", "messages": messages}
+    resp = client.post(
+        "/api/chats",
+        files={"file": ("result.json", json.dumps(export).encode(), "application/json")},
+    )
+    hours = client.get(f"/api/chats/{resp.json()['id']}/authors/user2002/profile").json()
+    assert sum(hours["active_hours"]) == pytest.approx(1, abs=1e-9)

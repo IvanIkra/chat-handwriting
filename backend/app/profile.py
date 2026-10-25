@@ -44,5 +44,14 @@ def build_profile(stored: StoredChat, author: Author) -> StyleProfile:
         traits=traits,
         top_words=features.characteristic_words(own_texts, other_texts),
         emoji=[EmojiCount(char=c, count=n) for c, n in emoji.most_common(TOP_EMOJI)],
-        active_hours=[round(hours[h] / total, 4) for h in range(24)],
+        active_hours=_shares(hours, total),
     )
+
+
+def _shares(hours: Counter, total: int) -> list[float]:
+    """Доли по часам, округлённые так, чтобы в сумме была 1: остаток — в самый частый час."""
+    shares = [round(hours[h] / total, 4) for h in range(24)]
+    if hours:
+        top = max(range(24), key=lambda h: hours[h])
+        shares[top] = round(shares[top] + 1 - sum(shares), 4)
+    return shares

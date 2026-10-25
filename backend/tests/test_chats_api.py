@@ -51,7 +51,8 @@ def test_upload_personal_chat():
     resp = upload((FIXTURES / "personal_chat.json").read_bytes())
     assert resp.status_code == 201
     chat = resp.json()
-    assert chat["id"].startswith("c_") and len(chat["id"]) == 8
+    # 16 hex: при коллизии чат молча перезаписался бы другим
+    assert chat["id"].startswith("c_") and len(chat["id"]) == 18
     assert chat["title"] == "Саша"
     assert chat["kind"] == "personal"
     # пересланные, через бота и только-ссылки тоже считаются сообщениями
@@ -172,3 +173,14 @@ def test_body_not_json():
     )
     assert resp.status_code == 422
     assert resp.json()["error"] == {"code": "validation", "message": "Тело запроса — не JSON"}
+
+
+def test_store_keeps_last_chats(monkeypatch):
+    monkeypatch.setattr(store, "MAX_CHATS", 2)
+    first, second, third = (upload(make_export({f"user{i}": 3})).json()["id"] for i in range(3))
+    assert client.get(f"/api/chats/{first}").status_code == 404
+    # недавно открытый чат вытесняется последним
+    assert client.get(f"/api/chats/{second}").status_code == 200
+    upload(make_export({"user9": 3}))
+    assert client.get(f"/api/chats/{second}").status_code == 200
+    assert client.get(f"/api/chats/{third}").status_code == 404
