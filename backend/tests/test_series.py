@@ -100,4 +100,19 @@ def test_series_not_enough_data():
     chat_id = upload_chat()
     result = check(chat_id, "user1001", series(["Привет.", "Как дела?"])).json()
     assert result["verdict"] == "not_enough_data"
+    assert result["reason"] == "few_messages"
     assert result["score"] is None
+
+
+def test_series_no_style_text():
+    chat_id = upload_chat()
+    result = check(chat_id, "user2002", series(["https://example.com", "@sasha"])).json()
+    assert result["verdict"] == "not_enough_data"
+    assert result["reason"] == "no_style_text"
+
+
+def test_series_some_style_text_is_checked():
+    chat_id = upload_chat()
+    result = check(chat_id, "user2002", series(["https://example.com", "глянь)"])).json()
+    assert result["verdict"] != "not_enough_data"
+    assert result["reason"] is None
