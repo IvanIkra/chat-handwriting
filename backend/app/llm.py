@@ -6,6 +6,7 @@
 """
 
 import logging
+import re
 from concurrent.futures import ThreadPoolExecutor
 
 import anthropic
@@ -26,6 +27,8 @@ MAX_FRAGMENTS = 30
 MIN_FRAGMENT = 25  # короче — «ок» и «да», вопрос из них не составить
 MAX_EXAMPLES = 3
 NO_QUESTION = "НЕТ"  # так модель отвечает, если вопрос из фрагментов не составить
+# «НЕТ», «Нет.», «**НЕТ**», «НЕТ!», «Нет, из этих фрагментов не составить»
+NO_QUESTION_RE = re.compile(rf"^\W*{NO_QUESTION}\b", re.IGNORECASE)
 
 SYSTEM = (
     "Ты помогаешь понять, кто на самом деле пишет в мессенджере. Анализ почерка уже "
@@ -136,7 +139,7 @@ def challenge_question(stored: StoredChat, author: Author) -> str | None:
             f"пароли. Если хорошего вопроса из этих фрагментов не составить, ответь {NO_QUESTION}."
         )
         answer = ask(prompt)
-        if answer is not None and answer.strip(" .«»").upper() == NO_QUESTION:
+        if answer is not None and NO_QUESTION_RE.match(answer):
             answer = None
         if answer is None:
             return None  # не кэшируем неудачу — в следующий раз попробуем снова

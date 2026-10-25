@@ -155,9 +155,20 @@ def test_pair_explanation(fake):
     assert len(messages.calls) == 1
 
 
-def test_no_good_question(fake):
-    fake(reply("НЕТ"))
+@pytest.mark.parametrize(
+    "answer", ["НЕТ", "Нет.", "«НЕТ»", "НЕТ!", "**НЕТ**", "Нет, из этих фрагментов не составить"]
+)
+def test_no_good_question(fake, answer):
+    fake(reply(answer))
     chat_id = upload_chat()
     result = check(chat_id, "user2002", {"text": SCAM}).json()
     assert result["challenge_question"] is None
-    assert result["explanation"] == "НЕТ"  # объяснение — отдельный запрос, его не трогаем
+    assert result["explanation"] == answer  # объяснение — отдельный запрос, его не трогаем
+
+
+def test_question_starting_with_net_prefix_is_kept(fake):
+    question = "Нетфликс: спроси, какой сериал вы досмотрели (Тьму) — обсуждали 02.03."
+    fake(reply(question))
+    chat_id = upload_chat()
+    result = check(chat_id, "user2002", {"text": SCAM}).json()
+    assert result["challenge_question"] == question
