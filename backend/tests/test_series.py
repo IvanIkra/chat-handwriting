@@ -94,6 +94,7 @@ def test_series_validation(body):
     resp = check(chat_id, "user2002", body)
     assert resp.status_code == 422
     assert resp.json()["error"]["code"] == "validation"
+    assert "Value error" not in resp.json()["error"]["message"]
 
 
 def test_series_not_enough_data():

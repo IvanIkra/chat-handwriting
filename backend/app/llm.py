@@ -116,7 +116,7 @@ def explain_check(author: Author, text: str, result: CheckResult) -> str | None:
     prompt = (
         f"Проверяли, похоже ли сообщение на то, как обычно пишет {_name(author.name)}.\n"
         f"<message>{text[:MAX_TEXT]}</message>\n"
-        f"Оценка {result.score} (0 — совсем не похоже, 1 — точно похоже), "
+        f"Оценка {_percent(result.score)} (0% — совсем не похоже, 100% — точно похоже), "
         f"вывод: {VERDICTS[result.verdict]}.\n"
         f"Улики против:\n{_signals(result.signals, with_expected=True)}\n\n"
         "Объясни в 2–3 предложениях, почему получился такой вывод. Опирайся только на эти "
@@ -178,7 +178,8 @@ def explain_pair(stored: StoredChat, details: PairDetails) -> str | None:
         )
         prompt = (
             f"Сравнивали два аккаунта одного чата: {a_name} и {b_name}. "
-            f"Оценка, что это один человек, — {pair.score}, вывод: {VERDICTS[pair.verdict]}.\n"
+            f"Оценка, что это один человек, — {_percent(pair.score)}, "
+            f"вывод: {VERDICTS[pair.verdict]}.\n"
             f"Улики за то, что это один человек:\n{_signals(pair.signals)}\n"
             f"Время: в одну и ту же минуту оба писали {timeline.overlap_minutes} раз, {switch}.\n"
             f"Примеры сообщений:\n{examples or 'нет'}\n\n"
@@ -190,6 +191,11 @@ def explain_pair(stored: StoredChat, details: PairDetails) -> str | None:
             return None
         stored.cache[key] = answer
     return stored.cache[key]
+
+
+def _percent(score: float) -> str:
+    """Оценка в процентах, как её показывает фронт, — чтобы LLM не писала «0.91»."""
+    return f"{round(score * 100)}%"
 
 
 def _name(name: str) -> str:
