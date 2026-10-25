@@ -36,3 +36,16 @@ export const twinVerdictLabel: Record<TwinVerdict, string> = {
   possible: 'возможно, один человек',
   different: 'разные люди',
 }
+
+/** '2026-10-20T18:02:11Z' → '20 окт. 2026 г., 18:02 UTC' */
+export function formatDateTime(iso: string): string {
+  const text = new Date(iso).toLocaleString('ru-RU', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'UTC',
+  })
+  return `${text} UTC`
+}

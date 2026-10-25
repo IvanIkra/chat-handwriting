@@ -37,7 +37,6 @@ test('сообщает, если бэкенд недоступен', async () =>
 
 test.each([
   ['/', 'Загрузка экспорта'],
-  ['/chats/c_19ab42/twins/user3003/user3004', 'Сравнение пары'],
   ['/nope', 'Такой страницы нет'],
 ])('маршрут %s открывает «%s»', async (path, heading) => {
   vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')))
@@ -53,6 +52,7 @@ test.each([
   '/chats/c_7f3a9b/authors/user2002',
   '/chats/c_7f3a9b/authors/user2002/check',
   '/chats/c_19ab42/twins',
+  '/chats/c_19ab42/twins/user3003/user3004',
 ])('%s без бэкенда показывает ошибку', async (path) => {
   vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')))
 
