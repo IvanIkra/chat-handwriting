@@ -37,7 +37,13 @@ async def _validation_error(_: Request, exc: RequestValidationError) -> JSONResp
     return error_response(422, "validation", "; ".join(parts) or "Неверное тело запроса")
 
 
+async def _internal_error(_: Request, exc: Exception) -> JSONResponse:
+    # подробности — только в логе: Starlette после ответа пробрасывает исключение в uvicorn
+    return error_response(500, "internal", "Что-то пошло не так на сервере — попробуйте ещё раз")
+
+
 def register_error_handlers(app: FastAPI) -> None:
     app.add_exception_handler(ApiError, _api_error)
     app.add_exception_handler(StarletteHTTPException, _http_error)
     app.add_exception_handler(RequestValidationError, _validation_error)
+    app.add_exception_handler(Exception, _internal_error)

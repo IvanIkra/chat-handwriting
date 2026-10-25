@@ -21,3 +21,22 @@ def test_unknown_path_returns_contract_error():
     resp = client.get("/api/nope")
     assert resp.status_code == 404
     assert resp.json()["error"]["code"] == "not_found"
+
+
+def test_unexpected_error_returns_internal(monkeypatch):
+    def boom():
+        raise RuntimeError("секретные подробности")
+
+    monkeypatch.setattr("app.main.llm.available", boom)
+    # в проде Starlette после ответа пробрасывает исключение в лог — здесь его не ждём
+    resp = TestClient(app, raise_server_exceptions=False).get("/api/health")
+    assert resp.status_code == 500
+    error = resp.json()["error"]
+    assert error["code"] == "internal"
+    assert "секретные" not in error["message"]
+
+
+def test_wrong_method_returns_http_error():
+    resp = client.put("/api/health")
+    assert resp.status_code == 405
+    assert resp.json()["error"]["code"] == "http_error"
