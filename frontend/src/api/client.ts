@@ -35,6 +35,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     if (isErrorBody(body)) {
       throw new ApiError(res.status, body.error.code, body.error.message)
     }
+    // 502/503/504 не по контракту — это прокси Vite или шлюз: бэкенд не запущен или не отвечает
+    if ([502, 503, 504].includes(res.status)) {
+      throw new ApiError(res.status, 'network', 'Бэкенд недоступен')
+    }
     throw new ApiError(res.status, 'unknown', `HTTP ${res.status}`)
   }
   return body as T

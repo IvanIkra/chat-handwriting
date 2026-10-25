@@ -16,6 +16,8 @@ export const tooLargeMessage = 'Файл больше 50 МБ — такой э�
 /** Переводит ошибку API в текст для пользователя (коды — из docs/CONTRACT.md) */
 export function describeError(err: unknown): ErrorView {
   const code = err instanceof ApiError ? err.code : 'unknown'
+  // Текст бэкенда точнее нашего: «нет такого автора», «такой пары нет», что не так с полем
+  const backendMessage = err instanceof ApiError && err.message ? err.message : null
   switch (code) {
     case 'invalid_export':
       return {
@@ -30,8 +32,16 @@ export function describeError(err: unknown): ErrorView {
     case 'not_found':
       return {
         title: 'Не нашли',
-        message: 'Чат не найден — возможно, бэкенд перезапускался и данные пропали.',
+        message:
+          backendMessage ?? 'Чат не найден — возможно, бэкенд перезапускался и данные пропали.',
         reupload: true,
+        retry: false,
+      }
+    case 'validation':
+      return {
+        title: 'Проверьте ввод',
+        message: backendMessage ?? 'Бэкенд не принял запрос.',
+        reupload: false,
         retry: false,
       }
     case 'network':

@@ -156,16 +156,17 @@ const sashaAlexPair: TwinPair = {
   ],
 }
 
-function notFound(): never {
-  throw new ApiError(404, 'not_found', 'Чат или автор не найден')
+// Тексты как у бэкенда — фронт показывает их пользователю
+function notFound(message: string): never {
+  throw new ApiError(404, 'not_found', message)
 }
 
 function findChat(chatId: string): Chat {
-  return chats.find((c) => c.id === chatId) ?? notFound()
+  return chats.find((c) => c.id === chatId) ?? notFound('Чат не найден — загрузи файл заново')
 }
 
 function findAuthor(chatId: string, authorId: string): Author {
-  return findChat(chatId).authors.find((a) => a.id === authorId) ?? notFound()
+  return findChat(chatId).authors.find((a) => a.id === authorId) ?? notFound('В этом чате нет такого автора')
 }
 
 function twinsFor(chat: Chat): TwinsResult {
@@ -260,7 +261,7 @@ export function createMockApi({ delayMs = 300 }: { delayMs?: number } = {}): Api
         const pair =
           twinsFor(chat).pairs.find(
             (p) => (p.a === aId && p.b === bId) || (p.a === bId && p.b === aId),
-          ) ?? notFound()
+          ) ?? notFound('Такой пары нет — у одного из авторов мало сообщений')
         if (pair === topPair) return topPairDetails
         return {
           pair,

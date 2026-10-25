@@ -8,6 +8,9 @@ import ScoreMeter from '../components/ScoreMeter'
 import { useApiData } from '../hooks/useApiData'
 import { localToUtcIso } from '../utils/format'
 
+/** Лимит бэкенда на длину проверяемого текста */
+const MAX_CHECK_TEXT = 4096
+
 type Checked = { text: string; result: CheckResult }
 
 export default function CheckPage() {
@@ -75,6 +78,7 @@ export default function CheckPage() {
           <textarea
             value={text}
             rows={4}
+            maxLength={MAX_CHECK_TEXT}
             placeholder="Привет! срочно займи 5000 на карту, потом объясню"
             onChange={(e) => setText(e.target.value)}
             onKeyDown={onKeyDown}
