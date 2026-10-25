@@ -37,7 +37,6 @@ test('сообщает, если бэкенд недоступен', async () =>
 
 test.each([
   ['/', 'Загрузка экспорта'],
-  ['/chats/c_7f3a9b/authors/user2002/check', 'Проверка сообщения'],
   ['/chats/c_19ab42/twins', 'Двойники'],
   ['/chats/c_19ab42/twins/user3003/user3004', 'Сравнение пары'],
   ['/nope', 'Такой страницы нет'],
@@ -50,7 +49,11 @@ test.each([
   await screen.findByText('Бэкенд недоступен')
 })
 
-test.each(['/chats/c_7f3a9b', '/chats/c_7f3a9b/authors/user2002'])('%s без бэкенда показывает ошибку', async (path) => {
+test.each([
+  '/chats/c_7f3a9b',
+  '/chats/c_7f3a9b/authors/user2002',
+  '/chats/c_7f3a9b/authors/user2002/check',
+])('%s без бэкенда показывает ошибку', async (path) => {
   vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')))
 
   renderAt(path)
