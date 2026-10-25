@@ -21,3 +21,10 @@ export function formatDate(iso: string): string {
     timeZone: 'UTC',
   })
 }
+
+/** Значение datetime-local (местное время) → ISO в UTC, как требует контракт */
+export function localToUtcIso(value: string): string | undefined {
+  if (!value) return undefined
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
+}

@@ -302,3 +302,271 @@ header h1 a {
     font-size: 16px;
   }
 }
+
+/* Статусы — фиксированная шкала, всегда вместе со значком и подписью */
+:root {
+  --status-good: #0ca30c;
+  --status-warning: #fab219;
+  --status-critical: #d03b3b;
+  --hl-1: rgba(47, 111, 222, 0.14);
+  --hl-2: rgba(47, 111, 222, 0.26);
+  --hl-3: rgba(47, 111, 222, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hl-1: rgba(90, 143, 245, 0.2);
+    --hl-2: rgba(90, 143, 245, 0.34);
+    --hl-3: rgba(90, 143, 245, 0.5);
+  }
+}
+
+.check-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.check-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.check-form textarea,
+.check-form input {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+}
+
+.check-form input {
+  max-width: 260px;
+}
+
+.check-form button {
+  align-self: flex-start;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.check-form button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.check-result {
+  margin-top: 24px;
+}
+
+.verdict {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.verdict__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.verdict__head p {
+  margin: 2px 0 0;
+}
+
+.verdict__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-weight: 700;
+  color: #fff;
+  background: var(--muted);
+}
+
+.verdict--match .verdict__icon {
+  background: var(--status-good);
+}
+
+.verdict--uncertain .verdict__icon {
+  background: var(--status-warning);
+  color: #1a1a19;
+}
+
+.verdict--mismatch .verdict__icon {
+  background: var(--status-critical);
+}
+
+.verdict__label {
+  font-size: 1.2em;
+}
+
+.verdict__score {
+  margin-left: auto;
+  font-size: 2em;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.meter {
+  margin-top: 12px;
+}
+
+.meter::before {
+  content: '';
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--chart-grid);
+}
+
+.meter {
+  position: relative;
+}
+
+.meter__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--muted);
+}
+
+.verdict--match .meter__fill {
+  background: var(--status-good);
+}
+
+.verdict--uncertain .meter__fill {
+  background: var(--status-warning);
+}
+
+.verdict--mismatch .meter__fill {
+  background: var(--status-critical);
+}
+
+.meter__scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 0.8em;
+  color: var(--muted);
+}
+
+.highlighted {
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1.1em;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.hl {
+  color: inherit;
+  border-radius: 3px;
+  padding: 1px 0;
+  cursor: help;
+  outline: none;
+}
+
+.hl--1 {
+  background: var(--hl-1);
+}
+
+.hl--2 {
+  background: var(--hl-2);
+}
+
+.hl--3 {
+  background: var(--hl-3);
+}
+
+.hl--active,
+.hl:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.signals {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.signal {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.signal--active {
+  border-color: var(--accent);
+}
+
+.signal__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.signal__weight {
+  margin-left: auto;
+  width: 60px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--chart-grid);
+  overflow: hidden;
+}
+
+.signal__weight > span {
+  display: block;
+  height: 100%;
+  background: var(--chart-bar);
+}
+
+.signal dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 2px 12px;
+  margin: 8px 0 0;
+}
+
+.signal dt {
+  color: var(--muted);
+}
+
+.signal dd {
+  margin: 0;
+}
+
+.badge--neutral {
+  margin-left: 0;
+  background: var(--chart-grid);
+  color: var(--muted);
+}
+
+.llm-block {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-left: 3px solid var(--accent);
+  background: var(--hl-1);
+  border-radius: 0 8px 8px 0;
+}
+
+.llm-block h3 {
+  margin: 0 0 4px;
+}
+
+.llm-block p {
+  margin: 0;
+}
