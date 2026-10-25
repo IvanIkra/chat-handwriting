@@ -11,7 +11,7 @@ import { useApiData } from '../hooks/useApiData'
 import { localToUtcIso } from '../utils/format'
 import './CheckPage.css'
 
-/** Лимит бэкенда на длину проверяемого текста */
+/** Лимит бэкенда на длину каждого текста — в кодовых точках, как в контракте */
 const MAX_CHECK_TEXT = 4096
 /** Сколько сообщений бэкенд принимает в серии */
 const MIN_SERIES = 2
@@ -30,6 +30,10 @@ const TONES: Record<string, Tone> = {
   not_enough_data: 'neutral',
 }
 const toneOf = (verdict: string): Tone => (Object.hasOwn(TONES, verdict) ? TONES[verdict] : 'warn')
+
+/** Длина в кодовых точках: эмодзи — один символ, а не два, как в text.length */
+const textLength = (text: string) => Array.from(text).length
+const tooLong = (text: string) => textLength(text) > MAX_CHECK_TEXT
 
 /** «1 сообщение», «2 сообщения», «5 сообщений» */
 function messagesWord(n: number) {
@@ -130,7 +134,9 @@ export default function CheckPage() {
   const series = mode === 'series'
   // Пустые поля серии не отправляем — бэкенд их не примет
   const filled = drafts.filter((d) => d.text.trim() !== '')
-  const canSubmit = (series ? filled.length >= MIN_SERIES : text.trim() !== '') && !pending
+  // Длинный текст не обрезаем молча (maxLength), а не даём отправить и подсвечиваем счётчик
+  const overLimit = series ? filled.some((d) => tooLong(d.text)) : tooLong(text)
+  const canSubmit = (series ? filled.length >= MIN_SERIES : text.trim() !== '') && !overLimit && !pending
 
   async function submit(e?: FormEvent) {
     e?.preventDefault()
@@ -270,7 +276,6 @@ export default function CheckPage() {
                             className="check-bubble"
                             value={d.text}
                             rows={2}
-                            maxLength={MAX_CHECK_TEXT}
                             placeholder={i === 0 ? 'Привет!' : i === 1 ? 'срочно займи 5000 на карту' : ''}
                             onChange={(e) => updateDraft(d.id, { text: e.target.value })}
                             onKeyDown={onKeyDown}
@@ -278,6 +283,11 @@ export default function CheckPage() {
                         </label>
                         <div className="check-series__foot">
                           {timeField(d.sentAt, (v) => updateDraft(d.id, { sentAt: v }), 'необязательно')}
+                          {tooLong(d.text) && (
+                            <span className="check-counter mono is-over">
+                              {textLength(d.text)} / {MAX_CHECK_TEXT}
+                            </span>
+                          )}
                           {drafts.length > MIN_SERIES && (
                             <button
                               type="button"
@@ -315,7 +325,6 @@ export default function CheckPage() {
                       className="check-bubble check-bubble--big"
                       value={text}
                       rows={4}
-                      maxLength={MAX_CHECK_TEXT}
                       placeholder="Привет! срочно займи 5000 на карту, потом объясню"
                       onChange={(e) => setText(e.target.value)}
                       onKeyDown={onKeyDown}
@@ -323,8 +332,8 @@ export default function CheckPage() {
                   </label>
                   <div className="check-chat__foot">
                     {timeField(sentAt, setSentAt)}
-                    <span className="check-counter mono" aria-hidden="true">
-                      {text.length} / {MAX_CHECK_TEXT}
+                    <span className={`check-counter mono${overLimit ? ' is-over' : ''}`} aria-hidden={!overLimit}>
+                      {textLength(text)} / {MAX_CHECK_TEXT}
                     </span>
                   </div>
                 </div>
@@ -341,6 +350,16 @@ export default function CheckPage() {
               </span>
             </div>
           </form>
+
+          {overLimit && (
+            <div className="notice warn" role="alert">
+              {Icon.warn}
+              <div>
+                <strong>Слишком длинное сообщение</strong>
+                Каждое сообщение — не длиннее {MAX_CHECK_TEXT} символов, иначе бэкенд его не примет.
+              </div>
+            </div>
+          )}
 
           {error !== null && <ErrorNotice error={error} />}
 
@@ -372,6 +391,7 @@ export default function CheckPage() {
                   key={`${checked.texts.join('\n')}|${result.verdict}|${result.score}`}
                   verdict={result.verdict}
                   score={result.score}
+                  reason={result.reason}
                 />
                 <p className="check-verdict__note">
                   Это вероятность по стилю письма, а не доказательство. Сомневаетесь — задайте вопрос, ответ на

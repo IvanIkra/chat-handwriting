@@ -4,6 +4,7 @@ import type {
   Api,
   Author,
   Chat,
+  CheckReason,
   CheckResult,
   Comparison,
   PairDetails,
@@ -79,6 +80,7 @@ const mismatchResult: CheckResult = {
   author_id: 'user2002',
   score: 0.12,
   verdict: 'mismatch',
+  reason: null,
   signals: [
     { feature: 'greeting', label: 'Приветствие', expected: '«прив», «йо» или без приветствия', observed: '«Привет!»', span: [0, 7], weight: 0.3 },
     { feature: 'capitalization', label: 'Заглавная буква в начале', expected: 'почти всегда строчная (94%)', observed: 'заглавная', span: [0, 1], weight: 0.2 },
@@ -88,7 +90,7 @@ const mismatchResult: CheckResult = {
   explanation:
     'Саша почти никогда не здоровается полным «Привет», не начинает с заглавной и ни разу за полтора года не писал «срочно». Сообщение отправлено в час, когда он обычно не пишет.',
   challenge_question:
-    'Спроси, в какой бар вы ходили после концерта в мае — это обсуждалось в переписке 14.05.',
+    'Спроси, в какой бар вы ходили после концерта в мае (в «Ровесник») — это обсуждалось в переписке 14.05.',
 }
 
 // Своего примера для «похоже» в контракте нет — нужен, чтобы на моках был виден второй вердикт
@@ -96,6 +98,7 @@ const matchResult: CheckResult = {
   author_id: 'user2002',
   score: 0.91,
   verdict: 'match',
+  reason: null,
   signals: [
     { feature: 'capitalization', label: 'Строчная буква в начале', expected: 'почти всегда строчная (94%)', observed: 'строчная', span: [0, 1], weight: 0.2 },
   ],
@@ -154,6 +157,25 @@ const sashaAlexPair: TwinPair = {
     { feature: 'shared_words', label: 'Общие словечки', expected: null, observed: '«кста», «ща», «ваще» — характерны для обоих', span: null, weight: 0.2 },
     { feature: 'active_hours', label: 'Одинаковое время активности', expected: null, observed: 'оба обычно пишут 09:00–01:00 UTC', span: null, weight: 0.15 },
   ],
+}
+
+/** Нет почерка — только ссылки, @упоминания, /команды и код (упрощённо, как в контракте) */
+const NO_STYLE_TOKEN = /^(https?:\/\/\S+|www\.\S+|@\w+|\/\w+(@\w+)?)$/
+function hasStyleText(text: string): boolean {
+  const withoutCode = text.replace(/```[\s\S]*?```|`[^`]*`/g, ' ')
+  return withoutCode.split(/\s+/).some((token) => token !== '' && !NO_STYLE_TOKEN.test(token))
+}
+
+function notEnoughData(authorId: string, reason: CheckReason): CheckResult {
+  return {
+    author_id: authorId,
+    score: null,
+    verdict: 'not_enough_data',
+    reason,
+    signals: [],
+    explanation: null,
+    challenge_question: null,
+  }
 }
 
 // Тексты как у бэкенда — фронт показывает их пользователю
@@ -243,17 +265,13 @@ export function createMockApi({ delayMs = 300 }: { delayMs?: number } = {}): Api
         if (texts.some((t) => !t.trim())) {
           throw new ApiError(422, 'validation', 'Текст сообщения пустой')
         }
-        const author = findAuthor(chatId, authorId)
-        if (!author.enough_data) {
-          return {
-            author_id: author.id,
-            score: null,
-            verdict: 'not_enough_data' as const,
-            signals: [],
-            explanation: null,
-            challenge_question: null,
-          }
+        if (texts.some((t) => Array.from(t).length > 4096)) {
+          throw new ApiError(422, 'validation', 'text: не длиннее 4096 символов')
         }
+        const author = findAuthor(chatId, authorId)
+        // Как бэкенд: сначала мало сообщений у автора, потом текст без почерка
+        if (!author.enough_data) return notEnoughData(author.id, 'few_messages')
+        if (!texts.some(hasStyleText)) return notEnoughData(author.id, 'no_style_text')
         if (!('messages' in body)) {
           const base = body.text.toLowerCase().includes('срочно') ? mismatchResult : matchResult
           return { ...base, author_id: author.id }

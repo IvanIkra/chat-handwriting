@@ -77,7 +77,33 @@ test('span в мок-ответе указывают на фрагменты т�
 test('проверка автора без данных — not_enough_data', async () => {
   const res = await api.checkMessage('c_19ab42', 'user3005', { text: 'привет' })
 
-  expect(res).toMatchObject({ verdict: 'not_enough_data', score: null, signals: [] })
+  expect(res).toMatchObject({ verdict: 'not_enough_data', reason: 'few_messages', score: null, signals: [] })
+})
+
+test('текст без почерка — not_enough_data с reason no_style_text, у обычного reason null', async () => {
+  const links = await api.checkMessage('c_7f3a9b', 'user2002', { text: 'https://t.me/x @sasha /start' })
+  const series = await api.checkMessage('c_7f3a9b', 'user2002', {
+    messages: [{ text: '@sasha' }, { text: '`npm i` www.example.com' }],
+  })
+  const real = await api.checkMessage('c_7f3a9b', 'user2002', { text: 'глянь https://t.me/x' })
+
+  expect(links).toMatchObject({ verdict: 'not_enough_data', reason: 'no_style_text', score: null, signals: [] })
+  expect(series.reason).toBe('no_style_text')
+  expect(real).toMatchObject({ verdict: 'match', reason: null })
+})
+
+test('мало сообщений важнее текста без почерка — как у бэкенда', async () => {
+  const res = await api.checkMessage('c_19ab42', 'user3005', { text: 'https://t.me/x' })
+
+  expect(res.reason).toBe('few_messages')
+})
+
+test('текст длиннее 4096 кодовых точек — validation, эмодзи считаются за один символ', async () => {
+  await expect(
+    api.checkMessage('c_7f3a9b', 'user2002', { text: 'а'.repeat(4097) }),
+  ).rejects.toMatchObject({ status: 422, code: 'validation' })
+  // 4096 эмодзи — 8192 в UTF-16, но по контракту ровно лимит
+  await expect(api.checkMessage('c_7f3a9b', 'user2002', { text: '🔥'.repeat(4096) })).resolves.toBeTruthy()
 })
 
 test('пустой текст — validation', async () => {

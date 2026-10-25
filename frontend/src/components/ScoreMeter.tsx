@@ -1,4 +1,4 @@
-import type { CheckVerdict } from '../api/types'
+import type { CheckReason, CheckVerdict } from '../api/types'
 
 const VERDICTS: Record<CheckVerdict, { icon: string; label: string; hint: string }> = {
   match: { icon: '✓', label: 'Похоже на автора', hint: 'Почерк совпадает с перепиской' },
@@ -11,19 +11,28 @@ const VERDICTS: Record<CheckVerdict, { icon: string; label: string; hint: string
   },
 }
 
+/** not_enough_data из-за самого текста, а не автора */
+const NO_STYLE_TEXT = {
+  icon: '…',
+  label: 'В тексте нет почерка',
+  hint: 'Только ссылки, @упоминания, команды или код — добавьте обычный текст',
+}
+
 type Props = {
   verdict: CheckVerdict
   /** 0–1, null при not_enough_data */
   score: number | null
+  /** Почему not_enough_data; без него — мало сообщений у автора */
+  reason?: CheckReason | null
 }
 
 const RADIUS = 52
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
-export default function ScoreMeter({ verdict, score }: Props) {
+export default function ScoreMeter({ verdict, score, reason }: Props) {
   // Неизвестный вердикт (бэкенд новее фронта) показываем как «не уверены», а не роняем страницу
   const known: CheckVerdict = Object.hasOwn(VERDICTS, verdict) ? verdict : 'uncertain'
-  const v = VERDICTS[known]
+  const v = known === 'not_enough_data' && reason === 'no_style_text' ? NO_STYLE_TEXT : VERDICTS[known]
   const percent = score === null ? null : Math.min(100, Math.max(0, Math.round(score * 100)))
   const offset = percent === null ? CIRCUMFERENCE : CIRCUMFERENCE * (1 - percent / 100)
 

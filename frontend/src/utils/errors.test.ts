@@ -19,6 +19,14 @@ test('not_found без текста — подсказка про перезап
   expect(describeError(new ApiError(404, 'not_found', '')).message).toMatch(/перезапускался/)
 })
 
+test('500 internal — ошибка на сервере, предлагаем повторить позже', () => {
+  expect(describeError(new ApiError(500, 'internal', 'Внутренняя ошибка'))).toMatchObject({
+    title: 'Ошибка на сервере',
+    retry: true,
+    reupload: false,
+  })
+})
+
 test('502 от прокси читается как «Нет связи»', () => {
   expect(describeError(new ApiError(502, 'network', 'Бэкенд недоступен'))).toMatchObject({
     title: 'Нет связи',
