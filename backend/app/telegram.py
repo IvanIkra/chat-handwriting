@@ -12,6 +12,7 @@ DELETED_AUTHOR_NAME = "Удалённый аккаунт"
 NON_STYLE_ENTITIES = {
     "link",
     "mention",
+    "mention_name",
     "email",
     "phone",
     "bot_command",
@@ -91,7 +92,8 @@ def _parse_message(msg: Any) -> Message | None:
         return None
 
     # Пересланное и присланное через бота — активность автора, но не его почерк
-    forwarded = msg.get("forwarded_from") is not None
+    # `forwarded_from: null` — отправитель скрыл профиль, но сообщение всё равно чужое
+    forwarded = "forwarded_from" in msg or msg.get("forwarded_from_id") is not None
     via_bot = bool(msg.get("via_bot"))
     style_text = ""
     if not forwarded and not via_bot:

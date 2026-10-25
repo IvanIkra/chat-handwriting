@@ -38,7 +38,32 @@ def test_bracket_smiles(text, expected):
 
 
 def test_emojis():
-    assert features.emojis("ща 🔥🔥 ок ❤️") == ["🔥", "🔥", "❤"]
+    assert features.emojis("ща 🔥🔥 ок ❤️") == ["🔥", "🔥", "❤️"]
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("норм 👍🏽", ["👍🏽"]),
+        ("я из 🇷🇺, он из 🇺🇸", ["🇷🇺", "🇺🇸"]),
+        ("👨‍💻 работаю", ["👨‍💻"]),
+    ],
+)
+def test_compound_emojis_are_whole(text, expected):
+    assert features.emojis(text) == expected
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("и/или 1/2 поговорим", "и/или 1/2 поговорим"),
+        ("кста /compare норм", "кста норм"),
+        ("@sasha го", "го"),
+        ("пиши ivan.p@mail.ru ок", "пиши ок"),
+    ],
+)
+def test_clean_text_cuts_only_noise(text, expected):
+    assert features.clean_text(text) == expected
 
 
 def test_traits_of_lowercase_author():
