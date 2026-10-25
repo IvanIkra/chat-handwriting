@@ -37,6 +37,7 @@ test('сообщает, если бэкенд недоступен', async () =>
 
 test.each([
   ['/', 'Загрузка экспорта'],
+  ['/compare', 'Сравнение двух чатов'],
   ['/nope', 'Такой страницы нет'],
 ])('маршрут %s открывает «%s»', async (path, heading) => {
   vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')))

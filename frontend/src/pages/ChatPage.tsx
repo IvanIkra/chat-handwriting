@@ -1,12 +1,18 @@
+import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import ErrorNotice from '../components/ErrorNotice'
 import { useApiData } from '../hooks/useApiData'
 import { formatDate, messagesWord, plural } from '../utils/format'
+import { rememberChat } from '../utils/recentChats'
 
 export default function ChatPage() {
   const { chatId = '' } = useParams()
   const state = useApiData(chatId, () => api.getChat(chatId))
+
+  useEffect(() => {
+    if (state.kind === 'ok') rememberChat(state.data)
+  }, [state])
 
   if (state.kind === 'loading') return <p>Загружаем чат…</p>
   if (state.kind === 'error') return <ErrorNotice error={state.error} />
@@ -24,11 +30,14 @@ export default function ChatPage() {
           {plural(chat.message_count, messagesWord)} · {formatDate(chat.period.from)} —{' '}
           {formatDate(chat.period.to)}
         </p>
-        {chat.kind === 'group' && (
-          <Link className="button" to={`${base}/twins`}>
-            Найти двойников
-          </Link>
-        )}
+        <div className="actions">
+          {chat.kind === 'group' && (
+            <Link className="button" to={`${base}/twins`}>
+              Найти двойников
+            </Link>
+          )}
+          <Link to={`/compare?a=${encodeURIComponent(chat.id)}`}>Сравнить с другим чатом</Link>
+        </div>
       </div>
 
       <h3>Авторы</h3>

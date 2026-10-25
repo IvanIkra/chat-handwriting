@@ -782,3 +782,65 @@ header h1 a {
     grid-template-columns: 1fr;
   }
 }
+
+.compare-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.compare-form__selects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.compare-form__selects label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.compare-form select {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+}
+
+.compare-form p {
+  margin: 0;
+}
+
+.compare-form button {
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.compare-form button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Сам input скрыт, кликабельна подпись; фокус с клавиатуры виден на подписи */
+.compare-form__upload {
+  position: relative;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.compare-form__upload input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.compare-form__upload:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

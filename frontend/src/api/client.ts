@@ -67,4 +67,6 @@ export const httpApi: Api = {
 
   getPair: (chatId, aId, bId) =>
     request(`/chats/${enc(chatId)}/twins/${enc(aId)}/${enc(bId)}`),
+
+  compare: (aChatId, bChatId) => request(`/compare?a=${enc(aChatId)}&b=${enc(bChatId)}`),
 }

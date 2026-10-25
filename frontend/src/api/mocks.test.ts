@@ -81,3 +81,30 @@ test('ответы — копии, правка не портит следующ
   const second = await api.getChat('c_7f3a9b')
   expect(second.authors).toHaveLength(2)
 })
+
+test('сравнение двух чатов: пример контракта, shared и обратный порядок', async () => {
+  const res = await api.compare('c_7f3a9b', 'c_51d0e2')
+  expect(res.shared).toEqual(['user1001'])
+  expect(res.pairs).toHaveLength(1)
+  expect(res.pairs[0]).toMatchObject({ a: 'user2002', b: 'user7007', score: 0.81, verdict: 'likely_same' })
+
+  const reversed = await api.compare('c_51d0e2', 'c_7f3a9b')
+  expect(reversed.a.id).toBe('c_51d0e2')
+  expect(reversed.pairs[0]).toMatchObject({ a: 'user7007', b: 'user2002', verdict: 'likely_same' })
+})
+
+test('сравнение: группа с личным чатом — без авторов с малым числом сообщений, по убыванию score', async () => {
+  const res = await api.compare('c_19ab42', 'c_7f3a9b')
+  expect(res.shared).toEqual([])
+  expect(res.pairs).toHaveLength(6)
+  expect(res.pairs.some((p) => p.a === 'user3005')).toBe(false)
+})
+
+test('сравнение: один и тот же чат — validation, неизвестный — not_found', async () => {
+  await expect(api.compare('c_7f3a9b', 'c_7f3a9b')).rejects.toMatchObject({ status: 422, code: 'validation' })
+  await expect(api.compare('c_7f3a9b', 'c_missing')).rejects.toMatchObject({ status: 404 })
+})
+
+test('загрузка alex*.json — второй личный чат', async () => {
+  expect(await api.uploadChat(new File(['{}'], 'alex_result.json'))).toMatchObject({ id: 'c_51d0e2' })
+})

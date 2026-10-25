@@ -102,6 +102,15 @@ export type PairDetails = {
   explanation: string | null
 }
 
+/** Авторы из двух разных чатов: a — из чата a, b — из чата b */
+export type Comparison = {
+  a: Chat
+  b: Chat
+  /** Аккаунты, которые есть в обоих чатах — в pairs не идут */
+  shared: string[]
+  pairs: TwinPair[]
+}
+
 /** Общий интерфейс реального клиента и моков */
 export type Api = {
   getHealth(): Promise<Health>
@@ -111,4 +120,5 @@ export type Api = {
   checkMessage(chatId: string, authorId: string, body: CheckRequest): Promise<CheckResult>
   getTwins(chatId: string): Promise<TwinsResult>
   getPair(chatId: string, aId: string, bId: string): Promise<PairDetails>
+  compare(aChatId: string, bChatId: string): Promise<Comparison>
 }
