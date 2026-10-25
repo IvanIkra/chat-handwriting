@@ -108,3 +108,28 @@ class Comparison(BaseModel):
     b: Chat
     shared: list[str]  # аккаунты, которые есть в обоих чатах — в пары не идут
     pairs: list[TwinPair]  # a — автор из чата a, b — из чата b
+
+
+class PairMessage(BaseModel):
+    text: str
+    sent_at: datetime
+
+
+class PairExample(BaseModel):
+    feature: str  # какую улику иллюстрирует
+    a: PairMessage
+    b: PairMessage
+
+
+class Timeline(BaseModel):
+    overlap_minutes: int
+    median_switch_seconds: int | None
+
+
+class PairDetails(BaseModel):
+    pair: TwinPair
+    a: Author
+    b: Author
+    examples: list[PairExample]
+    timeline: Timeline
+    explanation: str | None = None
