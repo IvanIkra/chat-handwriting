@@ -23,6 +23,9 @@ EMOJI_RE = re.compile(
     "\U0001f900-\U0001faff☀-➿⭐⭕]"
 )
 SPACE_BEFORE_PUNCT_RE = re.compile(r"\w [?!,]")
+# Ссылки, @упоминания и /команды — не почерк
+NOISE_RE = re.compile(r"https?://\S+|www\.\S+|\b[\w-]+\.(?:me|ru|com|be|org|io)/\S*|[@/]\w+")
+LAUGH_RE = re.compile(r"(?:а?х+а+)+х*|(?:х?а+х+)+а*")
 SHORT_MESSAGE_CHARS = 20
 LONG_MESSAGE_WORDS = 5
 
@@ -38,8 +41,24 @@ STOPWORDS = set(
 )
 
 
+def clean_text(text: str) -> str:
+    """Убрать ссылки, упоминания и команды из сырого текста (например, проверяемого)."""
+    return re.sub(r" {2,}", " ", NOISE_RE.sub("", text)).strip()
+
+
 def words(text: str) -> list[str]:
     return [w.lower() for w in WORD_RE.findall(text)]
+
+
+def _normalize_word(word: str) -> str:
+    # «хаха», «ахахах» и «хахахаха» — одно и то же слово
+    return "хаха" if len(word) >= 4 and LAUGH_RE.fullmatch(word) else word
+
+
+def _vocab(texts: Iterable[str]) -> Counter:
+    return Counter(
+        _normalize_word(w) for t in texts for w in words(t) if len(w) > 1 and w not in STOPWORDS
+    )
 
 
 def bracket_smiles(text: str) -> list[str]:
@@ -123,8 +142,20 @@ TRAIT_SPECS: list[TraitSpec] = [
         "«)» или «))» в {p}% сообщений",
         0.1,
         lambda t: ")" in bracket_smiles(t),
+        "no_brackets_smile",
+        "Без скобок-смайлов",
+        "«)» только в {q}% сообщений",
     ),
-    TraitSpec("emoji", "Любит эмодзи", "Эмодзи в {p}% сообщений", 0.1, lambda t: bool(emojis(t))),
+    TraitSpec(
+        "emoji",
+        "Любит эмодзи",
+        "Эмодзи в {p}% сообщений",
+        0.1,
+        lambda t: bool(emojis(t)),
+        "no_emoji",
+        "Почти без эмодзи",
+        "Эмодзи только в {q}% сообщений",
+    ),
     TraitSpec(
         "multi_exclaim",
         "Восклицает «!!»",
@@ -212,17 +243,35 @@ def trait_rates(texts: Iterable[str]) -> dict[str, tuple[float, int]]:
     return rates
 
 
-def author_traits(texts: Iterable[str]) -> list[TraitValue]:
-    """Все оценённые черты автора, от самой характерной к наименее."""
+def _percent(share: float) -> str:
+    """«94», а для долей меньше процента — «0,4», чтобы не писать «только в 0%»."""
+    pct = share * 100
+    if 0 < pct < 0.95:
+        return f"{pct:.1f}".replace(".", ",")
+    # округлять до 100 всё, что не ровно 1, нечестно
+    return str(min(round(pct), 99) if share < 1 else 100)
+
+
+def author_traits(texts: Iterable[str], others: Iterable[str] = ()) -> list[TraitValue]:
+    """Все оценённые черты автора, от самой характерной к наименее.
+
+    Характерность — отклонение от обычной переписки плюс отличие от остальных авторов
+    чата (`others`): так в паспорте первыми идут черты, по которым автор выделяется.
+    """
     rates = trait_rates(texts)
+    other_rates = trait_rates(others)
     result = []
     for spec in TRAIT_SPECS:
         rate, eligible = rates[spec.key]
         if eligible < MIN_ELIGIBLE:
             continue
-        # отклонение от обычного в «сигмах», чтобы редкие признаки не терялись
-        distinct = abs(rate - spec.prior) / math.sqrt(spec.prior * (1 - spec.prior))
-        p, q = round(rate * 100), round((1 - rate) * 100)
+        # отклонения в «сигмах», чтобы редкие признаки не терялись
+        sigma = math.sqrt(spec.prior * (1 - spec.prior))
+        distinct = abs(rate - spec.prior) / sigma
+        other_rate, other_eligible = other_rates[spec.key]
+        if other_eligible >= MIN_ELIGIBLE:
+            distinct += abs(rate - other_rate) / sigma
+        p, q = _percent(rate), _percent(1 - rate)
         if rate >= spec.prior:
             result.append(
                 TraitValue(spec.key, spec.label, rate, spec.description.format(p=p, q=q), distinct)
@@ -248,8 +297,8 @@ def characteristic_words(
 
     Если сравнивать не с кем — просто самые частые слова автора.
     """
-    own_counts = Counter(w for t in own for w in words(t) if len(w) > 1 and w not in STOPWORDS)
-    other_counts = Counter(w for t in others for w in words(t) if len(w) > 1 and w not in STOPWORDS)
+    own_counts = _vocab(own)
+    other_counts = _vocab(others)
     candidates = [w for w, c in own_counts.items() if c >= min_count]
     if not other_counts:
         candidates.sort(key=lambda w: (-own_counts[w], w))

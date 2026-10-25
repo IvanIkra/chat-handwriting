@@ -57,6 +57,30 @@ def test_traits_of_formal_author():
     assert traits["final_dot"].value == pytest.approx(4 / 5)
 
 
+def test_small_shares_are_not_rounded_to_zero():
+    texts = ["ок"] * 199 + ["ок 🔥"]
+    trait = next(t for t in features.author_traits(texts) if t.key == "no_emoji")
+    assert trait.description == "Эмодзи только в 0,5% сообщений"
+    assert features._percent(0.996) == "99"
+
+
+def test_clean_text():
+    text = "глянь https://youtube.com/shorts/abc и t.me/chan @savxbot /start ок"
+    assert features.clean_text(text) == "глянь и ок"
+
+
+def test_laughter_is_one_word():
+    texts = ["хахаха", "ахахах ну", "хахахаха", "хаха"]
+    assert features.characteristic_words(texts, []) == ["хаха"]
+
+
+def test_traits_rank_differences_from_others_first():
+    # оба пишут с маленькой без точки, но только «Саша» ставит скобки
+    other = [t.replace(")", "") for t in SASHA]
+    keys = [t.key for t in features.author_traits(SASHA, other)]
+    assert keys[0] == "brackets_smile"
+
+
 def test_traits_sorted_by_distinctiveness():
     traits = features.author_traits(SASHA)
     scores = [t.distinctiveness for t in traits]

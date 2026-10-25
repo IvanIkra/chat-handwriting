@@ -1,12 +1,26 @@
 """Разбор `result.json` из Telegram Desktop (экспорт одного чата, машиночитаемый JSON)."""
 
 import json
+import re
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import Any, Literal
 
 PERSONAL_TYPES = {"personal_chat", "bot_chat", "saved_messages"}
 DELETED_AUTHOR_NAME = "Удалённый аккаунт"
+# Сущности, которые не говорят о почерке: их текст вырезаем из style_text
+NON_STYLE_ENTITIES = {
+    "link",
+    "mention",
+    "email",
+    "phone",
+    "bot_command",
+    "code",
+    "pre",
+    "ton_address",
+    "cashtag",
+    "bank_card",
+}
 
 
 class InvalidExport(ValueError):
@@ -18,8 +32,17 @@ class Message:
     id: int
     author_id: str
     author_name: str
-    text: str
+    text: str  # как в экспорте, со ссылками
     sent_at: datetime  # UTC
+    forwarded: bool = False  # переслано от другого человека или канала
+    via_bot: bool = False  # отправлено через inline-бота, текст написал бот
+    # Текст для анализа почерка: свой текст без ссылок, упоминаний и кода.
+    # Пустой у пересланных, через ботов и у сообщений, где была только ссылка.
+    style_text: str = ""
+
+    @property
+    def has_style(self) -> bool:
+        return bool(self.style_text)
 
 
 @dataclass
@@ -53,11 +76,8 @@ def parse_export(raw: bytes) -> ParsedChat:
 
 
 def _parse_message(msg: Any) -> Message | None:
-    """Текстовое сообщение или None, если его нужно пропустить."""
+    """Текстовое сообщение или None, если его нужно пропустить (служебное, пустое)."""
     if not isinstance(msg, dict) or msg.get("type") != "message":
-        return None
-    # Пересланное написал другой человек — для почерка отправителя это шум
-    if msg.get("forwarded_from") is not None:
         return None
     author_id = msg.get("from_id")
     if not author_id:
@@ -68,17 +88,32 @@ def _parse_message(msg: Any) -> Message | None:
     sent_at = _parse_date(msg)
     if sent_at is None:
         return None
+
+    # Пересланное и присланное через бота — активность автора, но не его почерк
+    forwarded = msg.get("forwarded_from") is not None
+    via_bot = bool(msg.get("via_bot"))
+    style_text = ""
+    if not forwarded and not via_bot:
+        style_text = _flatten_text(msg.get("text"), skip=NON_STYLE_ENTITIES)
+        style_text = re.sub(r" {2,}", " ", style_text).strip()
+
     return Message(
         id=int(msg.get("id", 0)),
         author_id=str(author_id),
         author_name=msg.get("from") or DELETED_AUTHOR_NAME,
         text=text,
         sent_at=sent_at,
+        forwarded=forwarded,
+        via_bot=via_bot,
+        style_text=style_text,
     )
 
 
-def _flatten_text(text: Any) -> str:
-    """`text` бывает строкой или списком из строк и сущностей `{"type", "text"}`."""
+def _flatten_text(text: Any, skip: set[str] | frozenset[str] = frozenset()) -> str:
+    """`text` бывает строкой или списком из строк и сущностей `{"type", "text"}`.
+
+    Сущности с типом из `skip` выбрасываются.
+    """
     if isinstance(text, str):
         return text
     if isinstance(text, list):
@@ -86,7 +121,11 @@ def _flatten_text(text: Any) -> str:
         for part in text:
             if isinstance(part, str):
                 parts.append(part)
-            elif isinstance(part, dict) and isinstance(part.get("text"), str):
+            elif (
+                isinstance(part, dict)
+                and isinstance(part.get("text"), str)
+                and part.get("type") not in skip
+            ):
                 parts.append(part["text"])
         return "".join(parts)
     return ""

@@ -43,6 +43,8 @@ def get_stored_chat(chat_id: str) -> store.StoredChat:
 
 def _build_chat(chat_id: str, parsed: ParsedChat) -> Chat:
     counts = Counter(m.author_id for m in parsed.messages)
+    # Для надёжности анализа считаем только то, что автор написал сам
+    style_counts = Counter(m.author_id for m in parsed.messages if m.has_style)
     # Сообщения отсортированы по времени, так что берём последнее имя автора
     names = {m.author_id: m.author_name for m in parsed.messages}
     authors = [
@@ -50,7 +52,7 @@ def _build_chat(chat_id: str, parsed: ParsedChat) -> Chat:
             id=author_id,
             name=names[author_id],
             message_count=count,
-            enough_data=count >= config.MIN_MESSAGES,
+            enough_data=style_counts[author_id] >= config.MIN_MESSAGES,
         )
         for author_id, count in counts.most_common()
     ]

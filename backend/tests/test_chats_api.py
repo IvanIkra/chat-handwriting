@@ -22,20 +22,28 @@ def upload(content: bytes, filename: str = "result.json"):
     return client.post("/api/chats", files={"file": (filename, content, "application/json")})
 
 
-def make_export(counts: dict[str, int]) -> bytes:
+def make_export(counts: dict[str, int], forwarded: dict[str, int] | None = None) -> bytes:
     messages = []
+
+    def add(author_id: str, text: str, **extra):
+        messages.append(
+            {
+                "id": len(messages) + 1,
+                "type": "message",
+                "date_unixtime": str(1740820320 + len(messages) * 60),
+                "from": author_id.upper(),
+                "from_id": author_id,
+                "text": text,
+                **extra,
+            }
+        )
+
     for author_id, count in counts.items():
         for i in range(count):
-            messages.append(
-                {
-                    "id": len(messages) + 1,
-                    "type": "message",
-                    "date_unixtime": str(1740820320 + len(messages) * 60),
-                    "from": author_id.upper(),
-                    "from_id": author_id,
-                    "text": f"сообщение {i}",
-                }
-            )
+            add(author_id, f"сообщение {i}")
+    for author_id, count in (forwarded or {}).items():
+        for i in range(count):
+            add(author_id, f"репост {i}", forwarded_from="Канал")
     return json.dumps({"name": "Чат", "type": "private_group", "messages": messages}).encode()
 
 
@@ -46,11 +54,12 @@ def test_upload_personal_chat():
     assert chat["id"].startswith("c_") and len(chat["id"]) == 8
     assert chat["title"] == "Саша"
     assert chat["kind"] == "personal"
-    assert chat["message_count"] == 5
+    # пересланные, через бота и только-ссылки тоже считаются сообщениями
+    assert chat["message_count"] == 8
     assert chat["period"] == {"from": "2025-03-01T09:12:00Z", "to": "2025-03-03T22:40:00Z"}
     assert chat["authors"] == [
-        {"id": "user2002", "name": "Саша", "message_count": 3, "enough_data": False},
-        {"id": "user1001", "name": "Иван", "message_count": 2, "enough_data": False},
+        {"id": "user2002", "name": "Саша", "message_count": 5, "enough_data": False},
+        {"id": "user1001", "name": "Иван", "message_count": 3, "enough_data": False},
     ]
 
 
@@ -64,6 +73,14 @@ def test_enough_data_threshold():
     resp = upload(make_export({"user1": config.MIN_MESSAGES, "user2": config.MIN_MESSAGES - 1}))
     enough = {a["id"]: a["enough_data"] for a in resp.json()["authors"]}
     assert enough == {"user1": True, "user2": False}
+
+
+def test_forwarded_do_not_count_for_enough_data():
+    n = config.MIN_MESSAGES
+    resp = upload(make_export({"user1": n - 1}, forwarded={"user1": 10}))
+    author = resp.json()["authors"][0]
+    assert author["message_count"] == n - 1 + 10
+    assert author["enough_data"] is False
 
 
 def test_get_uploaded_chat_and_same_file_same_id():
