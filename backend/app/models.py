@@ -101,3 +101,10 @@ class TwinsResult(BaseModel):
     authors: list[Author]
     pairs: list[TwinPair]
     validation: Validation | None
+
+
+class Comparison(BaseModel):
+    a: Chat
+    b: Chat
+    shared: list[str]  # аккаунты, которые есть в обоих чатах — в пары не идут
+    pairs: list[TwinPair]  # a — автор из чата a, b — из чата b

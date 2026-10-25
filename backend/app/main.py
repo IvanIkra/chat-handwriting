@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app import config
 from app.errors import register_error_handlers
-from app.routers import authors, chats, twins
+from app.routers import authors, chats, compare, twins
 
 app = FastAPI(title="Это точно Саша?")
 app.add_middleware(
@@ -26,4 +26,5 @@ def health() -> dict:
 api.include_router(chats.router)
 api.include_router(authors.router)
 api.include_router(twins.router)
+api.include_router(compare.router)
 app.include_router(api)
