@@ -1,36 +1,17 @@
-import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { api, type Chat } from '../api'
+import { api } from '../api'
 import ErrorNotice from '../components/ErrorNotice'
+import { useApiData } from '../hooks/useApiData'
 import { formatDate, messagesWord, plural } from '../utils/format'
-
-type ChatState =
-  | { kind: 'loading' }
-  | { kind: 'ok'; chat: Chat }
-  | { kind: 'error'; error: unknown }
 
 export default function ChatPage() {
   const { chatId = '' } = useParams()
-  // Ответ помнит свой chatId: при переходе на другой чат старый не показывается
-  const [loaded, setLoaded] = useState<{ chatId: string; state: ChatState } | null>(null)
-  const state: ChatState = loaded?.chatId === chatId ? loaded.state : { kind: 'loading' }
-
-  useEffect(() => {
-    let cancelled = false
-    const done = (next: ChatState) => !cancelled && setLoaded({ chatId, state: next })
-    api
-      .getChat(chatId)
-      .then((chat) => done({ kind: 'ok', chat }))
-      .catch((error: unknown) => done({ kind: 'error', error }))
-    return () => {
-      cancelled = true
-    }
-  }, [chatId])
+  const state = useApiData(chatId, () => api.getChat(chatId))
 
   if (state.kind === 'loading') return <p>Загружаем чат…</p>
   if (state.kind === 'error') return <ErrorNotice error={state.error} />
 
-  const { chat } = state
+  const chat = state.data
   const base = `/chats/${encodeURIComponent(chat.id)}`
   const authors = [...chat.authors].sort((a, b) => b.message_count - a.message_count)
 
@@ -60,7 +41,7 @@ export default function ChatPage() {
                 <strong>{author.name}</strong>{' '}
                 <span className="muted">{plural(author.message_count, messagesWord)}</span>
                 {!author.enough_data && (
-                  <span className="badge" title="Меньше сообщений, чем нужно для надёжного анализа">
+                  <span className="badge" title="Мало собственных сообщений для надёжного анализа: пересланные и через ботов не считаются">
                     мало данных
                   </span>
                 )}
