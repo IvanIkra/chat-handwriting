@@ -81,13 +81,6 @@
 .hours-chart .hours-chart__hit {
   fill: transparent;
   cursor: default;
-  outline: none;
-}
-
-.hours-chart .hours-chart__hit:focus-visible {
-  fill: var(--accent-soft);
-  stroke: var(--accent);
-  stroke-width: 1.5;
 }
 
 .hours-chart .hours-chart__peak {

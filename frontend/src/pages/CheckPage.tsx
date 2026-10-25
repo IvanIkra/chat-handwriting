@@ -116,7 +116,7 @@ export default function CheckPage() {
   const [error, setError] = useState<unknown>(null)
   // Подсветка привязана к тексту на момент проверки, а не к тому, что сейчас в поле
   const [checked, setChecked] = useState<Checked | null>(null)
-  const [active, setActive] = useState<number | null>(null)
+  const [active, setActive] = useState<number[]>([])
 
   if (chat.kind === 'loading') return <Loading>Загружаем чат…</Loading>
   if (chat.kind === 'error') return <ErrorNotice error={chat.error} standalone />
@@ -144,7 +144,7 @@ export default function CheckPage() {
     try {
       const result = await api.checkMessage(chatId, authorId, body)
       setChecked({ texts, series, result })
-      setActive(null)
+      setActive([])
     } catch (err) {
       setError(err)
     } finally {
@@ -438,9 +438,13 @@ export default function CheckPage() {
                       return (
                         <li
                           key={i}
-                          className={`check-evidence${active === i ? ' signal--active' : ''}`}
-                          onPointerEnter={() => setActive(i)}
-                          onPointerLeave={() => setActive(null)}
+                          className={`check-evidence${active.includes(i) ? ' signal--active' : ''}`}
+                          // С клавиатуры улику тоже можно выбрать — её фрагмент подсветится в тексте
+                          tabIndex={0}
+                          onPointerEnter={() => setActive([i])}
+                          onPointerLeave={() => setActive([])}
+                          onFocus={() => setActive([i])}
+                          onBlur={() => setActive([])}
                         >
                           <div className="check-evidence__head">
                             <span className="check-evidence__rank mono" aria-hidden="true">
