@@ -81,3 +81,23 @@ class CheckResult(BaseModel):
     signals: list[Signal]
     explanation: str | None = None
     challenge_question: str | None = None
+
+
+class TwinPair(BaseModel):
+    a: str
+    b: str
+    score: float
+    verdict: Literal["likely_same", "possible", "different"]
+    signals: list[Signal]
+
+
+class Validation(BaseModel):
+    self_match_rate: float
+    authors_tested: int
+
+
+class TwinsResult(BaseModel):
+    chat_id: str
+    authors: list[Author]
+    pairs: list[TwinPair]
+    validation: Validation | None
