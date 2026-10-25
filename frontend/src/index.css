@@ -715,3 +715,70 @@ header h1 a {
     font-size: 18px;
   }
 }
+
+.pair-score {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.signal > p {
+  margin: 6px 0 0;
+}
+
+.pair-examples {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pair-example__cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.pair-message {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.pair-message figcaption {
+  font-size: 0.9em;
+  margin-bottom: 6px;
+}
+
+.pair-message blockquote {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.pair-timeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.pair-timeline .card {
+  margin-bottom: 0;
+}
+
+.pair-timeline p {
+  margin: 4px 0 0;
+}
+
+.pair-timeline__value {
+  font-size: 1.5em;
+}
+
+@media (max-width: 560px) {
+  .pair-example__cols {
+    grid-template-columns: 1fr;
+  }
+}
