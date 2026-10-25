@@ -1,5 +1,10 @@
-"""Загруженные чаты в памяти процесса — живут до перезапуска бэкенда."""
+"""Загруженные чаты в памяти процесса — живут до перезапуска бэкенда.
 
+Хранятся последние MAX_CHATS: каждый чат до 50 МБ, а с моделями и кэшем — больше.
+Вытесненный чат отвечает 404, и фронт предлагает загрузить файл заново.
+"""
+
+from collections import OrderedDict
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -15,15 +20,23 @@ class StoredChat:
     cache: dict[str, Any] = field(default_factory=dict)
 
 
-_chats: dict[str, StoredChat] = {}
+MAX_CHATS = 10
+
+_chats: OrderedDict[str, StoredChat] = OrderedDict()
 
 
 def save(stored: StoredChat) -> None:
     _chats[stored.chat.id] = stored
+    _chats.move_to_end(stored.chat.id)
+    while len(_chats) > MAX_CHATS:
+        _chats.popitem(last=False)
 
 
 def get(chat_id: str) -> StoredChat | None:
-    return _chats.get(chat_id)
+    stored = _chats.get(chat_id)
+    if stored is not None:
+        _chats.move_to_end(chat_id)
+    return stored
 
 
 def clear() -> None:

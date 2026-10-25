@@ -2,6 +2,7 @@ import hashlib
 from collections import Counter
 
 from fastapi import APIRouter, UploadFile
+from fastapi.concurrency import run_in_threadpool
 
 from app import config, store
 from app.errors import ApiError
@@ -18,12 +19,13 @@ async def upload_chat(file: UploadFile) -> Chat:
         limit_mb = config.MAX_UPLOAD_BYTES // (1024 * 1024)
         raise ApiError(413, "file_too_large", f"Файл больше {limit_mb} МБ")
     try:
-        parsed = parse_export(raw)
+        # разбор 50 МБ — около секунды; в потоке, чтобы не держать остальные запросы
+        parsed = await run_in_threadpool(parse_export, raw)
     except InvalidExport as exc:
         raise ApiError(400, "invalid_export", str(exc)) from exc
 
     # id из содержимого: тот же файл после перезапуска бэкенда получит тот же id
-    chat_id = "c_" + hashlib.sha1(raw).hexdigest()[:6]
+    chat_id = "c_" + hashlib.sha1(raw).hexdigest()[:16]
     chat = _build_chat(chat_id, parsed)
     store.save(store.StoredChat(chat=chat, messages=parsed.messages))
     return chat
