@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app import config
 from app.errors import register_error_handlers
+from app.routers import chats
 
 app = FastAPI(title="Это точно Саша?")
 app.add_middleware(
@@ -22,4 +23,5 @@ def health() -> dict:
     return {"status": "ok", "llm": False}
 
 
+api.include_router(chats.router)
 app.include_router(api)
