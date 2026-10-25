@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { api } from '../api'
 import type { Chat } from '../api/types'
@@ -12,6 +12,9 @@ export default function ComparePage() {
   const [params, setParams] = useSearchParams()
   const a = params.get('a') ?? ''
   const b = params.get('b') ?? ''
+  // Общий для выбора и результата: чаты из ссылки запоминаются после сравнения и сразу получают название
+  const [recent, setRecent] = useState<RecentChat[]>(loadRecentChats)
+  const refreshRecent = () => setRecent(loadRecentChats())
 
   return (
     <section>
@@ -21,8 +24,15 @@ export default function ComparePage() {
         одной переписки и Alex из другой.
       </p>
       {/* key — чтобы выбор сбрасывался при переходе по ссылке с другими чатами */}
-      <ChatPicker key={`${a}/${b}`} a={a} b={b} onCompare={(next) => setParams(next)} />
-      {a && b && a !== b && <CompareResult a={a} b={b} />}
+      <ChatPicker
+        key={`${a}/${b}`}
+        a={a}
+        b={b}
+        chats={recent}
+        onUploaded={refreshRecent}
+        onCompare={(next) => setParams(next)}
+      />
+      {a && b && a !== b && <CompareResult a={a} b={b} onLoaded={refreshRecent} />}
     </section>
   )
 }
@@ -30,20 +40,21 @@ export default function ComparePage() {
 type PickerProps = {
   a: string
   b: string
+  chats: RecentChat[]
+  onUploaded: () => void
   onCompare: (next: { a: string; b: string }) => void
 }
 
 function ChatPicker(props: PickerProps) {
-  const [chats, setChats] = useState<RecentChat[]>(loadRecentChats)
   const [a, setA] = useState(props.a)
   const [b, setB] = useState(props.b)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<unknown>(null)
 
-  // Чат из ссылки мог быть открыт не в этом браузере — показываем его хотя бы по id
-  const options = [...chats]
+  // Чат из ссылки мог быть открыт не в этом браузере — показываем его хотя бы по id, пока не сравнили
+  const options: (Omit<RecentChat, 'kind'> & { kind?: RecentChat['kind'] })[] = [...props.chats]
   for (const id of [props.a, props.b]) {
-    if (id && !options.some((c) => c.id === id)) options.push({ id, title: id, kind: 'personal' })
+    if (id && !options.some((c) => c.id === id)) options.push({ id, title: id })
   }
 
   async function upload(file: File) {
@@ -52,7 +63,7 @@ function ChatPicker(props: PickerProps) {
     try {
       const chat = await api.uploadChat(file)
       rememberChat(chat)
-      setChats(loadRecentChats())
+      props.onUploaded()
       if (!a) setA(chat.id)
       else setB(chat.id)
     } catch (err) {
@@ -74,7 +85,8 @@ function ChatPicker(props: PickerProps) {
         <option value="">— выберите чат —</option>
         {options.map((c) => (
           <option key={c.id} value={c.id}>
-            {c.title} ({c.kind === 'group' ? 'группа' : 'личный'})
+            {c.title}
+            {c.kind && ` (${c.kind === 'group' ? 'группа' : 'личный'})`}
           </option>
         ))}
       </select>
@@ -117,8 +129,17 @@ function ChatPicker(props: PickerProps) {
   )
 }
 
-function CompareResult({ a, b }: { a: string; b: string }) {
+function CompareResult({ a, b, onLoaded }: { a: string; b: string; onLoaded: () => void }) {
   const state = useApiData(`${a}/${b}`, () => api.compare(a, b))
+
+  useEffect(() => {
+    if (state.kind !== 'ok') return
+    rememberChat(state.data.b)
+    rememberChat(state.data.a)
+    onLoaded()
+    // onLoaded пересоздаётся на каждом рендере, запоминаем по пришедшему ответу
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
 
   if (state.kind === 'loading') return <Loading>Сравниваем почерки…</Loading>
   if (state.kind === 'error') return <ErrorNotice error={state.error} standalone />
