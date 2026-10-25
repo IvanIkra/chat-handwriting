@@ -1,8 +1,11 @@
 import json
+from types import SimpleNamespace
 
+import numpy as np
 import pytest
 
-from app import store
+from app import compare as comparer
+from app import store, twins
 from tests.test_features import IVAN, SASHA
 from tests.test_profile_api import _msg, client
 from tests.test_twins import ANYA
@@ -91,3 +94,49 @@ def test_compare_errors():
     unknown = compare(sasha, "c_000000")
     assert unknown.status_code == 404
     assert unknown.json()["error"]["code"] == "not_found"
+
+
+def fake_member(author_id: str) -> SimpleNamespace:
+    return SimpleNamespace(
+        author_id=author_id, profile=SimpleNamespace(self_sim=1.0), hours=np.ones(24)
+    )
+
+
+@pytest.mark.parametrize("ratio", [0.98, 1.0, 1.05])
+def test_references_when_everyone_looks_alike(monkeypatch, ratio):
+    # без общего аккаунта и с похожестью ≥ самоподобия: раньше — деление на ноль
+    # или перевёрнутые скоры
+    monkeypatch.setattr(twins, "style_ratio", lambda a, b: ratio)
+    xs = [fake_member(f"a{i}") for i in range(3)]
+    ys = [fake_member(f"b{i}") for i in range(3)]
+    refs = comparer._references([(x, y) for x in xs for y in ys], shared=[])
+    assert refs.same > refs.different
+    # пара чуть похожее остальных — раньше этот шум раздувался до likely_same
+    monkeypatch.setattr(twins, "style_ratio", lambda a, b: ratio + 0.01)
+    assert comparer.style_score(xs[0], ys[0], refs) == 0.0
+
+
+def test_style_score_ratio_above_one(monkeypatch):
+    monkeypatch.setattr(twins, "style_ratio", lambda a, b: 1.02)
+    refs = comparer._References(same=1.0, different=1.05, hours=0.7)
+    assert comparer.style_score(fake_member("a"), fake_member("b"), refs) == 0.0
+
+
+def forwards_chat(title: str) -> str:
+    """Чат, где всё переслано, — своего текста нет ни у кого."""
+    messages = [
+        {**_msg(i, "user5005", "Боря", f"репост {i}", START + i * 60), "forwarded_from": title}
+        for i in range(40)
+    ]
+    export = {"name": title, "type": "personal_chat", "messages": messages}
+    resp = client.post(
+        "/api/chats",
+        files={"file": ("result.json", json.dumps(export).encode(), "application/json")},
+    )
+    return resp.json()["id"]
+
+
+def test_compare_chats_without_own_text():
+    result = compare(forwards_chat("Канал 1"), forwards_chat("Канал 2"))
+    assert result.status_code == 200
+    assert result.json()["pairs"] == []

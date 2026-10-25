@@ -22,6 +22,9 @@ from app.twins import Profile
 # Отношение похожести к самоподобию у разных людей в разных чатах, если не с кем сравнить
 DEFAULT_CROSS_BASELINE = 0.85
 MIN_REFERENCE_GAP = 0.02  # общий аккаунт должен быть заметно ближе к себе, чем к чужим
+# Один человек и разные люди различаются меньше — почерк в этих чатах ничего не говорит
+# (на демо разрыв 0.3–0.5)
+MIN_STYLE_GAP = 0.1
 # Временных улик между чатами нет (не пишут одновременно и т.п.), поэтому почерк весит
 # больше, чем у двойников
 STYLE_WEIGHT = 0.75
@@ -62,6 +65,11 @@ def _compare(a: StoredChat, b: StoredChat) -> Comparison:
     shared = sorted({x.id for x in a.chat.authors} & {x.id for x in b.chat.authors})
     result = Comparison(a=a.chat, b=b.chat, shared=shared, pairs=[])
 
+    # без своего текста сравнивать нечего — и векторизатору не на чем учиться
+    if not any(x.enough_data for x in a.chat.authors) or not any(
+        x.enough_data for x in b.chat.authors
+    ):
+        return result
     texts = [m.style_text for s in (a, b) for m in s.messages if m.has_style]
     # один векторизатор на оба чата — иначе центроиды из разных пространств
     vectorizer = features.char_ngram_vectorizer().fit(texts)
@@ -108,8 +116,13 @@ def _members(stored: StoredChat, chat: str, vectorizer: TfidfVectorizer) -> list
     return members
 
 
+def _style_ratio(x: _Member, y: _Member) -> float:
+    # на малых объёмах похожесть на чужого бывает выше самоподобия — больше 1 не считаем
+    return min(1.0, twins.style_ratio(x.profile, y.profile))
+
+
 def _references(cross: list[tuple[_Member, _Member]], shared: list[str]) -> _References:
-    same = [twins.style_ratio(x.profile, y.profile) for x, y in cross if x.author_id == y.author_id]
+    same = [_style_ratio(x, y) for x, y in cross if x.author_id == y.author_id]
     # пары общего аккаунта с чужим автором другого чата — точно разные люди
     known_different = [
         (x, y)
@@ -117,7 +130,7 @@ def _references(cross: list[tuple[_Member, _Member]], shared: list[str]) -> _Ref
         if x.author_id != y.author_id and {x.author_id, y.author_id} & set(shared)
     ]
     different_pairs = known_different or [(x, y) for x, y in cross if x.author_id != y.author_id]
-    ratios = [twins.style_ratio(x.profile, y.profile) for x, y in different_pairs]
+    ratios = [_style_ratio(x, y) for x, y in different_pairs]
     if known_different:
         different = float(np.median(ratios))
     else:
@@ -125,7 +138,7 @@ def _references(cross: list[tuple[_Member, _Member]], shared: list[str]) -> _Ref
         different = twins._median(ratios, DEFAULT_CROSS_BASELINE)
     same_level = float(np.median(same)) if same else 1.0
     if same_level < different + MIN_REFERENCE_GAP:
-        same_level = 1.0
+        same_level = max(1.0, different + MIN_REFERENCE_GAP)
 
     hours = [_hours_similarity(x.hours, y.hours) for x, y in different_pairs]
     if known_different:
@@ -157,8 +170,10 @@ def _compare_pair(
 
 def style_score(x: _Member, y: _Member, refs: _References) -> float:
     """0 — как разные люди в разных чатах, 1 — как один человек в двух чатах."""
-    ratio = twins.style_ratio(x.profile, y.profile)
-    raw = (ratio - refs.different) / (refs.same - refs.different)
+    gap = refs.same - refs.different
+    if gap < MIN_STYLE_GAP:
+        return 0.0
+    raw = (_style_ratio(x, y) - refs.different) / gap
     reliability = min(
         1.0,
         np.sqrt(max(x.profile.self_sim * y.profile.self_sim, 0.0)) / twins.RELIABLE_SELF_SIM,
