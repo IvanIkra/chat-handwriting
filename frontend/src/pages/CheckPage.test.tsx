@@ -43,6 +43,7 @@ test('фейк: «не похоже», «срочно» подсвечено, у
   expect(within(time).getByText('не в тексте')).toBeInTheDocument()
   expect(screen.getByText('Задайте контрольный вопрос')).toBeInTheDocument()
   expect(screen.getByText('Объяснение')).toBeInTheDocument()
+  expect(screen.getByText(/Текст написан Claude по уликам выше/)).toBeInTheDocument()
 })
 
 test('наведение на подсветку выделяет улику в списке', async () => {
@@ -108,6 +109,24 @@ test('текст из одних ссылок и упоминаний: «нет 
 
   expect(await screen.findByText('В тексте нет почерка')).toBeInTheDocument()
   expect(screen.queryByText('Мало данных об авторе')).not.toBeInTheDocument()
+})
+
+test('объяснение без улик — подпись не ссылается на «улики выше»', async () => {
+  vi.spyOn(api, 'checkMessage').mockResolvedValueOnce({
+    author_id: 'user2002',
+    score: 0.7,
+    verdict: 'match',
+    reason: null,
+    signals: [],
+    explanation: 'Пишет как обычно: строчные буквы, скобка вместо эмодзи.',
+    challenge_question: null,
+  })
+  await renderCheck('c_7f3a9b', 'user2002')
+  await check('бублик опять на клаве уснул)')
+
+  expect(await screen.findByText('Пишет как обычно: строчные буквы, скобка вместо эмодзи.')).toBeInTheDocument()
+  expect(screen.getByText('Текст написан Claude — это пояснение, а не доказательство.')).toBeInTheDocument()
+  expect(screen.queryByText(/по уликам выше/)).not.toBeInTheDocument()
 })
 
 test('длиннее 4096 символов: не обрезаем, счётчик в кодовых точках, отправка заблокирована', async () => {

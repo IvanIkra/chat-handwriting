@@ -490,7 +490,12 @@ export default function CheckPage() {
                     <span className="badge accent">Claude</span>
                   </div>
                   <p className="check-llm__text">{result.explanation}</p>
-                  <p className="check-llm__note">Текст написан Claude по уликам выше — это пояснение, а не доказательство.</p>
+                  <p className="check-llm__note">
+                    {/* Улик может не быть (например, «похоже» без расхождений) — тогда ссылаться не на что */}
+                    {result.signals.length > 0
+                      ? 'Текст написан Claude по уликам выше — это пояснение, а не доказательство.'
+                      : 'Текст написан Claude — это пояснение, а не доказательство.'}
+                  </p>
                 </section>
               )}
 
