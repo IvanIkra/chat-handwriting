@@ -18,11 +18,13 @@ type Props = {
 }
 
 export default function ScoreMeter({ verdict, score }: Props) {
-  const v = VERDICTS[verdict]
+  // Неизвестный вердикт (бэкенд новее фронта) показываем как «не уверены», а не роняем страницу
+  const known: CheckVerdict = Object.hasOwn(VERDICTS, verdict) ? verdict : 'uncertain'
+  const v = VERDICTS[known]
   const percent = score === null ? null : Math.round(score * 100)
 
   return (
-    <div className={`verdict verdict--${verdict}`}>
+    <div className={`verdict verdict--${known}`}>
       <div className="verdict__head">
         <span className="verdict__icon" aria-hidden="true">
           {v.icon}

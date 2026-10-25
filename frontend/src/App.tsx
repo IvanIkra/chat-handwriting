@@ -1,4 +1,5 @@
-import { Link, Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes, useLocation } from 'react-router-dom'
+import ErrorBoundary from './components/ErrorBoundary'
 import HealthBadge from './components/HealthBadge'
 import ChatPage from './pages/ChatPage'
 import CheckPage from './pages/CheckPage'
@@ -10,6 +11,7 @@ import TwinsPage from './pages/TwinsPage'
 import UploadPage from './pages/UploadPage'
 
 function App() {
+  const location = useLocation()
   return (
     <main>
       <header>
@@ -18,16 +20,19 @@ function App() {
         </h1>
         <HealthBadge />
       </header>
-      <Routes>
-        <Route path="/" element={<UploadPage />} />
-        <Route path="/chats/:chatId" element={<ChatPage />} />
-        <Route path="/chats/:chatId/authors/:authorId" element={<ProfilePage />} />
-        <Route path="/chats/:chatId/authors/:authorId/check" element={<CheckPage />} />
-        <Route path="/chats/:chatId/twins" element={<TwinsPage />} />
-        <Route path="/chats/:chatId/twins/:aId/:bId" element={<PairPage />} />
-        <Route path="/compare" element={<ComparePage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      {/* key: после перехода на другую страницу ошибка сбрасывается */}
+      <ErrorBoundary key={location.pathname}>
+        <Routes>
+          <Route path="/" element={<UploadPage />} />
+          <Route path="/chats/:chatId" element={<ChatPage />} />
+          <Route path="/chats/:chatId/authors/:authorId" element={<ProfilePage />} />
+          <Route path="/chats/:chatId/authors/:authorId/check" element={<CheckPage />} />
+          <Route path="/chats/:chatId/twins" element={<TwinsPage />} />
+          <Route path="/chats/:chatId/twins/:aId/:bId" element={<PairPage />} />
+          <Route path="/compare" element={<ComparePage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </ErrorBoundary>
     </main>
   )
 }

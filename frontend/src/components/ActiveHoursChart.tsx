@@ -27,6 +27,7 @@ function barPath(x: number, y: number, w: number, h: number): string {
 export default function ActiveHoursChart({ hours }: Props) {
   const [active, setActive] = useState<number | null>(null)
   const max = Math.max(...hours, 0.0001)
+  // -1, если часов нет: бэкенд не должен так отвечать, но падать из-за этого незачем
   const peak = hours.indexOf(Math.max(...hours))
   const plotH = H - TOP - BOTTOM
   const baseline = TOP + plotH
@@ -35,6 +36,7 @@ export default function ActiveHoursChart({ hours }: Props) {
     const height = (v / max) * plotH
     return { h, v, x: h * BAND + (BAND - BAR) / 2, y: baseline - height, height }
   })
+  const peakBar = peak >= 0 ? bars[peak] : null
   const shown = active === null ? null : bars[active]
 
   return (
@@ -43,7 +45,7 @@ export default function ActiveHoursChart({ hours }: Props) {
         Когда пишет <span className="muted">· время UTC</span>
       </figcaption>
       <div className="hours-chart__plot">
-        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Активность по часам, пик в ${hourLabel(peak)} UTC`}>
+        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={peakBar ? `Активность по часам, пик в ${hourLabel(peak)} UTC` : 'Активность по часам: нет данных'}>
           <line className="hours-chart__axis" x1={0} x2={W} y1={baseline + 0.5} y2={baseline + 0.5} />
           {bars.map((b) => (
             <path
@@ -53,9 +55,9 @@ export default function ActiveHoursChart({ hours }: Props) {
               d={barPath(b.x, b.y, BAR, b.height)}
             />
           ))}
-          {bars[peak].v > 0 && (
-            <text className="hours-chart__peak" x={bars[peak].x + BAR / 2} y={bars[peak].y - 5} textAnchor="middle">
-              {pct(bars[peak].v)}
+          {peakBar && peakBar.v > 0 && (
+            <text className="hours-chart__peak" x={peakBar.x + BAR / 2} y={peakBar.y - 5} textAnchor="middle">
+              {pct(peakBar.v)}
             </text>
           )}
           {bars
