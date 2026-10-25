@@ -1,0 +1,258 @@
+/* Экран чата: шапка со статистикой, режимы, сетка авторов */
+
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ---------- Шапка ---------- */
+
+.chat-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px 32px;
+  align-items: end;
+  padding: 28px;
+  background:
+    radial-gradient(120% 140% at 100% 0%, var(--accent-soft) 0%, transparent 55%),
+    var(--bg-elevated);
+}
+
+.chat-hero__title {
+  min-width: 0;
+}
+
+.chat-hero__title h2 {
+  margin: 4px 0 8px;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.chat-hero__title .page-subtitle {
+  margin: 0;
+}
+
+.chat-hero__stats {
+  display: flex;
+  gap: 28px;
+}
+
+.chat-hero__stats .stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.chat-hero .eyebrow,
+.chat-mode .eyebrow {
+  margin: 0;
+}
+
+/* ---------- Режимы ---------- */
+
+.chat-modes {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 16px;
+}
+
+.chat-modes--single {
+  grid-template-columns: 1fr;
+}
+
+.chat-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 24px;
+}
+
+.chat-modes--single .chat-mode {
+  flex-direction: row;
+  align-items: center;
+}
+
+.chat-mode__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text-muted);
+}
+
+.chat-mode__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.chat-mode__body h3 {
+  margin: 2px 0 6px;
+  font-size: 1.125rem;
+}
+
+.chat-mode__body p:last-child {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.chat-mode .button {
+  flex: none;
+}
+
+.chat-mode--twins {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  background:
+    linear-gradient(160deg, var(--accent-soft) 0%, transparent 70%),
+    var(--bg-elevated);
+}
+
+.chat-mode--twins .chat-mode__icon {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+/* ---------- Авторы ---------- */
+
+.chat-authors-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.chat-authors {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.chat-author {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  margin: 0;
+}
+
+.chat-author__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.chat-author__who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.chat-author__name {
+  font-size: 1.0625rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-author__count {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.chat-author__badge {
+  flex: none;
+}
+
+.chat-author__share {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-author__share-track {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.chat-author__share-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 55%, transparent), var(--accent));
+}
+
+.chat-author__share-value {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  min-width: 3ch;
+  text-align: right;
+}
+
+.chat-author__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.chat-author__actions .button {
+  flex: 1 1 auto;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ---------- Адаптив ---------- */
+
+@media (max-width: 760px) {
+  .chat-hero {
+    grid-template-columns: 1fr;
+    align-items: start;
+    padding: 22px;
+  }
+
+  .chat-modes {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-modes--single .chat-mode {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 420px) {
+  .chat-hero__stats {
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .chat-hero__stats .stat-value {
+    font-size: 1.4rem;
+  }
+
+  .chat-hero__stats .stat-label {
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+  }
+
+  .chat-mode .button {
+    width: 100%;
+    justify-content: center;
+  }
+}
