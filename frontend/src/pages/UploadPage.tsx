@@ -1,14 +1,16 @@
 import { useState, type DragEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { api, ApiError } from '../api'
 import ErrorNotice from '../components/ErrorNotice'
 import { MAX_UPLOAD_BYTES, tooLargeMessage } from '../utils/errors'
+import { loadRecentChats } from '../utils/recentChats'
 
 export default function UploadPage() {
   const navigate = useNavigate()
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<unknown>(null)
   const [dragOver, setDragOver] = useState(false)
+  const [recent] = useState(loadRecentChats)
 
   async function upload(file: File) {
     setError(null)
@@ -63,10 +65,35 @@ export default function UploadPage() {
             if (file) void upload(file)
           }}
         />
-        <span>{uploading ? 'Загружаем и разбираем переписку…' : 'Выберите result.json или перетащите его сюда'}</span>
+        {uploading ? (
+          <span className="loading">
+            <span className="spinner" aria-hidden="true" />
+            Загружаем и разбираем переписку…
+          </span>
+        ) : (
+          <>
+            <span className="dropzone__title">Выберите result.json</span>
+            <span className="muted">или перетащите его сюда</span>
+          </>
+        )}
       </label>
 
       {error !== null && <ErrorNotice error={error} showReuploadLink={false} />}
+
+      {recent.length > 0 && (
+        <div className="recent">
+          <h3>Недавние чаты</h3>
+          <ul className="recent__list">
+            {recent.map((chat) => (
+              <li key={chat.id}>
+                <Link to={`/chats/${encodeURIComponent(chat.id)}`}>{chat.title}</Link>{' '}
+                <span className="muted">{chat.kind === 'group' ? 'группа' : 'личный'}</span>
+              </li>
+            ))}
+          </ul>
+          {recent.length >= 2 && <Link to="/compare">Сравнить два чата →</Link>}
+        </div>
+      )}
     </section>
   )
 }

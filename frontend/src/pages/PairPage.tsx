@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { api } from '../api'
 import ErrorNotice from '../components/ErrorNotice'
+import Loading from '../components/Loading'
 import { useApiData } from '../hooks/useApiData'
 import { formatDateTime, plural, twinVerdictLabel } from '../utils/format'
 
@@ -10,8 +11,8 @@ export default function PairPage() {
   const { chatId = '', aId = '', bId = '' } = useParams()
   const state = useApiData(`${chatId}/${aId}/${bId}`, () => api.getPair(chatId, aId, bId))
 
-  if (state.kind === 'loading') return <p>Сравниваем пару…</p>
-  if (state.kind === 'error') return <ErrorNotice error={state.error} />
+  if (state.kind === 'loading') return <Loading>Сравниваем пару…</Loading>
+  if (state.kind === 'error') return <ErrorNotice error={state.error} standalone />
 
   const { pair, a, b, examples, timeline, explanation } = state.data
   const twinsPath = `/chats/${encodeURIComponent(chatId)}/twins`

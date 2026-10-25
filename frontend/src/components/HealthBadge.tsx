@@ -17,7 +17,8 @@ export default function HealthBadge() {
   }, [])
 
   return (
-    <p role="status">
+    <p role="status" className={`health health--${state.kind}`}>
+      <span className="health__dot" aria-hidden="true" />
       {useMocks && 'Моки · '}
       {state.kind === 'loading' && 'Проверяем бэкенд…'}
       {state.kind === 'ok' &&
