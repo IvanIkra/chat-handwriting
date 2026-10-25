@@ -144,7 +144,6 @@ export default function ProfilePage() {
 
       <div className="profile-lists">
         <section className="card profile-list" aria-labelledby="profile-words-title">
-          <p className="eyebrow">Словарь</p>
           <h3 id="profile-words-title">Любимые слова</h3>
           {profile.top_words.length === 0 ? (
             <p className="muted">Нет</p>
@@ -159,7 +158,6 @@ export default function ProfilePage() {
           )}
         </section>
         <section className="card profile-list" aria-labelledby="profile-emoji-title">
-          <p className="eyebrow">Интонация</p>
           <h3 id="profile-emoji-title">Эмодзи и смайлы</h3>
           {profile.emoji.length === 0 ? (
             <p className="muted">Не использует</p>

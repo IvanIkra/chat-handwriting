@@ -13,7 +13,6 @@ export default function NotFoundPage() {
           </span>
           4
         </p>
-        <p className="eyebrow">Улика не найдена</p>
         <h2 className="notfound-title">Такой страницы нет</h2>
         <p className="notfound-text">
           Ссылка устарела или в адресе опечатка. Чаты хранятся в памяти сервера только до его

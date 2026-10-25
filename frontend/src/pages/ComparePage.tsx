@@ -23,7 +23,6 @@ export default function ComparePage() {
     <div className="page compare-page">
       <header className="page-header">
         <div>
-          <p className="eyebrow">Режим · сравнение переписок</p>
           <h2>Сравнение двух чатов</h2>
           <p className="page-subtitle">
             Кто из авторов одного чата, скорее всего, тот же человек, что и автор другого: например, Саша из
@@ -290,7 +289,6 @@ function CompareResult({ a, b, onLoaded }: { a: string; b: string; onLoaded: () 
   return (
     <section className="compare-result" aria-live="polite">
       <div className="card compare-summary">
-        <p className="eyebrow">Результат сравнения</p>
         <h3 className="compare-summary__title">
           «{chatA.title}» и «{chatB.title}»
         </h3>

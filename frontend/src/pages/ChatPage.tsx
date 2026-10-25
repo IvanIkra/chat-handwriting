@@ -58,7 +58,6 @@ export default function ChatPage() {
     <div className="page chat-page">
       <header className="card chat-hero">
         <div className="chat-hero__title">
-          <p className="eyebrow">Чат</p>
           <h2>{chat.title}</h2>
           <p className="page-subtitle muted">
             {isGroup ? 'Групповой чат' : 'Личная переписка'} · {formatDate(chat.period.from)} —{' '}
@@ -90,7 +89,6 @@ export default function ChatPage() {
               <TwinsIcon />
             </span>
             <div className="chat-mode__body">
-              <p className="eyebrow">Режим</p>
               <h3>Двойники в чате</h3>
               <p className="muted">
                 Не пишет ли один человек с нескольких аккаунтов? Сравним почерк всех участников
@@ -107,7 +105,6 @@ export default function ChatPage() {
             <CompareIcon />
           </span>
           <div className="chat-mode__body">
-            <p className="eyebrow">Режим</p>
             <h3>Два чата — один человек?</h3>
             <p className="muted">Загрузите вторую переписку — сопоставим почерк авторов из обоих чатов.</p>
           </div>

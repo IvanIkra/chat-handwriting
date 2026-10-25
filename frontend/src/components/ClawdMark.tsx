@@ -1,12 +1,12 @@
 type Props = {
-  /** idle — моргает и переминается; search — ещё и озирается по сторонам */
+  /** idle — моргает; search — ещё и озирается по сторонам */
   mood?: 'idle' | 'search'
   className?: string
 }
 
 /**
- * Пиксельный Clawd на SVG (сетка 12×8, как в гифках) — для логотипа и мест, где гифка слишком тяжёлая.
- * Анимации — в CSS (.clawd-mark): моргание, шаг лапками, взмах клешнёй при наведении на ссылку-родителя.
+ * Пиксельный Clawd на SVG (сетка 12×8, как в гифках) — там, где он часть текста, например ноль в «404».
+ * Анимации — в CSS (.clawd-mark): моргание и, в режиме search, взгляд по сторонам.
  */
 export default function ClawdMark({ mood = 'idle', className }: Props) {
   const classes = ['clawd-mark', `clawd-mark--${mood}`, className].filter(Boolean).join(' ')

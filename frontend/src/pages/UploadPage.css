@@ -6,58 +6,6 @@
 
 /* ---------- Hero ---------- */
 
-/* Приветствие как в Claude Code: машущий Clawd и рамка цвета акцента */
-.upload-hello {
-  display: flex;
-  align-items: flex-end;
-  gap: 14px;
-  margin-bottom: 4px;
-}
-
-.upload-hello__clawd {
-  flex: none;
-}
-
-.upload-welcome {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-  padding: 10px 16px;
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-mono);
-  animation: fade-up 0.4s 0.1s var(--ease) both;
-}
-
-.upload-welcome__title {
-  color: var(--text);
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.upload-welcome__star {
-  display: inline-block;
-  color: var(--accent);
-  animation: star-turn 6s var(--ease) infinite;
-}
-
-.upload-welcome__hint {
-  color: var(--text-muted);
-  font-size: 0.78rem;
-}
-
-@keyframes star-turn {
-  0%,
-  80% {
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: rotate(180deg);
-  }
-}
-
 .upload-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
@@ -73,10 +21,6 @@
   min-width: 0;
 }
 
-.upload-hero__text .eyebrow {
-  margin: 0;
-}
-
 .upload-hero__title {
   margin: 0;
   font-size: clamp(1.8rem, 1.1rem + 2.8vw, 2.9rem);
@@ -87,48 +31,12 @@
   text-wrap: balance;
 }
 
-.upload-hero__accent {
-  color: var(--accent);
-}
-
 .upload-hero__lead {
   margin: 0;
   max-width: 34em;
   font-size: 1.075rem;
   line-height: 1.6;
   color: var(--text-muted);
-}
-
-.upload-hero__facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 20px;
-  margin: 4px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-.upload-hero__facts li {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.upload-hero__facts li::before {
-  content: '';
-  width: 16px;
-  height: 16px;
-  flex: none;
-  /* галочка в круге: маска поверх заливки токеном --good */
-  -webkit-mask:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23000' fill-opacity='.18'/%3E%3Cpath d='m4.5 8.2 2.3 2.3 4.7-4.9' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
-    center / contain no-repeat;
-  mask:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23000' fill-opacity='.18'/%3E%3Cpath d='m4.5 8.2 2.3 2.3 4.7-4.9' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
-    center / contain no-repeat;
-  background: var(--good);
 }
 
 /* ---------- Образец вердикта в hero (декоративный) ---------- */
@@ -142,16 +50,8 @@
   padding: 20px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background:
-    radial-gradient(
-      120% 80% at 100% 0%,
-      color-mix(in srgb, var(--accent) 12%, transparent),
-      transparent 60%
-    ),
-    var(--bg-elevated);
-  box-shadow: var(--shadow);
+  background: var(--bg-elevated);
   min-width: 0;
-  transform: rotate(0.6deg);
 }
 
 .upload-specimen__bubble {
@@ -454,10 +354,6 @@
   gap: 6px;
 }
 
-.upload-section__head .eyebrow {
-  margin: 0;
-}
-
 .upload-section__title {
   margin: 0;
   font-size: 1.5rem;
@@ -537,52 +433,6 @@
   border-color: var(--accent);
 }
 
-/* Шаги */
-
-.upload-steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: none;
-}
-
-.upload-step {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 20px 4px 0 0;
-  border-top: 2px solid var(--border);
-}
-
-.upload-step:first-child {
-  border-top-color: var(--accent);
-}
-
-.upload-step__num {
-  font-family: var(--font-mono);
-  font-size: 1.75rem;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--accent);
-}
-
-.upload-step__title {
-  margin: 4px 0 0;
-  font-size: 1rem;
-  color: var(--text);
-}
-
-.upload-step__text {
-  margin: 0;
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  color: var(--text-muted);
-}
-
 /* Недавние чаты */
 
 .upload-recent {
@@ -651,17 +501,8 @@
     gap: 28px;
   }
 
-  .upload-specimen {
-    transform: none;
-  }
-
-  .upload-modes,
-  .upload-steps {
+  .upload-modes {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .upload-step {
-    padding-top: 16px;
   }
 }
 

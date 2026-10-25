@@ -200,7 +200,6 @@ export default function CheckPage() {
 
       <div className="page-header">
         <div>
-          <span className="eyebrow">Проверка сообщения</span>
           <h2 className="check-title">
             Это точно <span className="check-title__name">{author.name}</span>?
           </h2>

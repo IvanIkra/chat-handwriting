@@ -75,14 +75,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(
-      1000px 480px at 50% -200px,
-      color-mix(in srgb, var(--accent) 10%, transparent),
-      transparent 70%
-    ),
-    var(--bg);
-  background-repeat: no-repeat;
+  background: var(--bg);
   caret-color: var(--accent);
   color: var(--text);
   font-family: var(--font-sans);
@@ -276,15 +269,6 @@ summary:focus-visible,
 
 .brand__mark {
   flex: none;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 32px;
-}
-
-.brand__mark svg {
-  width: 36px;
-  height: auto;
 }
 
 .brand__accent {
@@ -505,10 +489,6 @@ summary:focus-visible,
   text-transform: uppercase;
 }
 
-.eyebrow::before {
-  content: '✻';
-  letter-spacing: 0;
-}
 
 /* Заголовок секции: h3 и справа/рядом мелкая подпись или счётчик */
 .section-head {
@@ -1474,22 +1454,6 @@ legend {
   transform-box: fill-box;
 }
 
-/* Наведение на ссылку с Clawd: машет правой клешнёй и перебирает лапками */
-a:hover > * > .clawd-mark .clawd-mark__claw--right,
-a:hover > .clawd-mark .clawd-mark__claw--right {
-  animation: clawd-wave 0.5s steps(1, end) infinite;
-}
-
-a:hover > * > .clawd-mark .clawd-mark__leg--a,
-a:hover > .clawd-mark .clawd-mark__leg--a {
-  animation: clawd-step 0.4s steps(1, end) infinite;
-}
-
-a:hover > * > .clawd-mark .clawd-mark__leg--b,
-a:hover > .clawd-mark .clawd-mark__leg--b {
-  animation: clawd-step 0.4s 0.2s steps(1, end) infinite;
-}
-
 /* Озирается: глаза бегают влево-вправо */
 .clawd-mark--search .clawd-mark__eyes {
   animation:
@@ -1636,14 +1600,7 @@ a:hover > .clawd-mark .clawd-mark__leg--b {
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--v-color) 30%, var(--border));
   border-radius: var(--radius-lg);
-  background:
-    radial-gradient(
-      120% 140% at 0% 0%,
-      color-mix(in srgb, var(--v-color) 14%, transparent),
-      transparent 60%
-    ),
-    var(--bg-elevated);
-  box-shadow: var(--shadow);
+  background: var(--bg-elevated);
   animation: fade-up 0.35s var(--ease) both;
 }
 
@@ -2031,18 +1988,6 @@ a:hover > .clawd-mark .clawd-mark__leg--b {
 
   75% {
     translate: 1px 0;
-  }
-}
-
-@keyframes clawd-wave {
-  50% {
-    translate: 0 -1px;
-  }
-}
-
-@keyframes clawd-step {
-  50% {
-    translate: 0 -0.5px;
   }
 }
 

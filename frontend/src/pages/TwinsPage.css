@@ -33,7 +33,7 @@
 
 .twins-stat--danger {
   border-color: color-mix(in srgb, var(--danger) 40%, var(--border));
-  background: linear-gradient(180deg, var(--danger-bg), var(--bg-elevated) 70%);
+  background: var(--bg-elevated);
 }
 
 /* Самопроверка */
@@ -123,11 +123,6 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 12px;
-}
-
-.twins-section-head .eyebrow,
-.twins-ranking > .eyebrow {
-  margin: 0 0 4px;
 }
 
 /* Рейтинг пар */

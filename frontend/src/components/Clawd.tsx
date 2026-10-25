@@ -8,6 +8,8 @@ import laptop from '../assets/clawd/laptop.gif'
 import laptopStill from '../assets/clawd/laptop.png'
 import lurking from '../assets/clawd/lurking.gif'
 import lurkingStill from '../assets/clawd/lurking.png'
+import logo from '../assets/clawd/logo.gif'
+import logoStill from '../assets/clawd/logo.png'
 import magnifier from '../assets/clawd/magnifier.gif'
 import magnifierStill from '../assets/clawd/magnifier.png'
 import pointing from '../assets/clawd/pointing.gif'
@@ -21,6 +23,8 @@ const POSES = {
   'crab-walking': [crabWalking, crabWalkingStill, 262, 185],
   dancing: [dancing, dancingStill, 262, 185],
   laptop: [laptop, laptopStill, 371, 251],
+  // Логотип: та же лупа, но кадр поуже и пиксели по родной сетке — чётко в маленьком размере
+  logo: [logo, logoStill, 108, 81],
   lurking: [lurking, lurkingStill, 142, 185],
   magnifier: [magnifier, magnifierStill, 393, 294],
   pointing: [pointing, pointingStill, 305, 229],

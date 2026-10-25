@@ -1,6 +1,5 @@
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import Clawd from './components/Clawd'
-import ClawdMark from './components/ClawdMark'
 import ErrorBoundary from './components/ErrorBoundary'
 import HealthBadge from './components/HealthBadge'
 import ChatPage from './pages/ChatPage'
@@ -22,9 +21,7 @@ function App() {
       <header className="app-header">
         <div className="app-header__inner">
           <Link to="/" className="brand">
-            <span className="brand__mark">
-              <ClawdMark />
-            </span>
+            <Clawd pose="logo" scale={0.5} className="brand__mark" />
             <span className="brand__text">
               Это точно <span className="brand__accent">Клавдий</span>?
             </span>

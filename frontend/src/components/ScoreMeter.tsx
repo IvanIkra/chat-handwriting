@@ -75,7 +75,6 @@ export default function ScoreMeter({ verdict, score, reason }: Props) {
           </div>
         </div>
         <div className="verdict__text">
-          <span className="eyebrow">Вердикт по почерку</span>
           <strong className="verdict__label">{v.label}</strong>
           <p className="verdict__hint">{v.hint}</p>
         </div>
