@@ -122,3 +122,183 @@ header h1 a {
 .error p {
   margin: 0 0 4px;
 }
+
+:root {
+  --chart-bar: #2f6fde;
+  --chart-grid: #e3e5e8;
+  --surface-raised: #ffffff;
+  --text-strong: #111827;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --chart-bar: #5a8ff5;
+    --chart-grid: #33373d;
+    --surface-raised: #2a2d32;
+    --text-strong: #f3f4f6;
+  }
+}
+
+.profile-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.notice {
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+
+.traits {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.trait {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.trait__bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--chart-grid);
+  overflow: hidden;
+}
+
+.trait__bar > div {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--chart-bar);
+}
+
+.hours-chart {
+  margin: 24px 0;
+}
+
+.hours-chart figcaption {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.hours-chart__plot {
+  position: relative;
+}
+
+.hours-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.hours-chart__axis {
+  stroke: var(--chart-grid);
+  stroke-width: 1;
+}
+
+.hours-chart__bar {
+  fill: var(--chart-bar);
+}
+
+.hours-chart__bar--active {
+  opacity: 0.75;
+}
+
+.hours-chart__hit {
+  fill: transparent;
+  cursor: default;
+  outline: none;
+}
+
+.hours-chart__hit:focus-visible {
+  stroke: var(--accent);
+  stroke-width: 1;
+}
+
+.hours-chart__tick,
+.hours-chart__peak {
+  fill: var(--muted);
+  font-size: 11px;
+}
+
+.hours-chart__peak {
+  fill: var(--text-strong);
+  font-weight: 600;
+}
+
+.hours-chart__tooltip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 8px));
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-raised);
+  color: var(--text-strong);
+  font-size: 0.85em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.hours-chart__table summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.9em;
+  margin-top: 8px;
+}
+
+.hours-chart__table table {
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 0.9em;
+}
+
+.hours-chart__table td,
+.hours-chart__table th {
+  padding: 2px 12px 2px 0;
+  text-align: left;
+}
+
+.profile-lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.chips {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chips li {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.chips__char {
+  font-weight: 600;
+}
+
+/* SVG сжимается вместе с текстом — на узком экране подписи крупнее */
+@media (max-width: 560px) {
+  .hours-chart__tick,
+  .hours-chart__peak {
+    font-size: 16px;
+  }
+}
