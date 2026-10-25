@@ -2,6 +2,7 @@ import json
 
 import pytest
 
+from app import check as checker
 from app import features, store
 from tests.test_features import IVAN, SASHA
 from tests.test_profile_api import _msg, client
@@ -16,10 +17,10 @@ def clean_store():
     store.clear()
 
 
-def upload_chat() -> str:
+def upload_chat(sasha: list[str] = SASHA) -> str:
     """Как в test_profile_api, но Саши в 10 раз больше: улики набирают силу от объёма."""
     messages = []
-    for i, text in enumerate(SASHA * 10):
+    for i, text in enumerate(sasha * 10):
         messages.append(_msg(len(messages), "user2002", "Саша", text, 1740823200 + i * 5))
     for i, text in enumerate(IVAN):
         messages.append(_msg(len(messages), "user1001", "Иван", text, 1740852000 + i * 60))
@@ -74,6 +75,36 @@ def test_check_scam():
     weights = [s["weight"] for s in result["signals"]]
     assert weights == sorted(weights, reverse=True)
     assert all(0 < w <= 1 for w in weights)
+
+
+def test_check_scam_greeting_counted_once():
+    chat_id = upload_chat()
+    result = check(chat_id, "user2002", {"text": SCAM}).json()
+    greeting = next(s for s in result["signals"] if s["feature"] == "greeting")
+    rare = [s for s in result["signals"] if s["feature"] == "rare_words"]
+    assert greeting["span"] not in [s["span"] for s in rare]
+
+
+def test_check_own_greeting_is_not_evidence(monkeypatch):
+    # приветствие обычно у всех — тогда и своё «прив» у Саши выглядело бы уликой
+    monkeypatch.setattr(checker, "GREETING_RATE", 1.0)
+    chat_id = upload_chat([*SASHA, "прив кста ты где"])
+    result = check(chat_id, "user2002", {"text": "прив ща гляну)"}).json()
+    assert "greeting" not in {s["feature"] for s in result["signals"]}
+    assert result["verdict"] == "match"
+    # чужое приветствие — по-прежнему улика
+    scam = check(chat_id, "user2002", {"text": SCAM}).json()
+    assert "greeting" in {s["feature"] for s in scam["signals"]}
+
+
+def test_check_one_comma_is_not_mismatch():
+    # Саша почти не ставит запятые, но одна запятая в своём сообщении — ещё не подделка
+    chat_id = upload_chat()
+    result = check(chat_id, "user2002", {"text": "ну норм, го ща буду)"}).json()
+    [signal] = result["signals"]
+    assert signal["feature"] == "commas"
+    assert signal["weight"] < 0.5
+    assert result["verdict"] != "mismatch"
 
 
 def test_check_span_in_code_points():

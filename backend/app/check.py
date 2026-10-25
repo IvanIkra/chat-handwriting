@@ -26,6 +26,8 @@ MATCH_SCORE = 0.6  # от этого — match
 MISMATCH_SCORE = 0.35  # до этого — mismatch, между — uncertain
 MIN_LLR = 1.0  # слабее — не улика
 MAX_LLR = 3.0  # одна улика не решает всё
+# Запятые в переписке ставят и пропускают как придётся — одна запятая сама не делает подделку
+TRAIT_MAX_LLR = {"commas": 1.5}
 STRENGTH_SCALE = 0.4  # сколько логитов оценки снимает единица LLR
 # По одному короткому сообщению классификатор угадывает слабо (AUC ≈ 0.72 на живом чате),
 # поэтому его логит ослабляем, а вниз — не дальше uncertain: mismatch дают только улики
@@ -107,6 +109,7 @@ class _Evidence:
     observed: str
     span: tuple[int, int] | None
     message: int | None = None  # номер сообщения серии
+    usual: bool = False  # наблюдение совпадает с привычкой автора — это не улика
 
 
 def check_message(
@@ -142,8 +145,11 @@ def check_series(
         if clean:
             noise = [m.span() for m in features.NOISE_RE.finditer(text)]
             found += _trait_evidence(model, text, clean, noise)
-            found += _greeting_evidence(model, text, noise)
-            found += _rare_word_evidence(chat, model, text, noise, seen_stems)
+            greeting = _greeting_evidence(model, text, noise)
+            found += greeting
+            # приветствие уже оценено — второй раз нетипичным словом не считаем
+            greeting_spans = [e.span for e in greeting if e.span]
+            found += _rare_word_evidence(chat, model, text, noise + greeting_spans, seen_stems)
             found += _length_evidence(model, clean)
         if sent_at is not None:
             found += _hours_evidence(model, sent_at)
@@ -152,7 +158,7 @@ def check_series(
         evidence += found
     if series:
         evidence = _top_rare_words(_sum_habits(evidence), len(items))
-    evidence = _one_hours_evidence([e for e in evidence if e.llr >= MIN_LLR])
+    evidence = _one_hours_evidence([e for e in evidence if e.llr >= MIN_LLR and not e.usual])
 
     # по серии классификатор ошибается реже — ему можно доверять сильнее
     floor = SERIES_MIN_BASE_LOGIT if series else MIN_BASE_LOGIT
@@ -316,6 +322,7 @@ def _trait_evidence(
             if observed
             else math.log((1 - spec.prior) / (1 - p_author))
         )
+        llr = min(llr, TRAIT_MAX_LLR.get(spec.key, MAX_LLR))
         label, present, absent = TRAIT_SIGNALS[spec.key]
         habit_share = max(rate, 1 - rate)
         habit = present if rate >= 0.5 else absent
@@ -331,6 +338,7 @@ def _trait_evidence(
                 f"{often} {habit} ({features.percent(habit_share)}%)",
                 present if observed else absent,
                 span,
+                usual=observed == (rate >= 0.5),
             )
         )
     return result
@@ -345,8 +353,9 @@ def _greeting_evidence(
         return []
     greeting = match.group().lower()
     share = (model.greetings[greeting] + 0.5) / (model.n_texts + 1)
-    usual = [f"«{g}»" for g, n in model.greetings.most_common(2) if n >= 2]
-    expected = f"{', '.join(usual)} или без приветствия" if usual else "без приветствия"
+    usual = [g for g, n in model.greetings.most_common(2) if n >= 2]
+    quoted = ", ".join(f"«{g}»" for g in usual)
+    expected = f"{quoted} или без приветствия" if usual else "без приветствия"
     return [
         _Evidence(
             math.log(GREETING_RATE / share),
@@ -355,6 +364,7 @@ def _greeting_evidence(
             expected,
             f"«{match.group()}»",
             match.span(),
+            usual=greeting in usual,
         )
     ]
 

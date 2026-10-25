@@ -40,6 +40,17 @@ def test_series_scam():
             assert_spans(SCAM[s["message"]], [s])
 
 
+def test_series_habit_match_is_not_evidence():
+    # скобки у этой Саши в 40% сообщений: серия без скобок не должна давать улику
+    # «обычно без скобок» при наблюдении «без скобок»
+    chat_id = upload_chat(
+        ["кста ща гляну)", "го вечером))", "ваще не помню где", "ну норм", "ща буду"]
+    )
+    texts = ["кста ща гляну", "го вечером", "ну норм", "ща буду", "ваще не помню где"]
+    result = check(chat_id, "user2002", series(texts)).json()
+    assert "brackets_smile" not in {s["feature"] for s in result["signals"]}
+
+
 def test_series_active_hours_once():
     chat_id = upload_chat()
     # Саша пишет только в 10:xx UTC
