@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+from app import llm
 from app.check import check_message
 from app.errors import ApiError
 from app.models import Author, CheckRequest, CheckResult, StyleProfile
@@ -19,7 +20,9 @@ def get_profile(chat_id: str, author_id: str) -> StyleProfile:
 @router.post("/{author_id}/check", response_model=CheckResult)
 def check(chat_id: str, author_id: str, body: CheckRequest) -> CheckResult:
     stored = get_stored_chat(chat_id)
-    return check_message(stored, get_author(stored, author_id), body.text, body.sent_at)
+    author = get_author(stored, author_id)
+    result = check_message(stored, author, body.text, body.sent_at)
+    return llm.add_check_texts(stored, author, body.text, result)
 
 
 def get_author(stored: StoredChat, author_id: str) -> Author:

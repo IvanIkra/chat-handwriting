@@ -1,7 +1,7 @@
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app import config
+from app import config, llm
 from app.errors import register_error_handlers
 from app.routers import authors, chats, compare, twins
 
@@ -19,8 +19,7 @@ api = APIRouter(prefix="/api")
 
 @api.get("/health")
 def health() -> dict:
-    # LLM подключим в #9, пока всегда false
-    return {"status": "ok", "llm": False}
+    return {"status": "ok", "llm": llm.available()}
 
 
 api.include_router(chats.router)

@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+from app import llm
 from app.models import PairDetails, TwinsResult
 from app.pair import pair_details
 from app.routers.chats import get_stored_chat
@@ -15,4 +16,6 @@ def get_twins(chat_id: str) -> TwinsResult:
 
 @router.get("/{a_id}/{b_id}", response_model=PairDetails)
 def get_pair(chat_id: str, a_id: str, b_id: str) -> PairDetails:
-    return pair_details(get_stored_chat(chat_id), a_id, b_id)
+    stored = get_stored_chat(chat_id)
+    details = pair_details(stored, a_id, b_id)
+    return details.model_copy(update={"explanation": llm.explain_pair(stored, details)})
