@@ -1,6 +1,7 @@
 """Загруженные чаты в памяти процесса — живут до перезапуска бэкенда."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import Any
 
 from app.models import Chat
 from app.telegram import Message
@@ -10,6 +11,8 @@ from app.telegram import Message
 class StoredChat:
     chat: Chat
     messages: list[Message]
+    # Посчитанное для анализа (модели, словари) — строится при первом запросе
+    cache: dict[str, Any] = field(default_factory=dict)
 
 
 _chats: dict[str, StoredChat] = {}
