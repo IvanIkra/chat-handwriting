@@ -1,34 +1,31 @@
-import { useEffect, useState } from 'react'
-
-type Health = { status: string; llm: boolean }
-
-type HealthState =
-  | { kind: 'loading' }
-  | { kind: 'ok'; health: Health }
-  | { kind: 'error' }
+import { Link, Route, Routes } from 'react-router-dom'
+import HealthBadge from './components/HealthBadge'
+import ChatPage from './pages/ChatPage'
+import CheckPage from './pages/CheckPage'
+import NotFoundPage from './pages/NotFoundPage'
+import PairPage from './pages/PairPage'
+import ProfilePage from './pages/ProfilePage'
+import TwinsPage from './pages/TwinsPage'
+import UploadPage from './pages/UploadPage'
 
 function App() {
-  const [state, setState] = useState<HealthState>({ kind: 'loading' })
-
-  useEffect(() => {
-    fetch('/api/health')
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json() as Promise<Health>
-      })
-      .then((health) => setState({ kind: 'ok', health }))
-      .catch(() => setState({ kind: 'error' }))
-  }, [])
-
   return (
     <main>
-      <h1>Это точно Саша?</h1>
-      <p role="status">
-        {state.kind === 'loading' && 'Проверяем бэкенд…'}
-        {state.kind === 'ok' &&
-          `Бэкенд: ${state.health.status}, LLM: ${state.health.llm ? 'доступна' : 'нет'}`}
-        {state.kind === 'error' && 'Бэкенд недоступен'}
-      </p>
+      <header>
+        <h1>
+          <Link to="/">Это точно Саша?</Link>
+        </h1>
+        <HealthBadge />
+      </header>
+      <Routes>
+        <Route path="/" element={<UploadPage />} />
+        <Route path="/chats/:chatId" element={<ChatPage />} />
+        <Route path="/chats/:chatId/authors/:authorId" element={<ProfilePage />} />
+        <Route path="/chats/:chatId/authors/:authorId/check" element={<CheckPage />} />
+        <Route path="/chats/:chatId/twins" element={<TwinsPage />} />
+        <Route path="/chats/:chatId/twins/:aId/:bId" element={<PairPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </main>
   )
 }
