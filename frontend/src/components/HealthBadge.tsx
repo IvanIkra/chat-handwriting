@@ -19,11 +19,13 @@ export default function HealthBadge() {
   return (
     <p role="status" className={`health health--${state.kind}`}>
       <span className="health__dot" aria-hidden="true" />
-      {useMocks && 'Моки · '}
-      {state.kind === 'loading' && 'Проверяем бэкенд…'}
-      {state.kind === 'ok' &&
-        `Бэкенд: ${state.health.status}, LLM: ${state.health.llm ? 'доступна' : 'нет'}`}
-      {state.kind === 'error' && 'Бэкенд недоступен'}
+      <span className="health__text">
+        {useMocks && 'Моки · '}
+        {state.kind === 'loading' && 'Проверяем бэкенд…'}
+        {state.kind === 'ok' &&
+          `Бэкенд: ${state.health.status}, LLM: ${state.health.llm ? 'доступна' : 'нет'}`}
+        {state.kind === 'error' && 'Бэкенд недоступен'}
+      </span>
     </p>
   )
 }

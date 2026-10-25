@@ -1,0 +1,623 @@
+/* Лендинг и загрузка экспорта. Все классы — с префиксом upload-, цвета — только токены */
+
+.upload {
+  gap: 48px;
+}
+
+/* ---------- Hero ---------- */
+
+.upload-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+  padding-top: 8px;
+}
+
+.upload-hero__text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.upload-hero__text .eyebrow {
+  margin: 0;
+}
+
+.upload-hero__title {
+  margin: 0;
+  font-size: clamp(2rem, 1.2rem + 3.2vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 750;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.upload-hero__accent {
+  color: var(--accent);
+}
+
+.upload-hero__lead {
+  margin: 0;
+  max-width: 34em;
+  font-size: 1.075rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.upload-hero__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.upload-hero__facts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.upload-hero__facts li::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  flex: none;
+  /* галочка в круге: маска поверх заливки токеном --good */
+  -webkit-mask:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23000' fill-opacity='.18'/%3E%3Cpath d='m4.5 8.2 2.3 2.3 4.7-4.9' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  mask:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23000' fill-opacity='.18'/%3E%3Cpath d='m4.5 8.2 2.3 2.3 4.7-4.9' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  background: var(--good);
+}
+
+/* ---------- Образец вердикта в hero (декоративный) ---------- */
+
+.upload-specimen {
+  position: relative;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(
+      120% 80% at 100% 0%,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 60%
+    ),
+    var(--bg-elevated);
+  box-shadow: var(--shadow);
+  min-width: 0;
+  transform: rotate(0.6deg);
+}
+
+.upload-specimen__bubble {
+  align-self: flex-start;
+  max-width: 100%;
+  padding: 10px 14px 12px;
+  border-radius: 16px 16px 16px 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.upload-specimen__from {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.upload-specimen__bubble p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.upload-specimen__bubble mark {
+  padding: 0 2px;
+  border-radius: 4px;
+  color: inherit;
+}
+
+.upload-specimen__hl--bad {
+  background: color-mix(in srgb, var(--danger) 22%, transparent);
+  box-shadow: inset 0 -2px 0 var(--danger);
+}
+
+.upload-specimen__verdict {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.upload-specimen__verdict > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.upload-specimen__label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.upload-specimen__score {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--danger);
+}
+
+.upload-specimen__meter {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.upload-specimen__meter span {
+  display: block;
+  width: 12%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--danger);
+}
+
+.upload-specimen__clues {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 2px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--border);
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.upload-specimen__clues li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.upload-specimen__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translateY(-1px);
+}
+
+.upload-specimen__dot--bad {
+  background: var(--danger);
+}
+
+.upload-specimen__dot--good {
+  background: var(--good);
+}
+
+/* ---------- Карточка загрузки ---------- */
+
+.upload-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px;
+  margin: 0;
+}
+
+.upload-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+
+.upload-card__title {
+  margin: 0;
+  font-size: 1.375rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.upload-card__intro {
+  margin: 0;
+}
+
+/* База — глобальная .dropzone; здесь горизонтальная раскладка и состояния */
+.upload-drop {
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 28px;
+  background: var(--surface-2);
+  text-align: left;
+}
+
+.upload-drop:hover {
+  background: color-mix(in srgb, var(--accent-soft) 60%, var(--surface-2));
+}
+
+.upload-drop.dropzone--over {
+  border-style: solid;
+  background: var(--accent-soft);
+}
+
+.upload-drop--busy {
+  cursor: progress;
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.upload-drop--failed {
+  border-color: color-mix(in srgb, var(--danger) 55%, var(--border));
+}
+
+.upload-drop__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  box-shadow: var(--shadow-sm);
+  transition: transform 150ms ease;
+}
+
+.upload-drop:hover .upload-drop__icon,
+.upload-drop.dropzone--over .upload-drop__icon {
+  transform: translateY(-2px);
+}
+
+.upload-drop__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.upload-drop__title {
+  font-size: 1.125rem;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.upload-drop__file {
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .upload-drop__icon {
+    transition: none;
+  }
+
+  .upload-drop.dropzone--over {
+    transform: none;
+  }
+}
+
+.upload-howto {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.upload-howto__label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.upload-howto__path {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+
+.upload-howto__path li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+}
+
+.upload-howto__path li + li::before {
+  content: '›';
+  color: var(--text-muted);
+}
+
+.upload-llm {
+  margin: 0;
+}
+
+.upload-llm__text {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+/* ---------- Секции ниже ---------- */
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.upload-section__head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.upload-section__head .eyebrow {
+  margin: 0;
+}
+
+.upload-section__title {
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+/* Режимы */
+
+.upload-modes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.upload-mode {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 22px;
+}
+
+.upload-mode__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 4px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.upload-mode__title {
+  margin: 0;
+  font-size: 1.0625rem;
+  color: var(--text);
+}
+
+.upload-mode__text {
+  margin: 0;
+  flex: 1;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.upload-mode__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.upload-mode--link {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+
+.upload-mode--link .upload-mode__icon {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.upload-mode__link {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.upload-mode--link:hover {
+  border-color: var(--accent);
+}
+
+/* Шаги */
+
+.upload-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.upload-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 4px 0 0;
+  border-top: 2px solid var(--border);
+}
+
+.upload-step:first-child {
+  border-top-color: var(--accent);
+}
+
+.upload-step__num {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.upload-step__title {
+  margin: 4px 0 0;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.upload-step__text {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* Недавние чаты */
+
+.upload-recent {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.upload-recent__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  padding: 14px 16px;
+}
+
+.upload-recent__item:hover {
+  border-color: var(--accent);
+}
+
+.upload-recent__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.upload-recent__body .badge {
+  margin: 0;
+}
+
+.upload-recent__link {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.upload-recent__arrow {
+  flex: none;
+  color: var(--text-muted);
+  transition:
+    transform 150ms ease,
+    color 150ms ease;
+}
+
+.upload-recent__item:hover .upload-recent__arrow {
+  color: var(--accent);
+  transform: translateX(3px);
+}
+
+/* ---------- Адаптивность ---------- */
+
+@media (max-width: 880px) {
+  .upload-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .upload-specimen {
+    transform: none;
+  }
+
+  .upload-modes,
+  .upload-steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .upload-step {
+    padding-top: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .upload {
+    gap: 36px;
+  }
+
+  .upload-card {
+    padding: 20px;
+  }
+
+  .upload-drop {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px 16px;
+  }
+
+  .upload-drop__body {
+    align-items: center;
+  }
+
+  .upload-specimen__score {
+    font-size: 2rem;
+  }
+}

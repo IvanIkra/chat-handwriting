@@ -1,0 +1,393 @@
+/* Паспорт почерка: документ-шапка, черты, часы, словарь */
+
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ---------- Документ ---------- */
+
+.profile-passport {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+}
+
+/* Тонкий «защитный» узор, как на бланке документа */
+.profile-passport::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent) 5%, transparent) 0 1px,
+      transparent 1px 12px
+    ),
+    radial-gradient(90% 120% at 100% 0%, var(--accent-soft) 0%, transparent 60%);
+}
+
+.profile-passport > * {
+  position: relative;
+}
+
+.profile-passport__band {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 12px 28px;
+  border-bottom: 1px dashed color-mix(in srgb, var(--accent) 35%, var(--border));
+  background: color-mix(in srgb, var(--accent-soft) 70%, transparent);
+}
+
+.profile-passport__band .eyebrow {
+  margin: 0;
+  color: var(--accent);
+}
+
+.profile-passport__serial {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+}
+
+.profile-passport__main {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px 24px;
+  padding: 28px 28px 20px;
+}
+
+.profile-avatar {
+  box-shadow:
+    0 0 0 4px var(--bg-elevated),
+    0 0 0 5px color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+
+.profile-passport__who {
+  min-width: 0;
+}
+
+.profile-passport__title {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-passport__kind {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.profile-passport__name {
+  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.profile-passport__lead {
+  margin: 8px 0 0;
+  max-width: 52ch;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.profile-fields {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+
+.profile-field {
+  padding: 16px 28px 20px;
+  min-width: 0;
+}
+
+.profile-field + .profile-field {
+  border-left: 1px solid var(--border);
+}
+
+.profile-field dt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.profile-field dd {
+  margin: 6px 0 0;
+  font-family: var(--font-mono);
+  font-size: 1.625rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.profile-field__unit {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* ---------- Секции ---------- */
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.profile-list h3,
+.profile-cta-card h3 {
+  margin: 0;
+}
+
+/* ---------- Черты ---------- */
+
+.profile-traits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.profile-trait {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 18px 20px;
+  margin: 0;
+}
+
+.profile-trait__marker {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.profile-trait__body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-trait__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.profile-trait__head strong {
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.profile-trait__value {
+  font-family: var(--font-mono);
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--accent);
+  flex: none;
+}
+
+.profile-trait__value small {
+  font-size: 0.75rem;
+  margin-left: 1px;
+  color: var(--text-muted);
+}
+
+.profile-trait__bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.profile-trait__bar > div {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 50%, transparent), var(--accent));
+}
+
+.profile-trait__desc {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+/* ---------- Часы ---------- */
+
+.profile-hours {
+  padding: 24px;
+}
+
+/* ---------- Словарь ---------- */
+
+.profile-lists {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.profile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 22px 24px;
+}
+
+.profile-list .eyebrow {
+  margin: 0;
+}
+
+.profile-list h3 {
+  margin-bottom: 12px;
+}
+
+.profile-list > p.muted {
+  margin: 0;
+}
+
+.profile-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profile-chips .chip {
+  margin: 0;
+}
+
+.profile-emoji {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-emoji__char {
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.profile-emoji__count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ---------- Нижний призыв ---------- */
+
+.profile-cta-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  padding: 24px 28px;
+  background:
+    linear-gradient(120deg, var(--accent-soft) 0%, transparent 75%),
+    var(--bg-elevated);
+}
+
+.profile-cta-card p {
+  margin: 6px 0 0;
+}
+
+/* ---------- Адаптив ---------- */
+
+@media (max-width: 860px) {
+  .profile-passport__main {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .profile-cta {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .profile-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .profile-field:nth-child(3) {
+    border-left: 0;
+  }
+
+  .profile-field:nth-child(n + 3) {
+    border-top: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 680px) {
+  .profile-traits,
+  .profile-lists {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-passport__band,
+  .profile-passport__main {
+    padding-inline: 18px;
+  }
+
+  .profile-passport__main {
+    gap: 16px;
+  }
+
+  .profile-avatar {
+    --avatar-size: 60px;
+  }
+
+  .profile-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .profile-field {
+    padding: 14px 18px 16px;
+  }
+
+  .profile-field dd {
+    font-size: 1.375rem;
+  }
+
+  .profile-hours,
+  .profile-list,
+  .profile-cta-card {
+    padding: 18px;
+  }
+
+  .profile-cta-card .button {
+    width: 100%;
+    justify-content: center;
+  }
+}

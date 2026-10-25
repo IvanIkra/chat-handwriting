@@ -17,23 +17,50 @@ type Props = {
   score: number | null
 }
 
+const RADIUS = 52
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS
+
 export default function ScoreMeter({ verdict, score }: Props) {
   // Неизвестный вердикт (бэкенд новее фронта) показываем как «не уверены», а не роняем страницу
   const known: CheckVerdict = Object.hasOwn(VERDICTS, verdict) ? verdict : 'uncertain'
   const v = VERDICTS[known]
-  const percent = score === null ? null : Math.round(score * 100)
+  const percent = score === null ? null : Math.min(100, Math.max(0, Math.round(score * 100)))
+  const offset = percent === null ? CIRCUMFERENCE : CIRCUMFERENCE * (1 - percent / 100)
 
   return (
     <div className={`verdict verdict--${known}`}>
-      <div className="verdict__head">
-        <span className="verdict__icon" aria-hidden="true">
-          {v.icon}
-        </span>
-        <div>
-          <strong className="verdict__label">{v.label}</strong>
-          <p className="muted">{v.hint}</p>
+      <div className="verdict__main">
+        <div className="verdict__gauge" aria-hidden="true">
+          <svg viewBox="0 0 120 120">
+            <circle className="verdict__track" cx="60" cy="60" r={RADIUS} />
+            {percent !== null && (
+              <circle
+                className="verdict__arc"
+                cx="60"
+                cy="60"
+                r={RADIUS}
+                strokeDasharray={CIRCUMFERENCE}
+                strokeDashoffset={offset}
+                style={{ ['--arc-length' as string]: CIRCUMFERENCE }}
+              />
+            )}
+          </svg>
+          <div className="verdict__center">
+            {percent !== null ? (
+              <span className="verdict__score">
+                {percent}
+                <small>%</small>
+              </span>
+            ) : (
+              <span className="verdict__icon">{v.icon}</span>
+            )}
+          </div>
         </div>
-        {percent !== null && <span className="verdict__score">{percent}%</span>}
+        <div className="verdict__text">
+          <span className="eyebrow">Вердикт по почерку</span>
+          <strong className="verdict__label">{v.label}</strong>
+          <p className="verdict__hint">{v.hint}</p>
+        </div>
       </div>
       {percent !== null && (
         <div
@@ -45,10 +72,14 @@ export default function ScoreMeter({ verdict, score }: Props) {
           aria-valuenow={percent}
           aria-valuetext={`${percent}% — ${v.label}`}
         >
-          <div className="meter__fill" style={{ width: `${percent}%` }} />
+          <div className="meter__track">
+            <div className="meter__fill" style={{ width: `${percent}%` }} />
+            <div className="meter__marker" style={{ left: `${percent}%` }} />
+          </div>
           <div className="meter__scale" aria-hidden="true">
             <span>0%</span>
             <span>не похоже</span>
+            <span>сомнительно</span>
             <span>похоже</span>
             <span>100%</span>
           </div>
