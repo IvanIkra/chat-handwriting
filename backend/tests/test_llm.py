@@ -153,3 +153,11 @@ def test_pair_explanation(fake):
     # повторный запрос пары, в любом порядке, — из кэша
     client.get(f"/api/chats/{chat_id}/twins/user2003/user2002")
     assert len(messages.calls) == 1
+
+
+def test_no_good_question(fake):
+    fake(reply("НЕТ"))
+    chat_id = upload_chat()
+    result = check(chat_id, "user2002", {"text": SCAM}).json()
+    assert result["challenge_question"] is None
+    assert result["explanation"] == "НЕТ"  # объяснение — отдельный запрос, его не трогаем
