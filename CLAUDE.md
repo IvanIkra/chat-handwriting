@@ -5,6 +5,8 @@
 
 ## Стек и команды
 - Стек: бэкенд — Python 3 + FastAPI (uvicorn, pytest, ruff); фронтенд — React + TypeScript + Vite
+- Продукт и MVP — `docs/IDEA.md`. Анализ: scikit-learn (стилометрия); LLM — Claude API, ключ `ANTHROPIC_API_KEY` в `.env`, без ключа всё работает, только без LLM-текстов
+- Данные: реальные экспорты Telegram лежат только в `data/` (в `.gitignore`) и не коммитятся; для тестов — маленькие выдуманные фикстуры в `backend/tests/fixtures/`
 - Установка зависимостей: `cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`; `cd frontend && npm install`
 - Запуск: `cd backend && .venv/bin/uvicorn app.main:app --reload --port 8000`; `cd frontend && npm run dev` (порт 5173)
 - Тесты: `cd backend && .venv/bin/pytest`; `cd frontend && npm test`
@@ -37,6 +39,7 @@
 - Мерж — squash. Свой PR в своей зоне с зелёными проверками можно мержить самому. PR, задевающий общее, мержится после ок от второго.
 - Конфликт в lock-файле: не правь руками — возьми версию из `main` и переустанови зависимости.
 - Новые зависимости — отдельным коммитом, с упоминанием в описании PR.
+- Не упоминай Claude и ИИ-ассистента как автора в коммитах, PR, issues и коде: никаких `Co-Authored-By: Claude`, «Generated with Claude Code» и подобных подписей.
 
 ## Задачи
 Доска — GitHub Issues с метками `zone:A`, `zone:B`, `shared`.
