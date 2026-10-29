@@ -1,4 +1,4 @@
-# Проект: vibehack
+# Проект: «Это точно Клавдий?» (chat-handwriting)
 
 Хакатон. Команда из двух человек, оба пишут параллельно через Claude Code на своих машинах.
 Цель процесса: не мешать друг другу и всегда иметь рабочий `main`.
@@ -6,6 +6,7 @@
 ## Стек и команды
 - Стек: бэкенд — Python 3 + FastAPI (uvicorn, pytest, ruff); фронтенд — React + TypeScript + Vite
 - Продукт и MVP — `docs/IDEA.md`. Анализ: scikit-learn (стилометрия); LLM — Claude API, ключ `ANTHROPIC_API_KEY` в `.env`, без ключа всё работает, только без LLM-текстов
+- Документация (`README.md`, `docs/`, `demo/README.md`) — на английском; коммиты, PR и issues — на русском. Процесс для людей — `docs/PROCESS.md`
 - Данные: реальные экспорты Telegram лежат только в `data/` (в `.gitignore`) и не коммитятся; для тестов — маленькие выдуманные фикстуры в `backend/tests/fixtures/`
 - Установка зависимостей: `cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`; `cd frontend && npm install`
 - Запуск: `cd backend && .venv/bin/uvicorn app.main:app --reload --port 8000`; `cd frontend && npm run dev` (порт 5173)
@@ -17,7 +18,7 @@
 |---|---|---|
 | A (бэкенд) | ivanikra | `backend/` |
 | B (фронтенд) | s1ngul0r | `frontend/` |
-| Общее | оба, только с согласованием | `shared/`, `docs/CONTRACT.md`, файлы зависимостей, CI |
+| Общее | оба, только с согласованием | `docs/CONTRACT.md`, файлы зависимостей, CI, файлы в корне |
 
 Кто я и какая у меня зона — в `CLAUDE.local.md` (у каждого свой, в git не попадает).
 
