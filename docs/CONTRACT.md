@@ -1,30 +1,32 @@
-# Контракт между зонами
+# Contract between zones
 
-Источник истины для API и форматов данных. Меняется только через `/contract` отдельным PR, который подтверждают оба.
+The source of truth for the API and data formats. It changes only through `/contract` in a separate PR approved by both teammates.
 
-Продукт: «Это точно Клавдий?» — см. `docs/IDEA.md`.
+Product: «Это точно Клавдий?» — see `docs/IDEA.md`.
 
-## Общее
-- Базовый URL (локально): `http://localhost:8000`, все пути начинаются с `/api`
-- Формат: JSON, UTF-8, даты в ISO 8601 (UTC)
-- Ошибки: HTTP-статус + тело `{"error": {"code": "string", "message": "string"}}`
-  - `400 invalid_export` — файл не похож на экспорт Telegram
-  - `404 not_found` — нет такого чата или автора (в т.ч. после перезапуска бэкенда — фронт предлагает загрузить файл заново)
-  - `413 file_too_large` — файл больше 50 МБ
-  - `422 validation` — неверное тело запроса (бэкенд приводит ошибки FastAPI к этому формату)
-  - `500 internal` — непредвиденная ошибка бэкенда; `message` — общий текст без подробностей, фронт предлагает повторить позже
-  - `http_error` — прочие ошибки HTTP, статус как есть (например, `405` на неверный метод); фронту отдельно разбирать не нужно
-- Авторизация: нет
-- Хранение: в памяти бэкенда, до перезапуска
-- Поля, которые заполняет LLM (`explanation`, `challenge_question`), могут быть `null`, если ключа нет или LLM не ответила. Фронт в этом случае просто не показывает блок.
-- Оценки `score` — число от 0 до 1: насколько вероятно, что тексты написал один и тот же человек.
-- Фрагменты текста `span` — `[start, end)` в **кодовых точках Unicode** (как индексы строки в Python). На фронте резать через `Array.from(text)`, а не `text.slice`, иначе эмодзи собьют индексы.
+Example values are in Russian because the product analyzes Russian-language chats; the frontend mocks use them as is.
 
-## Сущности
+## General
+- Base URL (local): `http://localhost:8000`, all paths start with `/api`
+- Format: JSON, UTF-8, dates in ISO 8601 (UTC)
+- Errors: HTTP status + body `{"error": {"code": "string", "message": "string"}}`
+  - `400 invalid_export` — the file does not look like a Telegram export
+  - `404 not_found` — no such chat or author (including after a backend restart — the frontend offers to upload the file again)
+  - `413 file_too_large` — the file is larger than 50 MB
+  - `422 validation` — invalid request body (the backend converts FastAPI errors to this format)
+  - `500 internal` — unexpected backend error; `message` is a generic text without details, the frontend suggests retrying later
+  - `http_error` — other HTTP errors, status as is (e.g. `405` for a wrong method); the frontend does not need to handle them separately
+- Authorization: none
+- Storage: in backend memory, until restart
+- Fields filled by the LLM (`explanation`, `challenge_question`) can be `null` if there is no key or the LLM did not respond. In that case the frontend simply does not show the block.
+- `score` values are numbers from 0 to 1: how likely it is that the texts were written by the same person.
+- Text fragments `span` are `[start, end)` in **Unicode code points** (like string indices in Python). On the frontend, slice via `Array.from(text)`, not `text.slice`, otherwise emoji break the indices.
+
+## Entities
 
 ### Author
-`message_count` — все текстовые сообщения автора, включая пересланные и отправленные через inline-ботов.
-`enough_data` — хватает ли сообщений для надёжного анализа (порог задаёт бэкенд, сейчас ≥ 30 **собственных** сообщений — без пересланных, через ботов и состоящих только из ссылки). Поэтому автор с большим `message_count` может быть без `enough_data`. Авторы без `enough_data` показываются, но не участвуют в поиске двойников.
+`message_count` — all text messages of the author, including forwarded ones and ones sent via inline bots.
+`enough_data` — whether there are enough messages for a reliable analysis (the threshold is set by the backend, currently ≥ 30 **own** messages — excluding forwarded ones, ones via bots, and ones consisting only of a link). So an author with a large `message_count` can still lack `enough_data`. Authors without `enough_data` are shown but do not take part in the twins search.
 ```json
 {
   "id": "user2002",
@@ -35,7 +37,7 @@
 ```
 
 ### Chat
-`kind`: `personal` (личная переписка) или `group`.
+`kind`: `personal` (one-on-one chat) or `group`.
 ```json
 {
   "id": "c_7f3a9b",
@@ -50,7 +52,7 @@
 }
 ```
 
-### Trait (черта почерка)
+### Trait (handwriting trait)
 ```json
 {
   "key": "lowercase_start",
@@ -60,8 +62,8 @@
 }
 ```
 
-### StyleProfile (паспорт почерка)
-`active_hours` — 24 числа, доля сообщений автора в каждый час суток (по UTC, сумма ≈ 1 — значения округлены, отклонение до 0.002); считаются все сообщения, включая пересланные. `traits`, `top_words`, `emoji` и `avg_length` — только по собственному тексту автора.
+### StyleProfile (handwriting passport)
+`active_hours` — 24 numbers, the share of the author's messages in each hour of the day (UTC, sum ≈ 1 — values are rounded, deviation up to 0.002); all messages count, including forwarded ones. `traits`, `top_words`, `emoji` and `avg_length` are computed only from the author's own text.
 ```json
 {
   "author_id": "user2002",
@@ -80,8 +82,8 @@
 }
 ```
 
-### Signal (улика)
-`span` есть только у улик, привязанных к месту в проверяемом тексте, иначе `null`. `weight` — вклад улики в итог (0–1), для сортировки и толщины подсветки. `message` — при проверке серии номер сообщения (с 0), к которому относится `span`; при проверке одного текста и у улик про серию целиком — `null`. Поле необязательное: в ответах без серии его может не быть.
+### Signal (evidence)
+`span` is present only for signals tied to a place in the checked text, otherwise `null`. `weight` — the signal's contribution to the result (0–1), for sorting and highlight thickness. `message` — when checking a series, the index of the message (from 0) that `span` refers to; when checking a single text and for signals about the series as a whole — `null`. The field is optional: it may be absent in responses without a series.
 ```json
 {
   "feature": "greeting",
@@ -96,7 +98,7 @@
 
 ### CheckResult
 `verdict`: `match` | `uncertain` | `mismatch` | `not_enough_data`.
-`reason` — почему `not_enough_data`: `few_messages` (у автора мало собственных сообщений) или `no_style_text` (в проверяемом тексте нет почерка — только ссылки, @упоминания, команды или код); при остальных вердиктах — `null`. Поле необязательное: в ответах без него считать `few_messages`.
+`reason` — why `not_enough_data`: `few_messages` (the author has few own messages) or `no_style_text` (the checked text has no handwriting — only links, @mentions, commands or code); for other verdicts — `null`. The field is optional: treat its absence as `few_messages`.
 ```json
 {
   "author_id": "user2002",
@@ -113,7 +115,7 @@
   "challenge_question": "Спроси, в какой бар вы ходили после концерта в мае (в «Ровесник») — это обсуждалось в переписке 14.05."
 }
 ```
-`challenge_question` — только сам вопрос: начинается со «Спроси», в скобках — правильный ответ из переписки (его видит только пользователь, проверяющий собеседника), в конце — когда это обсуждалось. `null`, если вывод `match`, LLM недоступна или хорошего вопроса из переписки не составить.
+`challenge_question` — only the question itself: it starts with «Спроси» ("Ask"), the correct answer from the chat is in parentheses (only the user who verifies the other person sees it), and it ends with when this was discussed. `null` if the verdict is `match`, the LLM is unavailable, or no good question can be built from the chat.
 
 ### TwinPair
 `verdict`: `likely_same` | `possible` | `different`.
@@ -132,8 +134,8 @@
 }
 ```
 
-### Comparison (сравнение двух чатов)
-Авторы из двух разных чатов: кто из них, скорее всего, один человек. `pairs` — пары в формате `TwinPair`, где `a` — автор из чата `a`, `b` — из чата `b`. `shared` — аккаунты, которые есть в обоих чатах (обычно тот, кто делал оба экспорта): это и так один аккаунт, в `pairs` они не идут.
+### Comparison (two chats)
+Authors from two different chats: which of them are most likely the same person. `pairs` — pairs in the `TwinPair` format, where `a` is an author from chat `a` and `b` is from chat `b`. `shared` — accounts present in both chats (usually whoever made both exports): they are the same account anyway and do not go into `pairs`.
 ```json
 {
   "a": {
@@ -170,30 +172,30 @@
 }
 ```
 
-## Эндпоинты
+## Endpoints
 
 ### `GET /api/health`
-Ответ `200`: `{ "status": "ok", "llm": true }` — `llm` показывает, задан ли ключ LLM. Работает ли LLM на самом деле, не проверяется: и при `true` поля LLM в ответах могут быть `null`.
+Response `200`: `{ "status": "ok", "llm": true }` — `llm` shows whether an LLM key is set. Whether the LLM actually works is not checked: even with `true`, LLM fields in responses can be `null`.
 
 ### `POST /api/chats`
-Загрузка экспорта. `multipart/form-data`, поле `file` — `result.json` из Telegram Desktop («Экспорт истории чата», формат «Машиночитаемый JSON»). Учитываются только текстовые сообщения, служебные и пустые пропускаются. Пересланные (`forwarded_from`) и отправленные через inline-ботов (`via_bot`) входят в `message_count` и во время активности, но не в анализ почерка: этот текст написал не автор. Ссылки, @упоминания, команды и код в анализ почерка тоже не идут.
+Upload an export. `multipart/form-data`, field `file` — `result.json` from Telegram Desktop ("Export chat history", format "Machine-readable JSON"). Only text messages count; service and empty messages are skipped. Forwarded messages (`forwarded_from`) and ones sent via inline bots (`via_bot`) count towards `message_count` and activity time, but not towards handwriting analysis: the author did not write that text. Links, @mentions, commands and code are excluded from handwriting analysis too.
 
-Ответ `201`: объект `Chat`. Ошибки: `400 invalid_export`, `413 file_too_large`.
+Response `201`: a `Chat` object. Errors: `400 invalid_export`, `413 file_too_large`.
 
 ### `GET /api/chats/{chat_id}`
-Ответ `200`: объект `Chat`. Ошибка: `404 not_found`.
+Response `200`: a `Chat` object. Error: `404 not_found`.
 
 ### `GET /api/chats/{chat_id}/authors/{author_id}/profile`
-Ответ `200`: объект `StyleProfile`. Ошибка: `404 not_found`.
+Response `200`: a `StyleProfile` object. Error: `404 not_found`.
 
 ### `POST /api/chats/{chat_id}/authors/{author_id}/check`
-Проверить, похоже ли сообщение на автора. `sent_at` необязательно, без него улики про время не считаются. `text` — не длиннее 4096 символов (кодовых точек).
+Check whether a message looks like the author's. `sent_at` is optional; without it, time signals are not computed. `text` — at most 4096 characters (code points).
 
-Запрос:
+Request:
 ```json
 { "text": "Привет! срочно займи 5000 на карту, потом объясню", "sent_at": "2026-10-26T03:12:00Z" }
 ```
-Вместо `text` можно передать серию — `messages`, от 2 до 20 сообщений подряд от «автора». По серии оценка точнее: короткие реплики по отдельности почти ничего не говорят. `span` в уликах — внутри сообщения номер `message`. Каждое `messages[].text` — тоже не длиннее 4096 символов.
+Instead of `text`, you can pass a series — `messages`, from 2 to 20 consecutive messages from the "author". A series gives a more accurate score: short replies on their own say almost nothing. `span` in signals is within message number `message`. Each `messages[].text` is also at most 4096 characters.
 ```json
 {
   "messages": [
@@ -204,14 +206,14 @@
 }
 ```
 
-Ответ `200`: объект `CheckResult`. Если у автора мало сообщений — `200` с `verdict: "not_enough_data"`, `reason: "few_messages"`, `score: null`, пустыми `signals`. Если в тексте (во всех сообщениях серии) нет почерка — только ссылки, @упоминания, команды или код, — так же, но с `reason: "no_style_text"`; LLM в обоих случаях не вызывается. Ошибки: `404 not_found`, `422 validation` (пустой текст или длиннее 4096 символов; нет ни `text`, ни `messages` или есть оба; в серии меньше 2 или больше 20 сообщений, или одно из них пустое).
+Response `200`: a `CheckResult` object. If the author has few messages — `200` with `verdict: "not_enough_data"`, `reason: "few_messages"`, `score: null`, empty `signals`. If the text (all messages of the series) has no handwriting — only links, @mentions, commands or code — the same, but with `reason: "no_style_text"`; in both cases the LLM is not called. Errors: `404 not_found`, `422 validation` (empty text or longer than 4096 characters; neither `text` nor `messages`, or both; fewer than 2 or more than 20 messages in the series, or one of them is empty).
 
 ### `GET /api/chats/{chat_id}/twins`
-Поиск двойников среди авторов чата. Пары — все сочетания авторов с `enough_data`, по убыванию `score`. Если таких авторов меньше двух — пустой `pairs`.
+Twins search among chat authors. Pairs are all combinations of authors with `enough_data`, sorted by `score` descending. If there are fewer than two such authors — empty `pairs`.
 
-`validation` — самопроверка: сообщения каждого автора делятся пополам, `self_match_rate` — доля авторов, у которых половины оказались самой похожей парой. `null`, если авторов меньше трёх.
+`validation` — self-check: each author's messages are split in half, `self_match_rate` is the share of authors whose halves turned out to be the most similar pair. `null` if there are fewer than three authors.
 
-Ответ `200`:
+Response `200`:
 ```json
 {
   "chat_id": "c_19ab42",
@@ -229,14 +231,14 @@
   "validation": { "self_match_rate": 0.9, "authors_tested": 10 }
 }
 ```
-(В примере `signals` сокращены, полный вид — в `TwinPair`.)
+(`signals` are shortened in the example; see `TwinPair` for the full form.)
 
-Ошибка: `404 not_found`.
+Error: `404 not_found`.
 
 ### `GET /api/chats/{chat_id}/twins/{a_id}/{b_id}`
-Подробное сравнение пары. `examples` — пары похожих сообщений A и B (до 5) с указанием, какую улику они иллюстрируют. `timeline`: `overlap_minutes` — сколько минут оба писали одновременно, `median_switch_seconds` — медианная пауза, когда за сообщением одного сразу идёт сообщение другого (`null`, если таких случаев нет).
+Detailed pair comparison. `examples` — pairs of similar messages from A and B (up to 5), each labeled with the signal it illustrates. `timeline`: `overlap_minutes` — how many minutes both were writing at the same time, `median_switch_seconds` — the median pause when one's message is immediately followed by the other's (`null` if there are no such cases).
 
-Ответ `200`:
+Response `200`:
 ```json
 {
   "pair": { "a": "user3003", "b": "user3004", "score": 0.84, "verdict": "likely_same", "signals": [] },
@@ -253,24 +255,25 @@
   "explanation": "Оба аккаунта используют «щас» и «ваще», которых нет больше ни у кого в чате, одинаково ставят «!!». За три недели они ни разу не писали в одну и ту же минуту, а когда один замолкает, второй появляется через полминуты."
 }
 ```
-Ошибка: `404 not_found`.
+Error: `404 not_found`.
 
 ### `GET /api/compare?a={chat_id}&b={chat_id}`
-Сравнение авторов двух загруженных чатов: «Саша из одной переписки и Alex из другой — один человек?». Пары — все сочетания автора с `enough_data` из чата `a` и автора с `enough_data` из чата `b`, кроме аккаунтов из `shared`, по убыванию `score`. Для двух личных переписок обычно получается ровно одна пара. Если сравнивать некого — пустой `pairs`.
+Compare the authors of two uploaded chats: "Are Sasha from one chat and Alex from another the same person?". Pairs are all combinations of an author with `enough_data` from chat `a` and an author with `enough_data` from chat `b`, excluding accounts in `shared`, sorted by `score` descending. Two personal chats usually give exactly one pair. If there is no one to compare — empty `pairs`.
 
-Ответ `200`: объект `Comparison`. Ошибки: `404 not_found` (нет одного из чатов), `422 validation` (нет `a` или `b`, или это один и тот же чат).
+Response `200`: a `Comparison` object. Errors: `404 not_found` (one of the chats does not exist), `422 validation` (`a` or `b` is missing, or they are the same chat).
 
-## Моки
-Пока бэкенд не готов, фронтенд использует примеры ответов из этого файла как моки.
+## Mocks
+Until the backend is ready, the frontend uses the example responses from this file as mocks.
 
-## История изменений
-| Дата | Что изменилось | PR |
+## Changelog
+| Date | What changed | PR |
 |---|---|---|
-| 2026-10-25 | Первая версия: чаты, паспорт почерка, проверка сообщения, двойники | — |
-| 2026-10-25 | Пример CheckResult: span у «срочно» исправлен с [9, 15] на [8, 14]; формат не менялся | — |
-| 2026-10-25 | Уточнение: пересланные и через inline-ботов входят в `message_count` и `active_hours`, но не в почерк; `enough_data` — по собственным сообщениям; формат не менялся | — |
-| 2026-10-25 | Новое: сравнение авторов из двух разных чатов — `Comparison`, `GET /api/compare` | — |
-| 2026-10-25 | Новое: проверка серии сообщений — `messages` в запросе `/check`, необязательное `message` в `Signal`; формат для одного `text` не менялся | — |
-| 2026-10-25 | Уточнение: лимит 4096 символов в `/check`, коды ошибок `500 internal` и `http_error`, `health.llm` — только наличие ключа, сумма `active_hours` ≈ 1; формат успешных ответов не менялся | — |
-| 2026-10-25 | Новое: необязательное `reason` в `CheckResult` — `few_messages` или `no_style_text`; текст без почерка (только ссылки, упоминания, команды) даёт `not_enough_data` | — |
-| 2026-10-25 | Продукт переименован: «Это точно Клавдий?»; API и форматы не менялись | — |
+| 2026-10-25 | First version: chats, handwriting passport, message check, twins | — |
+| 2026-10-25 | CheckResult example: span of «срочно» fixed from [9, 15] to [8, 14]; format unchanged | — |
+| 2026-10-25 | Clarification: forwarded messages and ones via inline bots count towards `message_count` and `active_hours`, but not handwriting; `enough_data` is based on own messages; format unchanged | — |
+| 2026-10-25 | New: comparing authors from two different chats — `Comparison`, `GET /api/compare` | — |
+| 2026-10-25 | New: checking a series of messages — `messages` in the `/check` request, optional `message` in `Signal`; format for a single `text` unchanged | — |
+| 2026-10-25 | Clarification: 4096-character limit in `/check`, error codes `500 internal` and `http_error`, `health.llm` only reflects whether a key is set, `active_hours` sum ≈ 1; success response format unchanged | — |
+| 2026-10-25 | New: optional `reason` in `CheckResult` — `few_messages` or `no_style_text`; text without handwriting (only links, mentions, commands) gives `not_enough_data` | — |
+| 2026-10-25 | Product renamed: «Это точно Клавдий?»; API and formats unchanged | — |
+| 2026-10-29 | Document translated to English; API, formats and examples unchanged | — |

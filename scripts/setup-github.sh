@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Разовая настройка репозитория на GitHub. Запускает один человек (владелец репо).
-# Требуется: gh auth login. Использование: ./setup-github.sh <логин-напарника>
+# Требуется: gh auth login. Использование: scripts/setup-github.sh <логин-напарника>
 set -euo pipefail
 
-PARTNER="${1:?Укажи GitHub-логин напарника: ./setup-github.sh <login>}"
+PARTNER="${1:?Укажи GitHub-логин напарника: scripts/setup-github.sh <login>}"
 REPO="$(gh repo view --json nameWithOwner -q .nameWithOwner)"
 echo "Репозиторий: $REPO"
 

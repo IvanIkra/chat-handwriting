@@ -5,7 +5,7 @@ description: Что нового в проекте и нужна ли синхр
 Только читай, ничего не меняй.
 
 1. `git fetch origin`; покажи, на сколько коммитов текущая ветка позади/впереди `origin/main` и есть ли незакоммиченное.
-2. `git log origin/main --oneline -10` — что недавно попало в main, особенно изменения в `docs/CONTRACT.md` и `shared/`.
+2. `git log origin/main --oneline -10` — что недавно попало в main, особенно изменения в `docs/CONTRACT.md` и общих файлах.
 3. `gh pr list` — открытые PR, ожидающие моего ок.
 4. `gh issue list --assignee @me` — мои задачи.
 5. Итог в 3–5 строк: нужен ли `/sync`, что взять следующим.

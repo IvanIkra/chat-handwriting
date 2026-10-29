@@ -1,75 +1,75 @@
-# Идея: «Это точно Клавдий?»
+# Idea: «Это точно Клавдий?» (*Is that really Claudius?*)
 
-Тема хакатона: «Интернет больше не доказательство».
+Hackathon theme: "The internet is no longer proof."
 
-## Суть
+## Summary
 
-Сообщение в мессенджере больше не доказывает, кто его написал: аккаунты взламывают, а один человек может говорить от имени нескольких. Мы проверяем автора не по аккаунту, а по **почерку**: как человек пишет, какие слова и знаки использует, когда он онлайн.
+A messenger message no longer proves who wrote it: accounts get hijacked, and one person can speak on behalf of several. We check the author not by the account but by their **handwriting**: how a person writes, which words and punctuation they use, when they are online.
 
-Три режима на одном движке стилометрии:
+Three modes on one stylometry engine:
 
-1. **Проверка: «это точно Саша?»** Загружаешь экспорт переписки с человеком и строишь «паспорт почерка». Новое подозрительное сообщение получает оценку похожести, расхождения подсвечиваются прямо в тексте. Если сомнения есть, система предлагает контрольный вопрос из вашей общей истории, на который ответит только настоящий Саша.
-2. **Двойники: «это точно два разных человека?»** Загружаешь экспорт группового чата и смотришь, какие аккаунты, скорее всего, принадлежат одному человеку. Пары ищутся по совпадению почерка, общим редким словам и опечаткам и по времени активности: такие аккаунты никогда не пишут одновременно и переключаются за десятки секунд.
-3. **Сравнение двух чатов: «Саша и Alex — один человек?»** Загружаешь две разные переписки и смотришь, не пишет ли в них один и тот же человек под разными аккаунтами: новый аккаунт «друга», который просит деньги, или старый знакомый под новым ником. Аккаунты, которые есть в обоих чатах (обычно ты сам), в сравнение не идут.
+1. **Check: "Is this really Sasha?"** Upload an export of your chat with a person and build their "handwriting passport". A new suspicious message gets a similarity score, and mismatches are highlighted right in the text. If in doubt, the system suggests a challenge question from your shared history that only the real Sasha can answer.
+2. **Twins: "Are these really two different people?"** Upload a group chat export and see which accounts most likely belong to the same person. Pairs are found by matching handwriting, shared rare words and typos, and by activity time: such accounts never write at the same time and switch within tens of seconds.
+3. **Two chats: "Are Sasha and Alex the same person?"** Upload two different chats and see whether the same person writes in both under different accounts: a "friend's" new account asking for money, or an old acquaintance under a new nickname. Accounts present in both chats (usually you) are excluded from the comparison.
 
-Вердикт — всегда вероятность с уликами, а не приговор. Каждой улике можно показать конкретные сообщения.
+A verdict is always a probability with evidence, never a sentence. Every piece of evidence can be backed by specific messages.
 
-**Для кого:**
-- те, кому «друг» пишет «займи срочно»;
-- модераторы чатов и сообществ: накрутка обсуждений, обход банов, «поддакивающие» аккаунты;
-- все, кто хочет понять, с кем на самом деле говорит.
+**Who it is for:**
+- people who get "lend me money, urgently" from a "friend";
+- chat and community moderators: astroturfing, ban evasion, "yes-man" accounts;
+- anyone who wants to know who they are actually talking to.
 
-## MVP (успеваем точно)
+## MVP (sure to make it)
 
-- Загрузка JSON-экспорта Telegram Desktop: и личный чат, и групповой.
-- Признаки почерка:
-  - символьные n-граммы;
-  - пунктуация, регистр, скобки и эмодзи;
-  - длина сообщений, характерные и редкие слова;
-  - часы активности.
-- Паспорт почерка автора: 5–10 человекочитаемых черт, часы активности, любимые слова и эмодзи.
-- Проверка сообщения: оценка 0–1, вердикт, улики с подсветкой фрагментов текста.
-- Двойники:
-  - попарная похожесть всех авторов чата, нормированная внутри чата;
-  - временные улики: не пишут одновременно, быстро переключаются;
-  - граф участников и детальное сравнение пары.
-- Сравнение двух чатов: каждый автор одного чата против каждого автора другого, на том же движке, что и двойники (почерк, привычки, характерные слова, время активности).
-- Самопроверка: делим сообщения каждого автора пополам и смотрим, находят ли половины друг друга. Эту цифру показываем на демо как точность.
-- LLM (Claude): человеческое объяснение улик и контрольный вопрос из общей истории. Без ключа всё работает, просто без этих текстов.
+- Upload a Telegram Desktop JSON export: both personal and group chats.
+- Handwriting features:
+  - character n-grams;
+  - punctuation, capitalization, brackets and emoji;
+  - message length, characteristic and rare words;
+  - activity hours.
+- An author's handwriting passport: 5–10 human-readable traits, activity hours, favorite words and emoji.
+- Message check: a 0–1 score, a verdict, evidence with highlighted text fragments.
+- Twins:
+  - pairwise similarity of all chat authors, normalized within the chat;
+  - time evidence: never write at the same time, switch fast;
+  - a participant graph and a detailed pair comparison.
+- Two chats: every author of one chat against every author of the other, on the same engine as twins (handwriting, habits, characteristic words, activity time).
+- Self-check: split each author's messages in half and see whether the halves find each other. We show this number in the demo as accuracy.
+- LLM (Claude): a plain-language explanation of the evidence and a challenge question from the shared history. Everything works without a key, just without these texts.
 
-## Если останется время
+## If time allows
 
-- Анализ серии сообщений, а не одного: точнее на коротких текстах.
-- Telegram-бот: переслал подозрительное сообщение и получил проверку.
-- Экспорт отчёта для модератора.
+- Analyzing a series of messages rather than one: more accurate on short texts.
+- A Telegram bot: forward a suspicious message and get a check.
+- Report export for moderators.
 
-## Сценарий демо (около 3 минут)
+## Demo script (about 3 minutes)
 
-1. **Проблема (20 с).** Два скриншота. «Привет! Срочно займи 5000, потом объясню» от взломанного друга. И чат, где три «разных» человека поддерживают одно мнение.
-2. **Паспорт (30 с).** Загружаем экспорт нашей с напарником переписки. Показываем паспорт почерка: «пишет без заглавных», «скобки вместо эмодзи», «активен с 10 до 02».
-3. **Проверка (40 с).**
-   - Настоящее сообщение напарника → «похоже» (~60–70%). Берём проверенную строку из `demo/checks.txt`, например «бублик опять на клаве уснул)».
-   - Фейк «Привет! Срочно займи…» → «не похоже», расхождения подсвечены, контрольный вопрос из переписки.
-   - Предлагаем члену жюри написать сообщение «под напарника» и проверяем вживую.
-4. **Двойники (50 с).** Загружаем групповой чат, где один из нас писал с двух аккаунтов.
-   - На графе красное ребро между двумя «разными» участниками.
-   - Улики: общие редкие словечки, одинаковая пунктуация, ни разу не писали одновременно, переключение за ~30 секунд.
-   - Сообщения обоих аккаунтов рядом.
-5. **Два чата (20 с).** Загружаем вторую переписку, где напарник пишет с другого аккаунта. Сравнение показывает: «скорее всего, один человек», с уликами.
-6. **Честность (20 с).** На групповом чате `demo/group_twins.json` показываем самопроверку: «половины одного автора нашли друг друга в 6 из 6 случаев». Объясняем, что это вероятность, а данные не хранятся.
+1. **Problem (20 s).** Two screenshots. "Hi! Urgently lend me 5000, I'll explain later" from a hijacked friend. And a chat where three "different" people back the same opinion.
+2. **Passport (30 s).** Upload the export of a chat between us teammates. Show the handwriting passport: "writes without capitals", "brackets instead of emoji", "active from 10 to 02".
+3. **Check (40 s).**
+   - A real message from the teammate → "match" (~60–70%). Take a verified line from `demo/checks.txt`, e.g. «бублик опять на клаве уснул)».
+   - The fake "Hi! Urgently lend…" → "mismatch", mismatches highlighted, a challenge question from the chat.
+   - Invite a jury member to write a message "as the teammate" and check it live.
+4. **Twins (50 s).** Upload a group chat where one of us wrote from two accounts.
+   - A red edge between two "different" participants on the graph.
+   - Evidence: shared rare slang, identical punctuation, never wrote at the same time, switching within ~30 seconds.
+   - Both accounts' messages side by side.
+5. **Two chats (20 s).** Upload a second chat where the teammate writes from another account. The comparison says "most likely the same person", with evidence.
+6. **Honesty (20 s).** On the group chat `demo/group_twins.json`, show the self-check: "the halves of one author found each other in 6 of 6 cases". Explain that this is a probability and that data is not stored.
 
-## Сознательно не делаем
+## Deliberately out of scope
 
-- Подключение к Telegram API и ботов: в MVP работаем только с файлами экспорта.
-- Голосовые, картинки, стикеры: только текст.
-- Другие мессенджеры: только формат Telegram Desktop JSON.
-- Аккаунты, авторизацию, базу данных: всё хранится в памяти бэкенда до перезапуска.
-- Обучение нейросетей: только классическая стилометрия, LLM используется лишь для объяснений.
-- Бинарные вердикты «виновен / не виновен».
-- Деплой: демо запускаем локально.
+- Connecting to the Telegram API or bots: the MVP works with export files only.
+- Voice messages, images, stickers: text only.
+- Other messengers: only the Telegram Desktop JSON format.
+- Accounts, authorization, a database: everything lives in the backend's memory until restart.
+- Training neural networks: classic stylometry only; the LLM is used only for explanations.
+- Binary "guilty / not guilty" verdicts.
+- Deployment: the demo runs locally.
 
-## Данные и приватность
+## Data and privacy
 
-- Реальные экспорты лежат только в `data/` (в `.gitignore`), в git не попадают.
-- В LLM уходят только короткие фрагменты, нужные для объяснения.
-- Двойник для демо создаётся двумя путями: живой второй аккаунт в чате во время хакатона и утилита, которая делит сообщения реального автора на два «аккаунта».
+- Real exports live only in `data/` (in `.gitignore`) and never get into git.
+- Only the short fragments needed for an explanation are sent to the LLM.
+- The demo twin is created in two ways: a live second account in the chat during the hackathon, and a utility that splits a real author's messages into two "accounts".

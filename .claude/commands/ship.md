@@ -7,5 +7,5 @@ description: Проверки, push ветки и PR с Closes #N
 3. `git status`: убедись, что в коммиты не попали `.env`, секреты и лишние файлы. Закоммить остаток.
 4. `git fetch origin` и проверь, что ветка поверх свежего `origin/main` (иначе сделай как в `/sync`).
 5. `git push -u origin HEAD` (при необходимости `--force-with-lease`).
-6. `gh pr create` по шаблону `.github/pull_request_template.md`, с `Closes #N` в описании, на русском. Если менялись `shared/`, `docs/CONTRACT.md`, зависимости или CI — отметь это в описании и напомни мне, что нужен ок от напарника.
+6. `gh pr create` по шаблону `.github/pull_request_template.md`, с `Closes #N` в описании, на русском. Если менялись `docs/CONTRACT.md`, зависимости, CI или файлы в корне — отметь это в описании и напомни мне, что нужен ок от напарника.
 7. Не мержи. Дай ссылку на PR.
